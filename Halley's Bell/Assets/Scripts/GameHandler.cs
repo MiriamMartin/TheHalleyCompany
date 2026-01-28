@@ -9,6 +9,9 @@ public class GameHandler : MonoBehaviour
     public Blinker blinker;
     public SonarButton sonarButton;
     public AudioSource ambientAudioSource;
+    public BlackoutEvent blackoutEvent;
+
+
     private AudioSource speakerAudioSource;
 
     // Start is called before the first frame update
@@ -33,6 +36,9 @@ public class GameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            blackoutEvent.Run();
+        }
     }
 }
