@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gauge : MonoBehaviour
+public class Gauge : MonoBehaviour, ButtonInterface
 {
 
     public float speed = 5f;
@@ -69,17 +69,21 @@ public class Gauge : MonoBehaviour
 
     }
 
-    public void Button(bool clockwise)
+    public void Button(bool mouseDown, string message)
     {
-        if (clockwise)
+        if (mouseDown)
         {
-            Debug.Log("clockwise");
-            transform.Rotate(buttonPower * direction);
+            if (message == "clockwise")
+            {
+                Debug.Log("clockwise");
+                transform.Rotate(buttonPower * direction);
+            }
+            else
+            {
+                Debug.Log("counterclockwise");
+                transform.Rotate(buttonPower * -direction);
+            }
         }
-        else
-        {
-            Debug.Log("counterclockwise");
-            transform.Rotate(buttonPower * -direction);
-        }
+ 
     }
 }

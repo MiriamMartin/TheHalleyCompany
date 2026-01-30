@@ -5,9 +5,11 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
 
-    public bool clockwise = true;
-    public Gauge gauge;
+    public string message; //Allows for a message to be sent to the button method in case additional information needed other than "button pressed"
     private AudioSource audioSource;
+
+    [SerializeField] private MonoBehaviour target; //Created because interfaces can't show up in the inspector for some reason... casted later to be the buttonTarget
+    private ButtonInterface buttonTarget;  //Can call Button method on any class that implements ButtonInterface
 
 
 
@@ -15,12 +17,18 @@ public class Button : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        buttonTarget = target as ButtonInterface; //Casting
     }
 
 
     private void OnMouseDown()
     {
         audioSource.Play();
-        gauge.Button(clockwise);
+        buttonTarget.Button(true, message); //Calls the Button method on whatever ButtonInterface object is specified in inspector
+    }
+
+    private void OnMouseUp()
+    {
+        buttonTarget.Button(false, message);
     }
 }
