@@ -358,6 +358,7 @@
 "Assets/Scripts/Button.cs"
 "Assets/Scripts/ButtonInterface.cs"
 "Assets/Scripts/CameraMovement.cs"
+"Assets/Scripts/Ending.cs"
 "Assets/Scripts/GameHandler.cs"
 "Assets/Scripts/Gauge.cs"
 "Assets/Scripts/Radio.cs"
