@@ -10,6 +10,7 @@ public class GameHandler : MonoBehaviour
     public SonarButton sonarButton;
     public AudioSource ambientAudioSource;
     public BlackoutEvent blackoutEvent;
+    public Ending ending;
 
 
     private AudioSource speakerAudioSource;
@@ -17,7 +18,7 @@ public class GameHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(RunGame());
+        //StartCoroutine(RunGame());
 
     }
 
@@ -36,9 +37,18 @@ public class GameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        //Press buttons to activate different parts of the game.
+        if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            blackoutEvent.Run();
+            StartCoroutine(RunGame()); //Runs the whole game sequence
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            blackoutEvent.Run(); //Runs just the blackout event
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            ending.Run(); //Runs just the end of the game.
         }
     }
 }

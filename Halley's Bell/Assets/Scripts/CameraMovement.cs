@@ -22,13 +22,13 @@ public class CameraMovement : MonoBehaviour
     public float moveMult = 16f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        //initializing 2d representation of moveable area
+        //initializing 2d representation of moveable area (0 is wall, 1 & 2 is moveable, 2 is special trigger
         grid = new int[,]
         {
             { 0, 0, 0, 0, 0 },
-            { 0, 1, 1, 0, 0 },
+            { 0, 2, 1, 0, 0 },
             { 0, 0, 1, 0, 0 },
             { 0, 0, 1, 0, 0 },
             { 0, 0, 0, 0, 0 }
@@ -124,7 +124,7 @@ public class CameraMovement : MonoBehaviour
 
         int[] target = new int[] {playerPos[0] + xMove, playerPos[1] + yMove};
 
-        if (grid[target[0], target[1]] == 1)
+        if (grid[target[0], target[1]] != 0)
         {
             playerPos = target; //updating playerPos to the target position
 
@@ -152,5 +152,23 @@ public class CameraMovement : MonoBehaviour
 
     }
 
+    public int GetDirection()
+    {
+        return this.gridDir;
+    }
 
+    public int[] getPlayerPosition()
+    {
+        return this.playerPos;
+    }
+
+    public int[,] getGrid()
+    {
+        return this.grid;
+    }
+
+    public void setGridTile(int[,] grid, int row, int col, int tileType)
+    {
+        grid[row, col] = tileType;
+    }
 }
