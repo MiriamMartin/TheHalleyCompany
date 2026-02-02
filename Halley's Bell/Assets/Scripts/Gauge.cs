@@ -71,7 +71,7 @@ public class Gauge : MonoBehaviour, ButtonInterface
 
     public void Button(bool mouseDown, string message)
     {
-        if (mouseDown)
+        if (mouseDown && !PauseManager.Instance.getIsPaused())
         {
             if (message == "clockwise")
             {
