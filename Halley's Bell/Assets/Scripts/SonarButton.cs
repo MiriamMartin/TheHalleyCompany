@@ -24,6 +24,7 @@ public class SonarButton : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (PauseManager.Instance.getIsPaused()) return; // prevents sonar button / needle from activating when clicked on pause
         if (!pressed)
         {
             audioSource.Play();

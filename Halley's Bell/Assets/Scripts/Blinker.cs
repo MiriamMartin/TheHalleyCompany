@@ -62,7 +62,7 @@ public class Blinker : MonoBehaviour
 
     private void OnMouseDown()
     { 
-        if (!waiting)
+        if (!waiting && !PauseManager.Instance.getIsPaused())
         {
             StartCoroutine(waiter());
         }

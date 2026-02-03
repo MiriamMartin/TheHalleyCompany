@@ -55,7 +55,9 @@ public class Ending : MonoBehaviour
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 1);
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 3);
         cameraMovement.enabled = false;
+        Debug.Log("start last");
         yield return new WaitForSeconds(4);
+        Debug.Log("didn't pause");
         eyeMat.EnableKeyword("_EMISSION");
     }
 }

@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
 
-    private bool standing = false;
+    private bool standing = true;
 
     private int[,] grid;
     private int[] playerPos;
@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         //Activating rotation/movement coroutines based on user input
-        if (!isRotating && !isMoving)
+        if (!isRotating && !isMoving && !PauseManager.Instance.getIsPaused())
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
