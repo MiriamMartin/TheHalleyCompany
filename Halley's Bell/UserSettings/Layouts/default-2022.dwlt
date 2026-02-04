@@ -119,8 +119,13 @@ MonoBehaviour:
     height: 730.8
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
+<<<<<<< HEAD
   vertical: 0
   controlID: 14801
+=======
+  vertical: 1
+  controlID: 104
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,6 +143,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 272
     height: 730.8
   m_MinSize: {x: 201, y: 221}
@@ -147,6 +153,14 @@ MonoBehaviour:
   - {fileID: 12}
   m_Selected: 0
   m_LastSelected: 0
+=======
+    width: 1920
+    height: 947
+  m_MinSize: {x: 300, y: 100}
+  m_MaxSize: {x: 24288, y: 16192}
+  vertical: 0
+  controlID: 105
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -171,7 +185,11 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
+<<<<<<< HEAD
   controlID: 14802
+=======
+  controlID: 20
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -509,7 +527,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 26}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-transform-toolbar
@@ -775,9 +793,15 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
+<<<<<<< HEAD
     m_Target: {x: -2.7421331, y: 0.49137995, z: -2.200873}
     speed: 2
     m_Value: {x: -2.7421331, y: 0.49137995, z: -2.200873}
+=======
+    m_Target: {x: 1.2875051, y: 0.75031525, z: -2.0927258}
+    speed: 2
+    m_Value: {x: 1.2875051, y: 0.75031525, z: -2.0927258}
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -823,6 +847,7 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
+<<<<<<< HEAD
     m_Target: {x: -0.0035036986, y: 0.99374646, z: -0.10681254, w: -0.031302202}
     speed: 2
     m_Value: {x: -0.0035036986, y: 0.9937464, z: -0.10681253, w: -0.031302202}
@@ -830,6 +855,15 @@ MonoBehaviour:
     m_Target: 0.6171247
     speed: 2
     m_Value: 0.6171247
+=======
+    m_Target: {x: -0.00046161853, y: -0.99951667, z: 0.023993785, w: -0.019195486}
+    speed: 2
+    m_Value: {x: -0.00046162363, y: -0.9995277, z: 0.023994049, w: -0.019195698}
+  m_Size:
+    m_Target: 0.28716877
+    speed: 2
+    m_Value: 0.28716877
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -983,10 +1017,17 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
+<<<<<<< HEAD
     scrollPos: {x: 0, y: 109.400024}
     m_SelectedIDs: 1e610000
     m_LastClickedID: 24862
     m_ExpandedIDs: 00000000ce6000001a61000000ca9a3b
+=======
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 54610000
+    m_LastClickedID: 24916
+    m_ExpandedIDs: 0000000006610000086100000a610000
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1014,7 +1055,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000ce6000001a61000000ca9a3b
+=======
+    m_ExpandedIDs: 0000000006610000086100000a610000
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1042,7 +1087,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: ec0b0000
     m_LastClickedInstanceID: 3052
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000489d0000deed000000000000c6b20000e4b20000
+    m_ExpandedInstanceIDs: c6230000489d0000deed000000000000c6b20000e4b2000048600000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1140,7 +1185,11 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
+<<<<<<< HEAD
   m_LastSelectedObjectID: -3620
+=======
+  m_LastSelectedObjectID: 23188
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
 --- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1220,6 +1269,72 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 1
+<<<<<<< HEAD
+=======
+  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Hierarchy
+    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1353
+    y: 73
+    width: 213
+    height: 926
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_SceneHierarchy:
+    m_TreeViewState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 945a0000
+      m_LastClickedID: 23188
+      m_ExpandedIDs: 2efbffff945a00007a5e0000a45f0000
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 10}
+      m_SearchString: 
+    m_ExpandedScenes: []
+    m_CurrenRootInstanceID: 0
+    m_LockTracker:
+      m_IsLocked: 0
+    m_CurrentSortingName: TransformSorting
+  m_WindowGUID: 4c969a2b90040154d917609493e03593
+--- !u!114 &21
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+>>>>>>> c02d9ba6 (Added screen shake effect for blackout & other uses (will eventually be comined with current camera script, kept in isolation temporarily). Added depth 'logic' and a depth indicator instrument. Added Start Menu with full functionality, and settings menu with partial functionality (just the bones).)
   m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -1248,7 +1363,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: 268
+    m_CachedPref: 209
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
