@@ -9,6 +9,7 @@ public class SpeakerLight : MonoBehaviour
     public AudioLoudnessDetection ald;
     public AudioSource audioSource;
     public float intensity = 5f;
+    [SerializeField] float lightBrightness;
 
     void Start()
     {
@@ -19,5 +20,6 @@ public class SpeakerLight : MonoBehaviour
     void Update()
     {
         mat.SetColor("_EmissionColor", Color.yellow * ald.GetLoudnessFromAudio(audioSource.timeSamples, audioSource.clip) * intensity);
+        lightBrightness = ald.GetLoudnessFromAudio(audioSource.timeSamples, audioSource.clip) * intensity;
     }
 }

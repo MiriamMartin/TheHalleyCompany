@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BlackoutEvent : MonoBehaviour
+public class BlackoutEvent : MonoBehaviour, BlackoutInterface
 {
     public Material glowStrips;
     public Light roofLight;
     public Light emergencyLight;
+
+    public CameraMovement movment;
 
     void Start()
     {
@@ -22,6 +24,7 @@ public class BlackoutEvent : MonoBehaviour
 
     IEnumerator Blackout()
     {
+        movment.BlackoutEvent();
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.9f, 0.05f));
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));
@@ -35,6 +38,16 @@ public class BlackoutEvent : MonoBehaviour
         yield return StartCoroutine(LightIntensify(emergencyLight, 2f, 1f));
 
 
+    }
+
+    IEnumerator BlackoutEndCR()
+    {
+        yield return StartCoroutine(LightIntensify(roofLight, 0.8f, 2f));
+        yield return StartCoroutine(LightIntensify(roofLight, 0.0f, 0.1f));
+        yield return StartCoroutine(LightIntensify(roofLight, 1f, 0.5f));
+        yield return new WaitForSeconds(2f);
+        glowStrips.DisableKeyword("_EMISSION");
+        yield return StartCoroutine(LightIntensify(emergencyLight, 0f, 1f));
     }
 
     IEnumerator LightIntensify(Light l, float endIntensity, float duration)
@@ -57,5 +70,10 @@ public class BlackoutEvent : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void BlackoutEnd()
+    {
+        StartCoroutine(BlackoutEndCR());
     }
 }
