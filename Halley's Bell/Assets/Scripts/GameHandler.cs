@@ -28,7 +28,7 @@ public class GameHandler : MonoBehaviour
         ambientAudioSource.Play();
         speakerAudioSource = speaker.GetComponent<AudioSource>();
         speakerAudioSource.Play();
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(0);
         gauge.Run();
         yield return new WaitForSeconds(10);
         blinker.Run();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : MonoBehaviour, BlackoutInterface
 {
 
     //ROTATION INITIALIZING
@@ -15,7 +15,9 @@ public class CameraMovement : MonoBehaviour
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
 
-    private bool standing = true;
+    private bool standing = false;
+    private bool canStand = false;
+    private bool canSit = false;
 
     private int[,] grid;
     private int[] playerPos;
@@ -30,7 +32,7 @@ public class CameraMovement : MonoBehaviour
             { 0, 0, 0, 0, 0 },
             { 0, 2, 1, 0, 0 },
             { 0, 0, 1, 0, 0 },
-            { 0, 0, 1, 0, 0 },
+            { 0, 0, 3, 0, 0 },
             { 0, 0, 0, 0, 0 }
         };
 
@@ -60,7 +62,7 @@ public class CameraMovement : MonoBehaviour
                     StartCoroutine(Move());
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
@@ -96,7 +98,6 @@ public class CameraMovement : MonoBehaviour
 
     IEnumerator Move()
     {
-        Debug.Log("Moving facing: " + gridDir);
         float elapsed = 0f;
 
         int xMove = 0;
@@ -149,6 +150,14 @@ public class CameraMovement : MonoBehaviour
             Debug.Log("Invalid Move");
 
         }
+        Debug.Log("target is " + grid[target[0], target[1]] + " and canSit is " + canSit);
+        if ((grid[target[0], target[1]] == 3) && canSit) //when canSit, sit down on tile 3 when on it (starting tile)
+        {
+            standing = false;
+            canSit = false;
+            canStand = false;
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        }
 
     }
 
@@ -170,5 +179,15 @@ public class CameraMovement : MonoBehaviour
     public void setGridTile(int[,] grid, int row, int col, int tileType)
     {
         grid[row, col] = tileType;
+    }
+
+    public void BlackoutEvent()
+    {
+        canStand = true;
+    }
+
+    public void BlackoutEnd()
+    {
+        canSit = true;
     }
 }
