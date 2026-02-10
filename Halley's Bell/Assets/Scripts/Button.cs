@@ -16,7 +16,13 @@ public class Button : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        if (GetComponent<AudioSource>() == null)
+        {
+            Debug.Log("Error: button audiosouce missing for : " + gameObject.name);
+        } else
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
         buttonTarget = target as ButtonInterface; //Casting
     }
 
