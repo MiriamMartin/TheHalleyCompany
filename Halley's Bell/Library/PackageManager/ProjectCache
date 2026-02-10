@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 639056576541719636
-    m_Hash: 3201084464
+      ticks: 639057808958105537
+    m_Hash: 1290111452
   m_LockFileStatus:
     m_FilePath: C:/Users/Miriam/School/INTD_450/TheHalleyCompany/Halley's Bell/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 639056576541759509
-    m_Hash: 1676749909
+      ticks: 639057808958111336
+    m_Hash: 2451143995
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
