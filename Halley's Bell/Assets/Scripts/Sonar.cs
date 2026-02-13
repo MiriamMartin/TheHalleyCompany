@@ -7,6 +7,7 @@ public class Sonar : MonoBehaviour
     public GameObject needle;
     public GameObject dot;
     public float rotationSpeed = 3f;
+    public Vector3 direction;
     public bool dotted = false;
     private AudioSource audioSource;
 
@@ -15,7 +16,7 @@ public class Sonar : MonoBehaviour
 
     private void Start()
     {
-        needle.GetComponent<Renderer>().enabled = false;
+        needle.GetComponent<Renderer>().enabled = true;
         dot.GetComponent<Renderer>().enabled = false;
         audioSource = GetComponent<AudioSource>();
     }
@@ -50,12 +51,12 @@ public class Sonar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        needle.transform.Rotate(rotationSpeed * direction * Time.deltaTime);
     }
 
     public void Button(bool clockwise)
     {
-        StartCoroutine(Rotate(rotationSpeed));
+        Debug.Log("BUTTON REMOVED");
     }
 
 }
