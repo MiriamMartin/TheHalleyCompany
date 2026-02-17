@@ -10,7 +10,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     public float gaugeSpeed = 5f;
     public float handleSpeed = 10f;
 
-    public float handlePower = 50f; //How much the handle get turned back
+    public float handleWhenPressed = 50f; //How much the handle get turned back
     public Vector3 forwardDirection = new Vector3();
     private Vector3 backwardDirection;
     private Vector3 currDirection;
@@ -83,7 +83,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
             if ((currAngle >= angleMin) || !handlePressed)
             {
-                needle.transform.Rotate(speed * currDirection * Time.deltaTime);
+                needle.transform.Rotate(speed * currDirection * Time.deltaTime); //This is the code that rotates
             } 
             if (currAngle > 90)
             {
@@ -154,14 +154,14 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
                 speed = handleSpeed;
                 Debug.Log("handle pressed! Direction: " + currDirection);
                 currDirection = backwardDirection;
-                handle.transform.Rotate(handlePower * handleDirection);
+                handle.transform.Rotate(handleWhenPressed * handleDirection);
             }
             else
             {
                 handlePressed = false;
                 speed = gaugeSpeed;
                 currDirection = forwardDirection;
-                handle.transform.Rotate(handlePower * -handleDirection);
+                handle.transform.Rotate(handleWhenPressed * -handleDirection);
             }
         }
     }

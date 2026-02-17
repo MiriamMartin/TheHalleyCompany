@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class BlackoutEvent : MonoBehaviour, BlackoutInterface
@@ -9,7 +10,7 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
     public Light roofLight;
     public Light emergencyLight;
 
-    public CameraMovement movment;
+    public UnityEvent blackoutStart;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
 
     IEnumerator Blackout()
     {
-        movment.BlackoutEvent();
+        blackoutStart.Invoke();
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.9f, 0.05f));
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));

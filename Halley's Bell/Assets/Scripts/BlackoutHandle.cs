@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BlackoutHandle : MonoBehaviour, ButtonInterface
 {
@@ -10,6 +11,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
     public float angle = 50;
     private bool pressed;
     public GameObject handle;
+    public UnityEvent blackoutEnd;
 
     public void Start()
     {
@@ -31,7 +33,8 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
         if (mouseDown && !pressed)
         {
             pressed = true;
-            endBlackout();
+            blackoutEnd.Invoke();
+            //endBlackout();
             handle.transform.Rotate(angle * direction);
         }
     }
