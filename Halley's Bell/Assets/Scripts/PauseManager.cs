@@ -4,6 +4,7 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class PauseManager : MonoBehaviour
 
     [Header("----------------- GameObjects -----------------")]
     public GameObject PauseMenu;
+    public GameObject SettingsMenu;
 
 
     // Start is called before the first frame update
@@ -41,7 +43,7 @@ public class PauseManager : MonoBehaviour
         {
             Pause();
         }
-        else if (Input.GetKeyDown(pauseInput) && isPaused)
+        else if (Input.GetKeyDown(pauseInput) && isPaused  && !SettingsMenu.activeSelf)  // can't unpause if in settings
         {
             Unpause();
         }
@@ -82,6 +84,23 @@ public class PauseManager : MonoBehaviour
         // Unpause the game when 'continue' button clicked
 
         Unpause();
+    }
+
+    public void Settings(bool val)
+    {
+        // Turn settings menu on / off based on val
+
+        SettingsMenu.SetActive(val);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); // Switch to main menu, need warning about progress not being saved
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("tempScene"); // Reloads game scene
     }
 
 }

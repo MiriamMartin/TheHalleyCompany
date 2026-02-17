@@ -73,7 +73,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Miriam's Scene"); // Switch to main game's scene name
+        SceneManager.LoadScene("tempScene"); // Switch to main game's scene name
     }
 
     public void OpenSettings(bool on)
