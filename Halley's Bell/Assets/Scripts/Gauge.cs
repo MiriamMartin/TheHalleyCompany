@@ -166,9 +166,54 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         }
     }
 
+    public void BlackoutStart()
+    {
+        StartCoroutine(BlackoutStartCR());
+    }
+
+    IEnumerator BlackoutStartCR()
+    {
+        currDirection = backwardDirection;
+        speed = gaugeSpeed * 2; //stops speed to give player a chance to get back to their seat
+        yield return new WaitUntil(() => {
+            currAngle = needle.transform.eulerAngles.z;
+            //coverting from 0->360 to -180->180
+            if (currAngle > 180f)
+            {
+                currAngle -= 360f;
+            }
+
+            return currAngle <= angleMin;
+        });
+        speed = 0;
+        run = false;
+    }
+    IEnumerator BlackoutEndCR()
+    {
+        currDirection = forwardDirection;
+        speed = gaugeSpeed * 40; //stops speed to give player a chance to get back to their seat
+        run = true;
+        yield return new WaitUntil(() => {
+            currAngle = needle.transform.eulerAngles.z;
+            //coverting from 0->360 to -180->180
+            if (currAngle > 180f)
+            {
+                currAngle -= 360f;
+            }
+
+            return currAngle > (angleDanger + 15);
+            });
+        Debug.Log("setting gauge speed to 0. curr angle = " + currAngle);
+        speed = 0;
+    }
+
     public void BlackoutEnd()
     {
-        Debug.Log("GAUGE END BLAKOUT");
-        return;
+        StartCoroutine(BlackoutEndCR());
+    }
+
+    public void CrazyTime()
+    {
+        speed = gaugeSpeed;
     }
 }

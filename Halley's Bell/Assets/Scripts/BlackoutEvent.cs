@@ -11,11 +11,13 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
     public Light emergencyLight;
 
     public UnityEvent blackoutStart;
+    private AudioSource audioSource;
 
     void Start()
     {
         glowStrips.DisableKeyword("_EMISSION");
         emergencyLight.intensity = 0;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Run()
@@ -25,18 +27,21 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
 
     IEnumerator Blackout()
     {
-        blackoutStart.Invoke();
+        audioSource.Play();
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.9f, 0.05f));
         yield return StartCoroutine(LightIntensify(roofLight, 0f, 0.1f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.9f, 0.05f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.3f, 0.8f));
-        yield return StartCoroutine(LightIntensify(roofLight, 0f, 1f));
+        yield return StartCoroutine(LightIntensify(roofLight, 0.1f, 1f));
+        yield return StartCoroutine(LightIntensify(roofLight, 0.0f, 10f));
+        blackoutStart.Invoke();
 
 
         yield return new WaitForSeconds(1f);
         glowStrips.EnableKeyword("_EMISSION");
-        yield return StartCoroutine(LightIntensify(emergencyLight, 2f, 1f));
+        yield return new WaitForSeconds(3f);
+        yield return StartCoroutine(LightIntensify(emergencyLight, 2f, 3f));
 
 
     }

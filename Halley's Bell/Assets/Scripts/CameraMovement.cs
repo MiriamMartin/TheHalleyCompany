@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.Events;
+
 
 public class CameraMovement : MonoBehaviour, BlackoutInterface
 {
+
+    public UnityEvent CrazyTime;
 
     //ROTATION INITIALIZING
     public float angleAmount = 90f;
@@ -11,6 +16,10 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     private bool isRotating = false;
     private bool isMoving = false;
 
+    //Text stuff    
+    public TMP_Text ad;
+    public TMP_Text space;
+    public TMP_Text w;
 
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
@@ -39,6 +48,12 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         playerPos = new int[] { 3, 2 }; //Starting position of player
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
+
+
+        //text stuff
+        ad.enabled = true;
+        space.enabled = false;
+        w.enabled = false;
     }
 
     // Update is called once per frame
@@ -50,20 +65,25 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             if (Input.GetKeyDown(KeyCode.A))
             {
                 StartCoroutine(Rotate(1));
+                ad.enabled = false;
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 StartCoroutine(Rotate(-1));
-            } 
+                ad.enabled = false;
+            }
             else if (Input.GetKeyDown(KeyCode.W))
             {
                 if (standing)
                 {
                     StartCoroutine(Move());
+                    w.enabled = false;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
+                space.enabled = false;
+                w.enabled = true;
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
@@ -184,10 +204,19 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public void BlackoutEvent()
     {
         canStand = true;
+        space.enabled = true;
     }
 
     public void BlackoutEnd()
     {
         canSit = true;
+        StartCoroutine(CrazyTimeTrigger());
+    }
+
+    //post-blackout waits until the player is sitting, then invokes crazytime event
+    IEnumerator CrazyTimeTrigger()
+    {
+        yield return new WaitUntil(() => (!standing));
+        CrazyTime.Invoke();
     }
 }
