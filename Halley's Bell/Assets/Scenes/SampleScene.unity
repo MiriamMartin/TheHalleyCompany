@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -902,6 +902,8 @@ MonoBehaviour:
   blinker: {fileID: 32761711}
   sonarButton: {fileID: 1328953204}
   ambientAudioSource: {fileID: 954564052}
+  blackoutEvent: {fileID: 0}
+  ending: {fileID: 0}
 --- !u!4 &347718604
 Transform:
   m_ObjectHideFlags: 0
@@ -2611,8 +2613,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5130a3f155a641a4c8c5d7c5c6b41597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CrazyTime:
+    m_PersistentCalls:
+      m_Calls: []
   angleAmount: 180
   duration: 0.3
+  ad: {fileID: 0}
+  space: {fileID: 0}
+  w: {fileID: 0}
+  moveMult: 16
+  shakeDuration: 1
+  shakeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &983510242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,7 +2891,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needle: {fileID: 729392230}
   dot: {fileID: 1906628077}
+  subNeedle: {fileID: 0}
   rotationSpeed: 3
+  direction: {x: 0, y: 0, z: 0}
   dotted: 0
 --- !u!82 &1108014503
 AudioSource:
@@ -3564,10 +3582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02e93ab0822c4d45a2bb5d738144c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 2100000, guid: 5115073ab8807934fa2a7c94cf48a60d, type: 2}
-  ald: {fileID: 1290549979}
-  audioSource: {fileID: 1290549974}
-  intensity: 15
 --- !u!1 &1328953198
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,8 +4742,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84ce4ba841841441b1fba42f596c0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockwise: 0
-  gauge: {fileID: 2030053694}
+  message: 
+  target: {fileID: 0}
 --- !u!65 &1804783328
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5052,8 +5066,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84ce4ba841841441b1fba42f596c0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockwise: 1
-  gauge: {fileID: 2030053694}
+  message: 
+  target: {fileID: 0}
 --- !u!65 &1841074838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6278,13 +6292,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7bf37304513c784eb9b21a073e7787c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  buttonPower: 5
-  direction: {x: 0, y: 0, z: 1}
+  gaugeSpeed: 5
+  handleSpeed: 10
+  handleWhenPressed: 50
+  forwardDirection: {x: 0, y: 0, z: 0}
+  angleMin: -90
+  angleMax: 90
+  angleDanger: 50
+  angleSteam: -30
   bulb: {fileID: 283711410}
-  blinking: 1
-  blink: 0
-  audioSource: {fileID: 2030053695}
+  steam: {fileID: 0}
+  steamIntensityStart: 15
+  steamIntensityMult: 5
+  steamAudioSource: {fileID: 0}
+  steamWhistleAudioSource: {fileID: 0}
+  whistleMaxVolume: 0
+  steamMaxVolume: 0
+  needle: {fileID: 0}
+  handle: {fileID: 0}
+  handleAudioSRC: {fileID: 0}
 --- !u!82 &2030053695
 AudioSource:
   m_ObjectHideFlags: 0

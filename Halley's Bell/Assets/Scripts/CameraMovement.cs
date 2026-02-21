@@ -8,18 +8,19 @@ using UnityEngine.Events;
 public class CameraMovement : MonoBehaviour, BlackoutInterface
 {
 
+    [Header("Blackout Event")]
     public UnityEvent CrazyTime;
 
-    //ROTATION INITIALIZING
+    [Header("Player Movement Rotation")]
     public float angleAmount = 90f;
     public float duration = 0.5f;
     private bool isRotating = false;
     private bool isMoving = false;
 
-    //Text stuff    
-    public TMP_Text ad;
-    public TMP_Text space;
-    public TMP_Text w;
+    [Header("Controls")]
+    public GameObject ad;
+    public GameObject space;
+    public GameObject w;
 
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
@@ -31,6 +32,10 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     private int[,] grid;
     private int[] playerPos;
     public float moveMult = 16f;
+
+    [Header("Camera Shake")]
+    public float shakeDuration = 1f;
+    public AnimationCurve shakeCurve;
 
     // Start is called before the first frame update
     void Awake()
@@ -49,11 +54,10 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         playerPos = new int[] { 3, 2 }; //Starting position of player
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
 
-
         //text stuff
-        ad.enabled = true;
-        space.enabled = false;
-        w.enabled = false;
+        ad.SetActive(true);
+        space.SetActive(false);
+        w.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,28 +69,33 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             if (Input.GetKeyDown(KeyCode.A))
             {
                 StartCoroutine(Rotate(1));
-                ad.enabled = false;
+                AudioHandler.Instance.PlayMovement(1);
+                ad.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 StartCoroutine(Rotate(-1));
-                ad.enabled = false;
+                AudioHandler.Instance.PlayMovement(1);
+                ad.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
                 if (standing)
                 {
                     StartCoroutine(Move());
-                    w.enabled = false;
+                    AudioHandler.Instance.PlayMovement(2);
+                    w.SetActive(false);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
-                space.enabled = false;
-                w.enabled = true;
+                space.SetActive(false);
+                w.SetActive(true);
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
+
+            CameraShake();  // when Depth asks for camera shake, runs it.
         }
 
     }
@@ -95,10 +104,9 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     IEnumerator Rotate(int dir)
     {
         isRotating = true;
-        //Debug.Log("Rotating " + dir);
         float elapsed = 0f;
         gridDir = (gridDir - dir + 4) % 4; //To track direction facing for movement
-        Debug.Log("Calculated gridDir to be " + gridDir);
+        //Debug.Log("Calculated gridDir to be " + gridDir);
 
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.AngleAxis(angleAmount * dir, Vector3.up);
@@ -167,10 +175,10 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         } 
         else
         {
-            Debug.Log("Invalid Move");
+            //Debug.Log("Invalid Move");
 
         }
-        Debug.Log("target is " + grid[target[0], target[1]] + " and canSit is " + canSit);
+        //Debug.Log("target is " + grid[target[0], target[1]] + " and canSit is " + canSit);
         if ((grid[target[0], target[1]] == 3) && canSit) //when canSit, sit down on tile 3 when on it (starting tile)
         {
             standing = false;
@@ -204,7 +212,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public void BlackoutEvent()
     {
         canStand = true;
-        space.enabled = true;
+        space.SetActive(true);
     }
 
     public void BlackoutEnd()
@@ -218,5 +226,40 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     {
         yield return new WaitUntil(() => (!standing));
         CrazyTime.Invoke();
+    }
+
+    // ==================== Camera Shake =======================
+
+    void CameraShake()
+    {
+        // checks when to start camera shake
+
+        if (Depth.Instance.runHitFloor)
+        {
+            Depth.Instance.runHitFloor = false;
+            StartCoroutine(Shaking());
+        }
+    }
+
+    public IEnumerator Shaking()
+    {
+        Vector3 startPosition = transform.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < shakeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
+            transform.position = startPosition + Random.insideUnitSphere * strength;
+            yield return null;
+        }
+
+        transform.position = startPosition;
+    }
+
+    // needed for testing, delete
+    public void setStand(bool val)
+    {
+        canStand = val;
     }
 }
