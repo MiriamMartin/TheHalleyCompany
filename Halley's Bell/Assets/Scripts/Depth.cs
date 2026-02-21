@@ -13,28 +13,38 @@ public class Depth : MonoBehaviour
 
     [Header("Depth Indicator")]
     public Transform needle;
-    private float needleX;
 
     [Header("Event Control")]
     public bool descending = false;
     public bool runGauges = false;
-    public float gaugeDepth = 1000f;
     public bool runSwitches = false;
-    public float switchDepth = 500f;
+    public bool runBlackout = false;
+    public bool runHitFloor = false;
+    public bool runEnding = false;
+    private float gaugeDepth = 1050f; 
+    private float switchDepth = 3450f;
+    private float blackoutDepth = 8800f;
 
-    [Header("Death")]
-    public GameObject DeathScreenOverlay;
+    [Header("Blackout Event")]
+    public BlackoutEvent blackoutEvent;
 
-    [Header("testing purposes -- can remove later")]
-    public bool resetDepth = false;
-    public Vector3 initNeedlePos;
+    [Header("Ending")]
+    public bool ResetHandle = false;
+    public Ending ending;  // will change this, just don't have time rn
 
+    [Header("Radio Exposition")]
+    public bool radioTrigger = false;
+    public List<float> radioTriggerDepths = new List<float>();  
+    private int radioTriggerIndex = 0;  // radio message 2 is first trigger (message 1 starts auto when tune in)
+    public bool firstRadioDone = false;  // is first radio message done?
+
+    [Header("Hallucinations")]
+    public bool canHallucinate = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        initNeedlePos = needle.localPosition;  // testing, can remove
     }
 
     // Update is called once per frame
@@ -45,18 +55,18 @@ public class Depth : MonoBehaviour
             UpdateDepth();
             checkDepthEvents();
         }
-
-        if (resetDepth)  // testing, can remove
-        {
-            depth = 0f;
-            needle.localPosition = initNeedlePos;
-            resetDepth = false;
-        }
     }
 
+    public void StartDescent()
+    {
+        // When initial radio message done && switches all on, call this to start descent
+
+        descending = true;
+        this.GetComponent<AudioSource>().Play(); // plays start descent sound
+    }
     public void UpdateDepth()
     {
-        if (!PauseManager.Instance.getIsPaused() && depth < maxDepth)
+        if (!PauseManager.Instance.getIsPaused() && depth <= maxDepth)
         {
             depth += (1000F/60F) * descentSpeed * Time.deltaTime;  // Depth changes by 1000 every 60 seconds, times descentSpeed (default = 1)
             needle.localPosition += Vector3.right * descentSpeed * Time.deltaTime * (1/1000f);  // standardized needle movement
@@ -65,34 +75,50 @@ public class Depth : MonoBehaviour
 
     public void checkDepthEvents()
     {
-        // At the given depth, set the run var for each event to true.
+        // At the given depth, set the run var for each event to true to trigger it.
         //
         // Each event's script should check to see if this is true in update,
         // calling run / allowing it to continue to run while this is true.
         //
-        // When this is false, it will stop (i.e. on blackout event, everything set
-        // to false until restart, when all set to true again).
+        // When this is reset to false, it will stop.
 
+        // Radio Triggering
+        if (radioTriggerIndex < radioTriggerDepths.Count && (depth >= radioTriggerDepths[radioTriggerIndex]))
+        {
+            radioTrigger = true;
+            radioTriggerIndex++;
+        }
+
+        // Actual Events
         if (depth >= gaugeDepth && (runGauges == false))
         {
             runGauges = true;
+            canHallucinate = true; // start hallucinations post gauges
+            AudioHandler.Instance.SetHallucinateInterval(60f);
         }
-        if (depth >= switchDepth && (runSwitches == false))
+        if (depth >= switchDepth && (runSwitches == false) && !runBlackout)
         {
             runSwitches = true;
+            AudioHandler.Instance.SetHallucinateInterval(45f);
         }
-
+        if (depth >= blackoutDepth && (runBlackout == false))
+        {
+            runBlackout = true;
+            runSwitches = false;
+            descending = false;
+            blackoutEvent.Run();
+            AudioHandler.Instance.SetHallucinateInterval(20f);
+        }
+        if (depth >= maxDepth && (runEnding == false))
+        {
+            runHitFloor = true;
+            runEnding = true;
+            runSwitches = false;
+            descending = false;
+            blackoutEvent.Run();
+            ending.Run();
+        }
     }
-
-    public void Death()
-    {
-        // What happens when the player dies.
-
-        PauseManager.Instance.setIsPaused(true);  // for now, to stop all events and whatnot in progress.
-        DeathScreenOverlay.SetActive(true);
-
-    }
-
 
     // Getters & Setters
     public void setDescending(bool val)
