@@ -12,10 +12,14 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public UnityEvent CrazyTime;
 
     [Header("Player Movement Rotation")]
-    public float angleAmount = 90f;
+    public float angleAmount = 120f;
+    public int numberOfDirections = 3;
     public float duration = 0.5f;
+    public float startAngle = -90;
     private bool isRotating = false;
     private bool isMoving = false;
+
+    public bool DEBUGMODE = false; //so the player can stand whenever
 
     [Header("Controls")]
     public GameObject ad;
@@ -31,7 +35,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     private int[,] grid;
     private int[] playerPos;
-    public float moveMult = 16f;
+    public float moveMult = 1f;
 
     [Header("Camera Shake")]
     public float shakeDuration = 1f;
@@ -40,18 +44,22 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     // Start is called before the first frame update
     void Awake()
     {
+        transform.rotation = Quaternion.AngleAxis(startAngle, Vector3.up);
+        canStand = DEBUGMODE;
+        numberOfDirections = 3;
         //initializing 2d representation of moveable area (0 is wall, 1 & 2 is moveable, 2 is special trigger
         grid = new int[,]
         {
-            { 0, 0, 0, 0, 0 },
-            { 0, 2, 1, 0, 0 },
-            { 0, 0, 1, 0, 0 },
-            { 0, 0, 3, 0, 0 },
-            { 0, 0, 0, 0, 0 }
+            { 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 2, 1, 1, 0 },
+            { 0, 0, 0, 1, 0, 1, 0 },
+            { 0, 0, 0, 0, 0, 1, 0 },
+            { 0, 0, 0, 1, 3, 1, 0 },
+            { 0, 0, 0, 0, 0, 0, 0 }
         };
 
 
-        playerPos = new int[] { 3, 2 }; //Starting position of player
+        playerPos = new int[] { 4, 4 }; //Starting position of player
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
 
         //text stuff
@@ -89,6 +97,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
+                StartCoroutine(StandingRotation(1));
                 space.SetActive(false);
                 w.SetActive(true);
                 standing = true;
@@ -105,13 +114,15 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     {
         isRotating = true;
         float elapsed = 0f;
-        gridDir = (gridDir - dir + 4) % 4; //To track direction facing for movement
+        gridDir = (gridDir - dir + (numberOfDirections)) % (numberOfDirections); //To track direction facing for movement
         //Debug.Log("Calculated gridDir to be " + gridDir);
 
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.AngleAxis(angleAmount * dir, Vector3.up);
 
-        while (elapsed < duration)
+        float dur = duration;
+
+        while (elapsed < dur)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
@@ -122,6 +133,61 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         transform.rotation = endRotation;
         isRotating = false;
+    }
+
+    IEnumerator StandingRotation(int dir)
+    {
+        numberOfDirections = 4;
+        angleAmount = -90f;
+        isRotating = true;
+        float elapsed = 0f;
+        gridDir = 0;
+
+        Quaternion startRotation = transform.rotation;
+        Quaternion endRotation = Quaternion.AngleAxis(0f * dir, Vector3.up);
+
+        float dur = duration;
+
+        while (elapsed < dur)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            yield return null;
+        }
+
+        transform.rotation = endRotation;
+        isRotating = false;
+        Debug.Log("Finished standing up");
+    }
+
+    IEnumerator SittingRotation(int dir)
+    {
+        numberOfDirections = 3;
+        angleAmount = -120f;
+        isRotating = true;
+        float elapsed = 0f;
+        gridDir = 3;
+        //Debug.Log("Calculated gridDir to be " + gridDir);
+
+        Quaternion startRotation = transform.rotation;
+        Quaternion endRotation = Quaternion.AngleAxis(270f * dir, Vector3.up);
+
+        float dur = duration;
+
+        while (elapsed < dur)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            yield return null;
+        }
+
+        transform.rotation = endRotation;
+        isRotating = false;
+
     }
 
     IEnumerator Move()
@@ -181,6 +247,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         //Debug.Log("target is " + grid[target[0], target[1]] + " and canSit is " + canSit);
         if ((grid[target[0], target[1]] == 3) && canSit) //when canSit, sit down on tile 3 when on it (starting tile)
         {
+            StartCoroutine(SittingRotation(1));
             standing = false;
             canSit = false;
             canStand = false;
