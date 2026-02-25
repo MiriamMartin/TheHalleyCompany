@@ -5,6 +5,8 @@ using UnityEngine;
 public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 {
 
+    public bool DEBUGMODE = false;
+
     //Speeds
     private float speed;
     public float gaugeSpeed = 5f;
@@ -63,6 +65,11 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         steam.startColor = new Color(1f, 1f, 1f, 0);
         steamAudioSource.volume = 0;
         steamWhistleAudioSource.volume = 0;
+
+        if (DEBUGMODE)
+        {
+            Run();
+        }
     }
 
     public void Run()

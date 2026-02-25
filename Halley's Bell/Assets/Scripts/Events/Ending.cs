@@ -62,13 +62,13 @@ public class Ending : MonoBehaviour
     IEnumerator EndSequence()
     {
         yield return new WaitUntil(() => trigger == true);
-        cameraMovement.setGridTile(grid, 2, 2, 0);
+        cameraMovement.setGridTile(grid, 2, 5, 0);
         wall1.SetActive(true);
         yield return new WaitUntil(() => trigger == false);
         yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
         yield return new WaitForSeconds(0.5f);
         wall2.SetActive(true);
-        cameraMovement.setGridTile(grid, 1, 2, 0);
+        cameraMovement.setGridTile(grid, 1, 4, 0);
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 1);
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 3);
         cameraMovement.enabled = false;
