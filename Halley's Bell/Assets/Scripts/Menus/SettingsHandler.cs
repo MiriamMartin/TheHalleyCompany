@@ -39,7 +39,7 @@ public class SettingsHandler : MonoBehaviour
         masterVol = PlayerPrefs.GetFloat("SavedMasterVolume", 1f);
         musicVol = PlayerPrefs.GetFloat("SavedMusicVolume", 1f);
         sfxVol = PlayerPrefs.GetFloat("SavedSFXVolume", 1f);
-        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", 0.01f);
+        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", 0.001f);
 
         masterSlider.value = masterVol;
         musicSlider.value = musicVol;
@@ -80,7 +80,7 @@ public class SettingsHandler : MonoBehaviour
     public void SetBrightnessFromSlider(float val)
     {
         brightnessVal = val;
-        brightnessSliderNum.text = ((int)(val * 500)).ToString();  // slider goes to 0.2, 0.2 x 500 = 100 for display purposes
+        brightnessSliderNum.text = ((int)(val * 1000)).ToString();  // slider goes to 0.1, 0.1 x 1000 = 100 for display purposes
 
         PlayerPrefs.SetFloat("SavedBrightnessValue", val);
         UpdateBrightness();

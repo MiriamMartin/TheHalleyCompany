@@ -7,7 +7,6 @@ public class Depth : MonoBehaviour
     public static Depth Instance;
 
     [Header("Depth & Descent Settings")]
-    public float maxDepth;
     public float descentSpeed = 1f;
     private float depth = 0f;
 
@@ -21,9 +20,10 @@ public class Depth : MonoBehaviour
     public bool runBlackout = false;
     public bool runHitFloor = false;
     public bool runEnding = false;
-    private float gaugeDepth = 1050f; 
-    private float switchDepth = 3450f;
-    private float blackoutDepth = 8800f;
+    private float gaugeDepth = 400f; 
+    private float switchDepth = 2100f;
+    private float blackoutDepth = 3700f;
+    private float maxDepth = 4400f;  // controls ending
 
     [Header("Blackout Event")]
     public BlackoutEvent blackoutEvent;
@@ -114,6 +114,7 @@ public class Depth : MonoBehaviour
             runHitFloor = true;
             runEnding = true;
             runSwitches = false;
+            runGauges = false; // i don't think this is needed? but just extra assurance for the demo
             descending = false;
             blackoutEvent.Run();
             ending.Run();

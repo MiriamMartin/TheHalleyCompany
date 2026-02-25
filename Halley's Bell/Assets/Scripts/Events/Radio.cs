@@ -51,6 +51,13 @@ public class Radio : MonoBehaviour, ButtonInterface
     private float currIntensity;
     [SerializeField] float lightBrightness;
 
+    [Header("Dial Rotation")]  // might remove later
+    public GameObject Dial_Left;
+    public GameObject Dial_Right;
+    private bool turn_right = false;
+    private bool turn_left = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +88,7 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         CheckRadioTrigger();  // check for radio triggers from Depth
         SpeakerIntensity();  // update speaker intensity if needed
+        if (!demoFrozen) { CheckDials(); }  // rotate dials
 
         if (on && !demoFrozen)
         {
@@ -180,12 +188,45 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         this.mouseDown = mouseDown;
         this.message = message;
+
+
+        if (mouseDown && !demoFrozen)
+        {
+            if (message == "increase")
+            {
+                turn_right = true;
+            }
+            else if (message == "decrease")
+            {
+                turn_left = true;
+            }
+        }
+        else
+        {
+            turn_right = false;
+            turn_left = false;
+        }
+
+        
     }
 
     private bool demoTriggered(float freq)
     {
         float closeness = getCloseness(freq);
         return (closeness > (1 - triggerThreshold));
+    }
+
+    // ============================= Turn Radio Dials =============================
+
+    public void CheckDials()
+    {
+        if (turn_right) { TurnDial(Dial_Right, 1); }
+        else if (turn_left) { TurnDial(Dial_Left, -1); }
+    }
+        
+    public void TurnDial(GameObject dial, int dir)
+    {
+        dial.transform.Rotate(0f, 0f, 1f * dir * 0.05f);
     }
 
     // ============================= Speaker Light ================================
