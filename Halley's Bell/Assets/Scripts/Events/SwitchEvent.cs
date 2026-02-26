@@ -18,8 +18,8 @@ public class SwitchEvent : MonoBehaviour
     private bool timerOn = false;
 
     private int minResetWait = 30;  // min number of seconds after successful event that next one is triggered
-    private int maxResetWait = 60;  // max number of seconds after successful event that next one is triggered
-    private float warnTime = 10f;    // alarm starts playing when this much time left                           // NOTE: 10 feels good
+    private int maxResetWait = 50;  // max number of seconds after successful event that next one is triggered
+    private float warnTime = 10f;    // alarm starts playing when this much time left                           
     private float failTime = 30f;   // how long from start of event before player has failed                    // NOTE: 25 feels good, made it 30 for extra room atm
 
     private bool startPowerOn = false;  // has the player turned them all on to start?
@@ -179,8 +179,6 @@ public class SwitchEvent : MonoBehaviour
             }
         }
 
-        Debug.Log("Num on ="+ numOn + "and switch count ="+ switches.Count);
-
         if (numOn == switches.Count) { switches[0].GetComponent<Switch>().turnSwitchOff(); }  // makes sure atleast one is off
 
 
@@ -213,8 +211,6 @@ public class SwitchEvent : MonoBehaviour
         // Checks if player turned one or more switches off, if so, starts event
         if (!checkSwitchesComplete() && !curRunning)
         {
-            Debug.Log("Thinks Player Turned 'em off!");
-
             StopCoroutine(Wait);
             PlayerFlipped = true; 
             curWaiting = false;
@@ -237,8 +233,6 @@ public class SwitchEvent : MonoBehaviour
     public void turnOffSwitches()
     {
         // turns off all switches on blackout(s)
-
-        Debug.Log("Turn 'em All Off!");
 
         foreach (GameObject sw in switches)
         {

@@ -226,7 +226,7 @@ public class Radio : MonoBehaviour, ButtonInterface
         
     public void TurnDial(GameObject dial, int dir)
     {
-        dial.transform.Rotate(0f, 0f, 1f * dir * 0.05f);
+        dial.transform.Rotate(0f, 0f, 1f * dir * 0.12f);
     }
 
     // ============================= Speaker Light ================================
@@ -272,7 +272,7 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         // Bell only starts up when switches on AND radio message done
 
-        yield return new WaitUntil(() => !keith.isPlaying);
+        yield return new WaitUntil(() => (!keith.isPlaying && !PauseManager.Instance.getIsPaused()));
         Depth.Instance.firstRadioDone = true;
     }
 
