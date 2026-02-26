@@ -45,7 +45,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
         {
             pressed = true;
             isRotating = true;
-            Depth.Instance.runSwitches = true;
+            //Depth.Instance.runSwitches = true;
             Depth.Instance.setDescending(true);
             blackoutEnd.Invoke();
         }
@@ -57,7 +57,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
 
         if (isRotating && handle.transform.eulerAngles.x != targetPos.x)  // handle animation
         {
-            handle.transform.Rotate(0.5f, 0f, 0f, Space.World);
+            handle.transform.Rotate(0f, 0f, 0.5f, Space.World);
             if (handle.transform.eulerAngles.x == targetPos.x) { isRotating = false; }
         }
     }
@@ -68,7 +68,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
 
         if (Depth.Instance.ResetHandle)
         {
-            handle.transform.Rotate(-180f, 0f, 0f, Space.World);
+            handle.transform.Rotate(0f, 0f, -180f, Space.World);
             Depth.Instance.ResetHandle = true;
         }
     }

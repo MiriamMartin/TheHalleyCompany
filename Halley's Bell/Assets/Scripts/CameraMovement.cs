@@ -293,6 +293,8 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     {
         yield return new WaitUntil(() => (!standing));
         CrazyTime.Invoke();
+
+        Depth.Instance.runSwitches = true;  // Can add to Blackout Event after Demo, for now this will only start switches again post-blackout.
     }
 
     // ==================== Camera Shake =======================

@@ -13,14 +13,14 @@ public class SwitchEvent : MonoBehaviour
 
     public bool curRunning = false;
     public bool curWaiting = false;
-    public float failTime;  // how long from start of event before player has failed
 
     private float timer;
     private bool timerOn = false;
 
-    private int minResetWait = 20;  // min number of seconds after successful event that next one is triggered
-    private int maxResetWait = 40; // max number of seconds after successful event that next one is triggered
-    private float warnTime = 5f;  // alarm starts playing when this much time left
+    private int minResetWait = 30;  // min number of seconds after successful event that next one is triggered
+    private int maxResetWait = 60;  // max number of seconds after successful event that next one is triggered
+    private float warnTime = 10f;    // alarm starts playing when this much time left                           // NOTE: 10 feels good
+    private float failTime = 30f;   // how long from start of event before player has failed                    // NOTE: 25 feels good, made it 30 for extra room atm
 
     private bool startPowerOn = false;  // has the player turned them all on to start?
     private bool poweredOn = false; // used to only call it once
@@ -30,6 +30,8 @@ public class SwitchEvent : MonoBehaviour
 
     private IEnumerator Wait;
     private IEnumerator Light;
+
+    private bool isFirstEvent = true;
 
     void Start()
     {
@@ -51,9 +53,10 @@ public class SwitchEvent : MonoBehaviour
             checkPlayerOff();
             runSwitchEvent();
         }
-        else if (curRunning && !Depth.Instance.runSwitches)
+        else if (curRunning && !Depth.Instance.runSwitches)  // turns off switch event during blackout
         {
             killSwitches();
+            //turnOffSwitches();  // turns off lights during blackout
         }
     }
 
@@ -67,7 +70,7 @@ public class SwitchEvent : MonoBehaviour
             poweredOn = true;
             //startPowerOn = false; // only needs to be called once.
         }
-        else if (!startPowerOn)
+        else if (!poweredOn)
         {
             startPowerOn = checkSwitchesComplete() ? true : false;  // once checkSC returns true, startPowerOn becomes true.
         }
@@ -84,11 +87,13 @@ public class SwitchEvent : MonoBehaviour
             if (timerOn) { updateTimer(); } // update timer first
             if (!flashingLight)
             {
+                // Starts the Red Flashing Light once any switches are off
+
                 flashingLight = true;
                 Light = RedLight();
                 StartCoroutine(RedLight());
             }
-            if (timer < warnTime && timerOn && !alarmAudio.isPlaying) { alarmAudio.Play(); } // alarm / warning sound in last 3 seconds
+            if (timer < warnTime && timerOn && !alarmAudio.isPlaying) { alarmAudio.Play(); } // alarm / warning sound in last <warnTime> seconds
 
             // Event End Conditions
             if (checkSwitchesComplete() && timerOn)  // if timer's still on, and player succeeded
@@ -128,8 +133,14 @@ public class SwitchEvent : MonoBehaviour
     public void resetTimer()
     {
         // Resets the timer to failTime, and indicates it's running
-
-        timer = failTime;
+        
+        if (isFirstEvent)
+        {
+            timer = 40f;  // gives player plenty of time on first incidence
+            isFirstEvent = false;
+        }
+        else { timer = failTime; }
+        
         timerOn = true;
     }
 
@@ -168,10 +179,12 @@ public class SwitchEvent : MonoBehaviour
             }
         }
 
+        Debug.Log("Num on ="+ numOn + "and switch count ="+ switches.Count);
+
         if (numOn == switches.Count) { switches[0].GetComponent<Switch>().turnSwitchOff(); }  // makes sure atleast one is off
 
 
-        switchOffAudio.Play();  // change this later, audio cue that switch is flipped off. Could go off if rand event gives no switch tho.
+        switchOffAudio.Play();  // change this later, audio cue that switch is flipped off.
     }
 
     public IEnumerator WaitForNextEvent()
@@ -200,6 +213,8 @@ public class SwitchEvent : MonoBehaviour
         // Checks if player turned one or more switches off, if so, starts event
         if (!checkSwitchesComplete() && !curRunning)
         {
+            Debug.Log("Thinks Player Turned 'em off!");
+
             StopCoroutine(Wait);
             PlayerFlipped = true; 
             curWaiting = false;
@@ -216,5 +231,22 @@ public class SwitchEvent : MonoBehaviour
         StopCoroutine(Wait);
         StopCoroutine(Light);
         resetTimer();
+        //curRunning = false;
     }
+
+    public void turnOffSwitches()
+    {
+        // turns off all switches on blackout(s)
+
+        Debug.Log("Turn 'em All Off!");
+
+        foreach (GameObject sw in switches)
+        {
+            if (sw != null)
+            {
+                sw.GetComponent<Switch>().turnSwitchOff();
+            }
+        }
+    }
+
 }

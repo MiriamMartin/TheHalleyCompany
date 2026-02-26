@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 {
@@ -49,6 +50,11 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     public GameObject handle;
     private Vector3 handleDirection = new Vector3(0, -1, 0);
     public AudioSource handleAudioSRC;
+    private Renderer handleRend;
+    private bool onScreen = false;
+    private Quaternion handleInitRot;
+
+    private bool Paused = false;
 
 
     private void Start()
@@ -70,6 +76,10 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         {
             Run();
         }
+
+
+        handleRend = handle.GetComponent<Renderer>();  // this is used to only allow holding while handle is on screen
+        handleInitRot = handle.transform.rotation;
     }
 
     public void Run()
@@ -79,6 +89,9 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private void Update()
     {
+        checkVisibility();
+        checkUnpaused();
+
         if (Depth.Instance.runGauges || run)
         {
             currAngle = needle.transform.eulerAngles.z;
@@ -91,8 +104,9 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             if ((currAngle >= angleMin) || !handlePressed)
             {
                 needle.transform.Rotate(speed * currDirection * Time.deltaTime); //This is the code that rotates
-            } 
-            if (currAngle > 90)
+            }
+
+            if (currAngle > angleMax)
             {
                 run = false;
                 PauseManager.Instance.Death();
@@ -150,6 +164,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     public void Button(bool mouseDown, string message)
     {
+
         if (!PauseManager.Instance.getIsPaused())
         {
             if (mouseDown)
@@ -159,7 +174,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
                 currDirection = backwardDirection;
                 handle.transform.Rotate(handleWhenPressed * handleDirection);
             }
-            else
+            else if (handlePressed)
             {
                 handlePressed = false;
                 speed = gaugeSpeed;
@@ -169,6 +184,55 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             }
         }
     }
+
+    // ======================= My two bugfixes, quarantined atm cause prob better fix =========================
+    public void checkVisibility()  // note to future self, might be able to add this into button script so works for everything
+    {
+        // checks if handle is visible to the player, else turns it off
+
+        if (handleRend.isVisible && !onScreen)
+        {
+            onScreen = true;
+        }
+        if (!handleRend.isVisible && onScreen)
+        {
+            resetHandle();
+            onScreen = false;
+        }
+    }
+    public void resetHandle()
+    {
+        // if handle not seen, stop it
+
+        speed = gaugeSpeed;
+        currDirection = forwardDirection;
+
+        if (handlePressed) 
+        { 
+            handleAudioSRC.Play(); // only plays if handle was being pressed
+            handle.transform.rotation = handleInitRot;  // puts handle back to off pos
+        } 
+
+        handlePressed = false;
+
+    }
+
+    public void checkUnpaused()
+    {
+        // when player unpauses the game, reset handle
+
+        if (PauseManager.Instance.getIsPaused() && !Paused)
+        {
+            Paused = true;
+        }
+        if (!PauseManager.Instance.getIsPaused() && Paused)
+        {
+            Paused = false;
+            resetHandle();
+        }
+    }
+
+    // ======================================================================================
 
     public void BlackoutStart()
     {

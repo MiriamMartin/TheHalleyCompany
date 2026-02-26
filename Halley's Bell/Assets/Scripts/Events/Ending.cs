@@ -33,12 +33,6 @@ public class Ending : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            Run();
-            cameraMovement.setStand(true);
-        }
-
         if (Depth.Instance.runEnding)  // will only start listening for triggers when Run() called && runEnding
         {
             WatchTrigger();

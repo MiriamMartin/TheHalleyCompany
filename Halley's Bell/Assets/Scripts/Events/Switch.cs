@@ -20,24 +20,18 @@ public class Switch : MonoBehaviour, ButtonInterface
         TLMat.DisableKeyword("_EMISSION");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Button(bool mouseDown, string message)
     {
         if (!mouseDown || PauseManager.Instance.getIsPaused()) return;  // only on mousedown, and not while paused
 
         if (!switchOn)  // if facing down, flip up
         {
-            FlipSwitch(-80f);
+            FlipSwitch(-1);
             switchOn = !switchOn;
         }
         else  // if facing up, flip down
         {
-            FlipSwitch(-65f);
+            FlipSwitch(1);
             switchOn = !switchOn;
         }
 
@@ -46,14 +40,15 @@ public class Switch : MonoBehaviour, ButtonInterface
 
     public void FlipSwitch(float dir)
     {
-        // Transforms the switch's X rotation
+        // Transforms the switch's X rotation (dir = -1 flips up, dir = 1 flips down)
 
-        Vector3 currentRotation = SwitchButton.transform.eulerAngles;
-        SwitchButton.transform.eulerAngles = new Vector3(dir, currentRotation.y, currentRotation.z);
+        SwitchButton.transform.Rotate(15f * dir, 0f, 0f);
     }
 
     public Material SetUpLight(GameObject light)
     {
+        // prob don't need since only have 1 light now
+
         Renderer rend = light.GetComponent<MeshRenderer>();
         return rend.material;
     }
@@ -95,7 +90,7 @@ public class Switch : MonoBehaviour, ButtonInterface
 
     public void turnSwitchOff()
     {
-        FlipSwitch(-65f);
+        FlipSwitch(1);
         switchOn = !switchOn;
         TLMat.DisableKeyword("_EMISSION");
     }

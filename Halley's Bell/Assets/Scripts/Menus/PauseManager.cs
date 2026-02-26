@@ -19,7 +19,7 @@ public class PauseManager : MonoBehaviour
     // Will need to manually pause input handling (mouse input and keyboard input), so use isPaused to check.
 
     public static PauseManager Instance;
-    private bool isPaused { get; set; }
+    private bool isPaused = false;
 
     [Header("----------------- Pause Key -----------------")]
     public KeyCode pauseInput = KeyCode.Escape;
@@ -34,6 +34,7 @@ public class PauseManager : MonoBehaviour
     {
         Instance = this;
         isPaused = false;
+        Unpause();  // Bug Fix for: Bug tracker row 5
     }
 
     // Update is called once per frame
