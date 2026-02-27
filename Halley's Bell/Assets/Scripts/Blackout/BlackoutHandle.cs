@@ -46,7 +46,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
             pressed = true;
             isRotating = true;
             //Depth.Instance.runSwitches = true;
-            Depth.Instance.setDescending(true);
+            //Depth.Instance.setDescending(true);
             blackoutEnd.Invoke();
         }
     }

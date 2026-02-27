@@ -159,7 +159,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         transform.rotation = endRotation;
         isRotating = false;
-        Debug.Log("Finished standing up");
+        //Debug.Log("Finished standing up");
     }
 
     IEnumerator SittingRotation(int dir)
@@ -295,6 +295,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         CrazyTime.Invoke();
 
         Depth.Instance.runSwitches = true;  // Can add to Blackout Event after Demo, for now this will only start switches again post-blackout.
+        Depth.Instance.setDescending(true);  // won't overlap ending with blackout if standing too long
     }
 
     // ==================== Camera Shake =======================
