@@ -3,7 +3,27 @@ guid: 1977e2a676292b645956ec377c7afa5c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plastic
+    second: {fileID: 2100000, guid: 25474ad7087adfa4eb11193d78c25f0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: c2ca1334f1d83b1408f59229c6b42856, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speaker
+    second: {fileID: 2100000, guid: d7ce4f687fc1a0a43b6608ec979e55c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood
+    second: {fileID: 2100000, guid: 55a9190e0677bda4b82b6fcc83e039e2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
