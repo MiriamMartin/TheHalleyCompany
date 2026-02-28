@@ -56,9 +56,12 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private bool Paused = false;
 
+    private bool canPress = true;
+
 
     private void Start()
     {
+        canPress = true;
         backwardDirection = -forwardDirection;
         currDirection = forwardDirection;
         speed = gaugeSpeed;
@@ -89,8 +92,8 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private void Update()
     {
-        checkVisibility();
-        checkUnpaused();
+        //checkVisibility();
+        //checkUnpaused();
 
         if (Depth.Instance.runGauges || run)
         {
@@ -165,7 +168,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     public void Button(bool mouseDown, string message)
     {
 
-        if (!PauseManager.Instance.getIsPaused())
+        if (!PauseManager.Instance.getIsPaused() && canPress)
         {
             if (mouseDown)
             {
@@ -241,8 +244,10 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     IEnumerator BlackoutStartCR()
     {
+        Debug.Log("BlackoutStartGauge");
+        canPress = false;
         currDirection = backwardDirection;
-        speed = gaugeSpeed * 2; //stops speed to give player a chance to get back to their seat
+        speed = gaugeSpeed * 2;
         yield return new WaitUntil(() => {
             currAngle = needle.transform.eulerAngles.z;
             //coverting from 0->360 to -180->180
@@ -251,15 +256,18 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
                 currAngle -= 360f;
             }
 
-            return currAngle <= angleMin;
+            return currAngle <= (angleMin + 10);
         });
+        Debug.Log("BlackoutStartGauge FINISHED!");
         speed = 0;
         run = false;
     }
     IEnumerator BlackoutEndCR()
     {
+        Debug.Log("BlackoutEndGauge");
+        canPress = true;
         currDirection = forwardDirection;
-        speed = gaugeSpeed * 40; //stops speed to give player a chance to get back to their seat
+        speed = gaugeSpeed * 40;
         run = true;
         yield return new WaitUntil(() => {
             currAngle = needle.transform.eulerAngles.z;
@@ -269,9 +277,9 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
                 currAngle -= 360f;
             }
 
-            return currAngle > (angleDanger + 15);
+            return currAngle > (angleDanger + 10);
             });
-        
+        Debug.Log("BlackoutEndGauge FINISHED!");
         speed = 0;
     }
 
