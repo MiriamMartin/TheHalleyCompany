@@ -62,22 +62,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   focusDistance:
     overrideState: 1
-    value: 9.16
+    value: 1.17
   aperture:
     overrideState: 1
-    value: 15.2
+    value: 5.2
   focalLength:
     overrideState: 0
-    value: 50
+    value: 1
   kernelSize:
     overrideState: 0
-    value: 1
+    value: 3
 --- !u!114 &-2160815350627391068
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
