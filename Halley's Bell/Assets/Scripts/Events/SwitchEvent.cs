@@ -44,7 +44,7 @@ public class SwitchEvent : MonoBehaviour
 
     void Update()
     {
-        if (PauseManager.Instance.getIsPaused()) return;  // while paused, don't do or update anything
+        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) return;  // while paused, don't do or update anything
 
         PowerOn();  // check for initial power on to start descent
 

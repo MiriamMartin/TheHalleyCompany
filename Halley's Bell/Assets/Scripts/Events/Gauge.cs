@@ -168,7 +168,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     public void Button(bool mouseDown, string message)
     {
 
-        if (!PauseManager.Instance.getIsPaused() && canPress)
+        if (!PauseManager.Instance.getIsPaused() && canPress && !InteractManager.Instance.getIsInteracting())
         {
             if (mouseDown)
             {
