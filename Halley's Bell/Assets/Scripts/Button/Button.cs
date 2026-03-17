@@ -29,7 +29,11 @@ public class Button : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) { return; }  // Buttons can't be clicked while paused
+        if (PauseManager.Instance != null && InteractManager.Instance != null)  // can delete later, just testing for terminal
+        {
+            if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) { return; }  // Buttons can't be clicked while paused
+        }
+        
         audioSource.Play();
         buttonTarget.Button(true, message); //Calls the Button method on whatever ButtonInterface object is specified in inspector
     }

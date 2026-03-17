@@ -68,6 +68,10 @@ public class Radio : MonoBehaviour, ButtonInterface
         keith.clip = radioClips[0];
         radioClipIndex++;
         speakerBulbMat.EnableKeyword("_EMISSION");
+
+        // checkpoint stuff
+        setNeedle();
+        if (Checkpoints.Instance.getCheckpoint() > 0) { setRadioClip(); }
     }
 
     void InitializeRadio()
@@ -103,10 +107,10 @@ public class Radio : MonoBehaviour, ButtonInterface
             {
                 //Debug.Log("Tuned into a2");
             }
-            else if (radioPoint(keith, 100))
+            else if (radioPoint(keith, 100) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
             {
                 //Debug.Log("Tuned into Keith at at volume " + keith.volume);
-                KeithTuned.Invoke(); //triggering initial keith dialogue with unity event
+                Depth.Instance.tunedKeith = true;
                 keith.Play();
                 StartCoroutine(BellStartup());
 
@@ -276,4 +280,31 @@ public class Radio : MonoBehaviour, ButtonInterface
         Depth.Instance.firstRadioDone = true;
     }
 
+
+    // ============================= Checkpoint Stuff ================================
+
+    public void setNeedle()
+    {
+        if (Checkpoints.Instance.getCheckpoint() >= 1)  // if radio was previous tuned into, start tuning AT keith frequency
+        {
+            needle.localPosition = new Vector3(2.410085f, 1.918846f, -1.149419f);
+            freq = 100f;
+        }
+    }
+
+    public void setRadioClip()
+    {
+        radioClipIndex = Checkpoints.Instance.getCheckpoint() - 1;
+        
+        //  \/ Temp until inhaler mssg added \/
+
+        if (Checkpoints.Instance.getCheckpoint() == 5)
+        {
+            radioClipIndex = 3;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 7)
+        {
+            radioClipIndex = 4;
+        }
+    }
 }
