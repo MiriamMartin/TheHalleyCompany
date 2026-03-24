@@ -97,6 +97,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
+                Debug.Log("HERE");
                 StartCoroutine(StandingRotation(1));
                 space.SetActive(false);
                 w.SetActive(true);
