@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,12 @@ public class MainMenuHandler : MonoBehaviour
     public float maxIntensity = 0.15f;
     public float flickerSpeed = 0.5f;
 
+    [Header("Checkpoint")]
+    public SpriteRenderer darkness;
+    public List<float> darknessVals;
+    public GameObject ContinueButton;
+    public GameObject EmptyContinue;
+
     void Start()
     {
         Renderer rend = Window.GetComponent<MeshRenderer>();
@@ -25,8 +32,46 @@ public class MainMenuHandler : MonoBehaviour
         mat.EnableKeyword("_EMISSION");
         baseEmissionColor = mat.GetColor("_EmissionColor");
         StartCoroutine(Flicker());
+
+        SetCheckpointVals();  // sets checkpoint stuff (darkness, continue button)
+
     }
 
+    public void Update()
+    {
+        // testing, can delete later
+        if (Input.GetKeyDown(KeyCode.P)) { StartCoroutine(VisDark()); }  // press P to see how darkness values look
+    }
+
+    public void SetCheckpointVals()
+    {
+        if (PlayerPrefs.GetInt("CurrentCheckpoint") > 0) { SetDarkness(); }  // sets darkness based on current checkpoint
+        SetContinue();
+    }
+    public IEnumerator VisDark()
+    {
+        // just testing to see how darkness looks
+        PlayerPrefs.SetInt("CurrentCheckpoint", 1);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 2);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 3);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 4);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 5);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 6);
+        SetDarkness();
+        yield return new WaitForSeconds(1f);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
+        SetDarkness();
+    }
     public IEnumerator Flicker()
     {
         // Flicker light in window of Diving Bell (idk if we'll use it but it's here lol)
@@ -67,11 +112,40 @@ public class MainMenuHandler : MonoBehaviour
         }
     }
 
+    public void SetDarkness()
+    {
+        Color DarknessColor = darkness.color;
+        DarknessColor.b = darknessVals[PlayerPrefs.GetInt("CurrentCheckpoint", 1) - 1];
+        darkness.color = DarknessColor;
+    }
+
+    public void SetContinue()
+    {
+        if (PlayerPrefs.GetInt("CurrentCheckpoint") >= 1)  // if have hit a checkpoint
+        {
+            ContinueButton.SetActive(true);
+            EmptyContinue.SetActive(false);
+        }
+        else 
+        {
+            EmptyContinue.SetActive(true);
+            ContinueButton.SetActive(false);
+        }
+    }
+
+    public void ContinueGame()
+    {
+        // Continues game from current checkpoint game
+
+        SceneManager.LoadScene("NEW Miriam's"); // Switch to main game's scene name
+    }
+
     public void StartGame()
     {
         // starts game by loading the specified game scene
 
-        SceneManager.LoadScene("UnifiedScene"); // Switch to main game's scene name
+        PlayerPrefs.SetInt("CurrentCheckpoint", 0);  // resets checkpoints
+        SceneManager.LoadScene("NEW Miriam's"); // Switch to main game's scene name
     }
 
     public void OpenSettings(bool val)

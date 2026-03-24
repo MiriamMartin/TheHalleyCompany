@@ -37,9 +37,13 @@ public class Depth : MonoBehaviour
     public List<float> radioTriggerDepths = new List<float>();  
     private int radioTriggerIndex = 0;  // radio message 2 is first trigger (message 1 starts auto when tune in)
     public bool firstRadioDone = false;  // is first radio message done?
+    public bool tunedKeith = false;  // has first radio message been invoked?
 
     [Header("Hallucinations")]
     public bool canHallucinate = false;
+
+    [Header("Terminal")]
+    public bool TerminalInit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +67,7 @@ public class Depth : MonoBehaviour
 
         descending = true;
         this.GetComponent<AudioSource>().Play(); // plays start descent sound
+        Checkpoints.Instance.updateCheckpoint(1);
     }
     public void UpdateDepth()
     {
@@ -95,19 +100,22 @@ public class Depth : MonoBehaviour
             runGauges = true;
             canHallucinate = true; // start hallucinations post gauges
             AudioHandler.Instance.SetHallucinateInterval(60f);
+            Checkpoints.Instance.updateCheckpoint(2);
         }
         if (depth >= switchDepth && (runSwitches == false) && !runBlackout)
         {
             runSwitches = true;
             AudioHandler.Instance.SetHallucinateInterval(45f);
+            Checkpoints.Instance.updateCheckpoint(3);
         }
-        if (depth >= blackoutDepth && (runBlackout == false))
+        if (depth >= blackoutDepth && (runBlackout == false) && Checkpoints.Instance.getCheckpoint() <= 5) // only run blackout IF not passed it already
         {
             runBlackout = true;
             runSwitches = false;
-            descending = false;
-            blackoutEvent.Run();
+            descending = false; 
+            blackoutEvent.Run(); 
             AudioHandler.Instance.SetHallucinateInterval(20f);
+            Checkpoints.Instance.updateCheckpoint(5);
         }
         if (depth >= maxDepth && (runEnding == false))
         {
@@ -118,6 +126,7 @@ public class Depth : MonoBehaviour
             descending = false;
             blackoutEvent.Run();
             ending.Run();
+            Checkpoints.Instance.updateCheckpoint(7);
         }
     }
 
@@ -130,5 +139,15 @@ public class Depth : MonoBehaviour
     public bool getDescending()
     {
         return descending;
+    }
+
+    public void setRadioIndex(int index)
+    {
+        radioTriggerIndex = index;
+    }
+
+    public void setDepth(float newDepth)
+    {
+        depth = newDepth;
     }
 }

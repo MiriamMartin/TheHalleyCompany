@@ -64,7 +64,7 @@ public class SwitchEvent : MonoBehaviour
     {
         // Checks to see if player has powered on the ship at the beginning (aka, flipped all switches on).
 
-        if (startPowerOn && Depth.Instance.firstRadioDone && !poweredOn)  // wait until player turns all switches on to start descent.
+        if (startPowerOn && Depth.Instance.firstRadioDone && !poweredOn && Checkpoints.Instance.getCheckpoint() < 1)  // wait until player turns all switches on to start descent.
         {
             Depth.Instance.StartDescent();
             poweredOn = true;
