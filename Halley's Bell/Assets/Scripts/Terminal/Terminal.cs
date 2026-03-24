@@ -178,11 +178,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
             {
                 terminalText.text += "\n\n>PASSWORD CORRECT: BOOTING STARTUP PROTOCOL...\n\n> ";
                 Depth.Instance.TerminalInit = true;  // this will allow radio to start? I think was the consensus?
-                terminalText.text += "Tune in to radio frequency 100 for commands.\n\n> ";
+                terminalText.text += "Hello hello, Operator.\nTune the Radio to 100 whenever you're ready :^D.\n\n> ";
             }
             else
             {
-                terminalText.text += "\n\n>";
+                terminalText.text += "\n\n>PASSWORD INCORRECT\n\n>";
             }
 
             ShiftLines(2, -1);
