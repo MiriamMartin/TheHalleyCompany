@@ -16,6 +16,9 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
     private Vector3 targetPos;
     private bool isRotating;
 
+    [Header("Animation")]
+    public Animator animator;
+
     public void Start()
     {
         pressed = false;
@@ -25,8 +28,8 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
 
     public void Update()
     {
-        HandleAnimation();
-        ResetHandle();  // better way to do this fs, will fix post demo
+        //HandleAnimation();
+        //ResetHandle();  // better way to do this fs, will fix post demo
     }
 
     private void endBlackout()
@@ -45,6 +48,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
         {
             pressed = true;
             isRotating = true;
+            animator.SetBool("hitLever", true); // plays the handle animation
             //Depth.Instance.runSwitches = true;
             //Depth.Instance.setDescending(true);
             blackoutEnd.Invoke();
@@ -57,8 +61,8 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
 
         if (isRotating && handle.transform.eulerAngles.x != targetPos.x)  // handle animation
         {
-            handle.transform.Rotate(0f, 0f, 0.5f, Space.World);
-            if (handle.transform.eulerAngles.x == targetPos.x) { isRotating = false; }
+            //handle.transform.Rotate(0f, 0f, 0.5f, Space.World);
+            //if (handle.transform.eulerAngles.x == targetPos.x) { isRotating = false; }
         }
     }
 

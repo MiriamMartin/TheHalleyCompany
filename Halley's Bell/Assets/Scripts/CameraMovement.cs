@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 public class CameraMovement : MonoBehaviour, BlackoutInterface
@@ -22,9 +23,13 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public bool DEBUGMODE = false; //so the player can stand whenever
 
     [Header("Controls")]
-    public GameObject ad;
-    public GameObject space;
-    public GameObject w;
+    public GameObject controls_A;
+    public GameObject controls_D;
+    public GameObject controls_Space;
+    public GameObject controls_W;
+    public GameObject controls_Esc;
+    private float controlFadeSpeed = 1f;  // how long it takes to fade
+    private float controlHangTime = 2f;  // how long before fade
 
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
@@ -63,14 +68,19 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
 
         //text stuff
-        ad.SetActive(true);
-        space.SetActive(false);
-        w.SetActive(false);
+        controls_A.SetActive(true);
+        controls_D.SetActive(true);
+        controls_Esc.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(FadeControls(controls_Esc));
+        }
+
         //Activating rotation/movement coroutines based on user input
         if (!isRotating && !isMoving && !PauseManager.Instance.getIsPaused())
         {
@@ -78,13 +88,15 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             {
                 StartCoroutine(Rotate(1));
                 AudioHandler.Instance.PlayMovement(1);
-                ad.SetActive(false);
+                StartCoroutine(FadeControls(controls_A));
+                StartCoroutine(FadeControls(controls_D));
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 StartCoroutine(Rotate(-1));
                 AudioHandler.Instance.PlayMovement(1);
-                ad.SetActive(false);
+                StartCoroutine(FadeControls(controls_A));
+                StartCoroutine(FadeControls(controls_D));
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
@@ -92,15 +104,14 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
                 {
                     StartCoroutine(Move());
                     AudioHandler.Instance.PlayMovement(2);
-                    w.SetActive(false);
+                    StartCoroutine(FadeControls(controls_W));
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
-                Debug.Log("HERE");
                 StartCoroutine(StandingRotation(1));
-                space.SetActive(false);
-                w.SetActive(true);
+                StartCoroutine(FadeControls(controls_Space));
+                controls_W.SetActive(true);
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
@@ -280,7 +291,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public void BlackoutEvent()
     {
         canStand = true;
-        space.SetActive(true);
+        controls_Space.SetActive(true);
     }
 
     public void BlackoutEnd()
@@ -297,6 +308,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         Depth.Instance.runSwitches = true;  // Can add to Blackout Event after Demo, for now this will only start switches again post-blackout.
         Depth.Instance.setDescending(true);  // won't overlap ending with blackout if standing too long
+        Depth.Instance.runInhaler = true;
     }
 
     // ==================== Camera Shake =======================
@@ -308,7 +320,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         if (Depth.Instance.runHitFloor)
         {
             Depth.Instance.runHitFloor = false;
-            StartCoroutine(Shaking());
+            if (PlayerPrefs.GetInt("SavedScreenShakeValue") == 1) { StartCoroutine(Shaking()); }  // only runs if setting is on
         }
     }
 
@@ -332,5 +344,43 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public void setStand(bool val)
     {
         canStand = val;
+    }
+
+    public IEnumerator FadeControls(GameObject controlOverlay)
+    {
+
+        if (controlOverlay.activeSelf == false) { yield break; }  // don't run if it's no longer active
+
+        yield return new WaitForSeconds(controlHangTime);
+
+        var img = controlOverlay.GetComponentInChildren<Image>();
+        var txt = controlOverlay.GetComponentInChildren<TextMeshProUGUI>();
+
+        Color img_c = img.color;
+        Color txt_c = txt.color;
+
+        // fade alpha out
+        while (img_c.a > 0)
+        {
+            img_c.a = img_c.a - 1 * controlFadeSpeed * Time.deltaTime;
+            img.color = img_c;
+
+            txt_c.a = txt_c.a - 1 * controlFadeSpeed * Time.deltaTime;
+            txt.color = txt_c;
+            yield return null;
+        }
+
+
+        // reset to 100 in case controls re-appear later
+        Color img_fin = img.color;
+        Color txt_fin = txt.color;
+
+        img_fin.a = 1;
+        txt_fin.a = 1;
+        img.color = img_fin;
+        txt.color = txt_fin;
+
+        // disable it
+        controlOverlay.SetActive(false);
     }
 }

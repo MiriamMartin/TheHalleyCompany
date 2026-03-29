@@ -16,6 +16,9 @@ public class Ending : MonoBehaviour
     public GameObject wall1;
     public GameObject wall2;
 
+    [Header("Credits")]
+    public GameObject Creds;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +72,6 @@ public class Ending : MonoBehaviour
         yield return new WaitForSeconds(4);
         eyeMat.EnableKeyword("_EMISSION");
         yield return new WaitForSeconds(4);
-        PauseManager.Instance.End();
-
+        Creds.SetActive(true);  // rolls credits, which will then call the ending screen
     }
 }

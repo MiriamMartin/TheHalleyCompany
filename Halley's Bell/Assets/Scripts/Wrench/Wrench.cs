@@ -64,9 +64,12 @@ public class Wrench : MonoBehaviour
     {
         if (OnScrew && !clickAgain)
         {
-            if (transform.localRotation.z >= 0.45)
+
+            Debug.Log(transform.localRotation.z);
+
+            if (transform.localRotation.z <= -0.08)//transform.localRotation.z <= 0.45)
             {
-                transform.localRotation = Quaternion.identity;
+                transform.localRotation = Quaternion.Euler(0f, 150f, 0f);
                 currentScrew.GetComponent<Screw>().increaseCranks();
                 clickAgain = true;
             }
@@ -86,16 +89,15 @@ public class Wrench : MonoBehaviour
     {
         // pull wrench to side
 
-        //this.transform.parent = mainCamera.transform;
-
-        //this.transform.localPosition = new Vector3(0.4f, -0.15f, 1f);
-        //this.transform.localRotation = Quaternion.Euler(0, 75, -15);
-
-
-        transform.position = new Vector3(2.95f, -0.15f, 4.5f - 10f);  // need Y & Z to accomodate for camera's Y = 1 & Z = 10 (subtract fr each)
-        transform.localRotation = Quaternion.Euler(20, 60, -30);
-
         transform.parent = mainCamera.transform;
+
+        // Wrench Scene
+        //this.transform.localPosition = new Vector3(1f, -0.15f, 2f);
+        //this.transform.localRotation = Quaternion.Euler(40, 70, -30);
+
+        // Unified Scene
+        this.transform.localPosition = new Vector3(0.3f, 0f, 0.7f);
+        this.transform.localRotation = Quaternion.Euler(-20, -95, 20);
 
         isHoldingWrench = true;
 
