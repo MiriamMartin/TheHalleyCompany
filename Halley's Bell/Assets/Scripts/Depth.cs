@@ -17,13 +17,16 @@ public class Depth : MonoBehaviour
     public bool descending = false;
     public bool runGauges = false;
     public bool runSwitches = false;
+    public bool runInhaler = false;
     public bool runBlackout = false;
     public bool runHitFloor = false;
     public bool runEnding = false;
-    private float gaugeDepth = 400f; 
-    private float switchDepth = 2100f;
-    private float blackoutDepth = 3700f;
-    private float maxDepth = 4400f;  // controls ending
+    private float gaugeDepth = 600f; 
+    private float switchDepth = 4400f;
+    private float inhalerDepth = 6500f;
+    private float blackoutDepth = 11800f;
+    private float blackoutSafeDepth = 11900f;
+    private float maxDepth = 15000f;  // controls ending
 
     [Header("Blackout Event")]
     public BlackoutEvent blackoutEvent;
@@ -41,9 +44,6 @@ public class Depth : MonoBehaviour
 
     [Header("Hallucinations")]
     public bool canHallucinate = false;
-
-    [Header("Terminal")]
-    public bool TerminalInit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -99,23 +99,33 @@ public class Depth : MonoBehaviour
         {
             runGauges = true;
             canHallucinate = true; // start hallucinations post gauges
-            AudioHandler.Instance.SetHallucinateInterval(60f);
+            AudioHandler.Instance.SetHallucinateInterval(60f);  // Delete These
             Checkpoints.Instance.updateCheckpoint(2);
         }
         if (depth >= switchDepth && (runSwitches == false) && !runBlackout)
         {
             runSwitches = true;
-            AudioHandler.Instance.SetHallucinateInterval(45f);
+            AudioHandler.Instance.SetHallucinateInterval(45f);  // Delete These
             Checkpoints.Instance.updateCheckpoint(3);
+        }
+        if (depth >= inhalerDepth && (runInhaler == false))
+        {
+            runInhaler = true;
+            Checkpoints.Instance.updateCheckpoint(4);
         }
         if (depth >= blackoutDepth && (runBlackout == false) && Checkpoints.Instance.getCheckpoint() <= 5) // only run blackout IF not passed it already
         {
             runBlackout = true;
             runSwitches = false;
+            runInhaler = false;
             descending = false; 
             blackoutEvent.Run(); 
             AudioHandler.Instance.SetHallucinateInterval(20f);
             Checkpoints.Instance.updateCheckpoint(5);
+        }
+        if (depth >= blackoutSafeDepth && Checkpoints.Instance.getCheckpoint() < 6)
+        {
+            Checkpoints.Instance.updateCheckpoint(6);
         }
         if (depth >= maxDepth && (runEnding == false))
         {
@@ -123,6 +133,7 @@ public class Depth : MonoBehaviour
             runEnding = true;
             runSwitches = false;
             runGauges = false; // i don't think this is needed? but just extra assurance for the demo
+            runInhaler = false;
             descending = false;
             blackoutEvent.Run();
             ending.Run();

@@ -1,0 +1,307 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+
+public class Radio : MonoBehaviour, ButtonInterface
+{
+    const float minFreq = 88f;
+    const float maxFreq = 108;
+    public float range = 5f;
+    public float triggerThreshold = 0.5f; //0.5 regular. FOR DEMO SET IT REALLY LOW TO LOCK IN
+    public UnityEvent KeithTuned;
+
+    //Button stuff
+    private bool demoFrozen = false;
+    private bool mouseDown;
+    private string message;
+
+    //Audio
+    public AudioSource fuzz;
+    public AudioSource a1;
+    public AudioSource a2;
+    public AudioSource keith;
+    private AudioSource currAudioSource;
+
+    //Logic
+    private bool on = false;
+
+    [Range(minFreq, maxFreq)]
+    public float freq;
+    public float increaseRate = 10;
+
+    public Transform needle;
+    private float needleZ;
+    public float distanceMod = 1;
+
+    [Header("Radio Message Sequencing")]
+    public List<AudioClip> radioClips = new List<AudioClip>();
+    private int radioClipIndex = 0;
+
+    [Header("Speaker Light")]
+    public Material speakerBulbMat;
+    public AudioLoudnessDetection ald;
+    public Radio radio;  // not referenced, but removing breaks it? Not sure why lol. Same with OG script.
+    public List<AudioSource> speakerLightSources;  // each of the sources (rn : [0] = bm_radio, [1] = keith)
+    public AudioSource currSRC;  // the current audio source to play from
+    public float intensity = 1.5f;
+    private float currIntensity;
+    [SerializeField] float lightBrightness;
+
+    [Header("Dial Rotation")]
+    public GameObject OneDial;
+
+    [Header("Startup")]
+    public bool radioConnected;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        InitializeRadio();
+        needleZ = needle.localPosition.z;
+        freq = minFreq;
+
+        keith.clip = radioClips[0];
+        radioClipIndex++;
+        speakerBulbMat.EnableKeyword("_EMISSION");
+
+        // checkpoint stuff
+        setNeedle();
+        if (Checkpoints.Instance.getCheckpoint() == 0) 
+        { 
+            TurnOff();
+        }
+        else
+        {
+            setRadioClip();
+            radioConnected = true;
+            TurnOff();
+            on = true;
+        }
+    }
+
+    void InitializeRadio()
+    {
+        // Initializes all radio vars at start
+
+        a1.volume = 0;
+        a2.volume = 0;
+        keith.volume = 0;
+        fuzz.volume = 1;
+        a1.Play();
+        a2.Play();
+        fuzz.Play();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        CheckRadioTrigger();  // check for radio triggers from Depth
+        SpeakerIntensity();  // update speaker intensity if needed
+
+        if (on && !demoFrozen)
+        {
+            //Updating state of radioPoints (mostly audio for now) and checking if they are tuned in
+
+            if (radioPoint(a1, 92))
+            {
+                //Debug.Log("Tuned into a1");
+                SwapSpeakerLightSRC(speakerLightSources[0]);
+            }
+            else if (radioPoint(a2, 108))
+            {
+                //Debug.Log("Tuned into a2");
+            }
+            else if (radioPoint(keith, 100) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
+            {
+                //Debug.Log("Tuned into Keith at at volume " + keith.volume);
+                Depth.Instance.tunedKeith = true;
+                keith.Play();
+                StartCoroutine(BellStartup());
+
+
+                //Demo code to freeze REMOVE POST DEMO
+                if (demoTriggered(100))
+                {
+                    demoFrozen = true;
+                }
+
+                SwapSpeakerLightSRC(speakerLightSources[1]);
+            }
+            else
+            {
+                DisableSpeakerLight();
+            }
+
+            //  Increasing or decreasing the freq over time depending on which button pressed   
+            if (OneDial.GetComponent<RadioDial>().GetRight())
+            {
+                freq += increaseRate * Time.deltaTime;
+                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+            }
+            else if (OneDial.GetComponent<RadioDial>().GetLeft())
+            {
+                freq -= increaseRate * Time.deltaTime;
+                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+            }
+            needle.localPosition = new Vector3(needle.localPosition.x, needle.localPosition.y, needleZ - ((freq - minFreq) * distanceMod));
+        }
+
+        if ((message == "power" && mouseDown) && radioConnected)
+        {
+            if (on) { TurnOff(); }
+            else { TurnOn(); }
+        }
+    }
+
+    //returns a float from 0-1 proportional to how close it is to the target frequency. (1 is on the freq, distance +/- range is 0)
+    float getCloseness(float target)
+    {
+        if ((freq <= target + range) && (freq >= target - range))
+        {
+            return (1 - (Mathf.Abs(target - freq) / range));
+        }
+        return 0;
+    }
+
+    bool radioPoint(AudioSource audioSource, float target)
+    {
+        currAudioSource = audioSource;
+        float closeness = getCloseness(target);
+        audioSource.volume = closeness;
+        if (closeness > 0)
+        {
+            fuzz.volume = (1 - closeness);
+            if (closeness > triggerThreshold)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void Button(bool mouseDown, string message)
+    {
+        this.mouseDown = mouseDown;
+        this.message = message;   
+    }
+
+    private bool demoTriggered(float freq)
+    {
+        float closeness = getCloseness(freq);
+        return (closeness > (1 - triggerThreshold));
+    }
+
+    public void TurnOn()
+    {
+        fuzz.volume = 1;
+        message = "";
+        on = true;
+    }
+
+    public void TurnOff()
+    {
+        a1.volume = 0;
+        a2.volume = 0;
+        keith.volume = 0;
+        fuzz.volume = 0;
+        message = "";
+        on = false;
+    }
+
+    // ============================= Speaker Light ================================
+    private void SpeakerIntensity()
+    {
+        float colourMult = ald.GetLoudnessFromAudio(currSRC.timeSamples, currSRC.clip) * currIntensity;
+        speakerBulbMat.SetColor("_EmissionColor", Color.yellow * colourMult * currIntensity);
+        lightBrightness = ald.GetLoudnessFromAudio(currSRC.timeSamples, currSRC.clip) * currIntensity;
+    }
+    private void SwapSpeakerLightSRC(AudioSource newSRC)
+    {
+        currIntensity = intensity;
+        currSRC = newSRC;
+    }
+
+    private void DisableSpeakerLight()
+    {
+        currIntensity = 0f;
+    }
+
+    // ============================= Radio Message Sequencing ================================
+
+    public void CheckRadioTrigger()
+    {
+        // Checks for radio triggers from Depth, plays next message when triggered
+
+        if (on && Depth.Instance.radioTrigger)  // Radio Trigger from Depth
+        {
+            Depth.Instance.radioTrigger = false;
+            PlayRadioMessage();
+        }
+    }
+    public void PlayRadioMessage()
+    {
+        // Plays the next queued radio message, and increases the index
+
+        keith.clip = radioClips[radioClipIndex];
+        radioClipIndex++;
+        keith.Play();
+    }
+
+    public IEnumerator BellStartup()
+    {
+        // Bell only starts up when switches on AND radio message done
+
+        yield return new WaitUntil(() => (!keith.isPlaying && !PauseManager.Instance.getIsPaused()));
+        Depth.Instance.firstRadioDone = true;
+    }
+
+
+    // ============================= Checkpoint Stuff ================================
+
+    public void setNeedle()
+    {
+        if (Checkpoints.Instance.getCheckpoint() >= 1)  // if radio was previous tuned into, start tuning AT keith frequency
+        {
+            needle.localPosition = new Vector3(2.410085f, 1.918846f, -1.149419f);
+            freq = 100f;
+        }
+    }
+
+    public void setRadioClip()
+    {
+        //radioClipIndex = Checkpoints.Instance.getCheckpoint() - 1;
+        radioClipIndex = Checkpoints.Instance.getCheckpoint();
+
+        if (Checkpoints.Instance.getCheckpoint() == 2)
+        {
+            radioClipIndex = 3;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 4)
+        {
+            radioClipIndex = 4;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 5)
+        {
+            radioClipIndex = 6;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 6)
+        {
+            radioClipIndex = 7;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 7)
+        {
+            radioClipIndex = 8;
+        }
+    }
+
+    // =============================== TERMINAL ===============================
+
+    public void ConnectRadio()
+    {
+        radioConnected = true;
+        TurnOn();
+    }
+}

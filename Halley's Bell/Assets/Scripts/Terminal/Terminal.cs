@@ -31,6 +31,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private bool keyPressed = false;
 
     private string bootPasscode = "1234";
+    private bool bootedPass = false;
 
     [Header("INCIDENT")]
     public GameObject TerminalCanvas;
@@ -39,10 +40,14 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private int radioMessageIndex = 0;
     private bool started = false;
 
+    [Header("STARTUP")]
+    public Radio rad;  // lets us 'connect' radio once password entered
+
     // Start is called before the first frame update
     void Start()
     {
         terminalText.text = ">";
+        setMssgIndex();
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             radioMessageIndex++;
             started = true;
         }
-        if (Depth.Instance.radioTrigger || Input.GetKeyDown(KeyCode.K))  // handles all subsequent messages [Delete K input, just for testing]
+        if (Depth.Instance.radioTrigger)  // handles all subsequent messages [Delete K input, just for testing]
         {
             typeMessage(radioMessages[radioMessageIndex]);
             radioMessageIndex++;
@@ -176,9 +181,17 @@ public class Terminal : MonoBehaviour, ButtonInterface
             CheckLastChar();
             if (CheckPasscode(bootPasscode))
             {
-                terminalText.text += "\n\n>PASSWORD CORRECT: BOOTING STARTUP PROTOCOL...\n\n> ";
-                Depth.Instance.TerminalInit = true;  // this will allow radio to start? I think was the consensus?
-                terminalText.text += "Hello hello, Operator.\nTune the Radio to 100 whenever you're ready :^D.\n\n> ";
+                if (!bootedPass)  // if first time entering password
+                {
+                    terminalText.text += "\n\n>PASSWORD CORRECT: BOOTING STARTUP PROTOCOL...\n\n> ";
+                    rad.ConnectRadio();  // turns radio on
+                    terminalText.text += "Hello hello, Operator.\nTune the Radio to 100 whenever you're ready :^D.\n\n> ";
+                    bootedPass = true;
+                }
+                else  // if entering password when already booted systems / started descent
+                {
+                    terminalText.text += "\n\n>DESCENT IN PROGRESS\n\n> ";
+                }
             }
             else
             {
@@ -289,7 +302,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         else if (keyPressed)
         {
             key.transform.position += Vector3.up * 0.015f;
-            clickReleased.Play();
+            //clickReleased.Play();
             keyPressed = false;
         }
     }
@@ -312,6 +325,39 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public bool TerminalPowerStatus()
     {
         return isTerminalOn;
+    }
+
+
+    // ====================== Checkpoints =======================
+    public void setMssgIndex()
+    {
+        radioMessageIndex = Checkpoints.Instance.getCheckpoint();
+
+        if (Checkpoints.Instance.getCheckpoint() == 2)
+        {
+            radioMessageIndex = 3;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 4)
+        {
+            radioMessageIndex = 4;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 5)
+        {
+            radioMessageIndex = 6;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 6)
+        {
+            radioMessageIndex = 7;
+        }
+        if (Checkpoints.Instance.getCheckpoint() == 7)
+        {
+            radioMessageIndex = 8;
+        }
+    }
+
+    public void setPrevMssgs()
+    {
+        // will do later
     }
 
 }

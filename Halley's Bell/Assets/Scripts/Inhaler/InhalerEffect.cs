@@ -13,6 +13,17 @@ public class InhalerEffect : MonoBehaviour
     private AudioSource audioSource;
     public GameObject playerInhaler;
 
+    private bool curRunning = false;
+    private float cooldownMin = 30f;
+    private float cooldownMax = 60f;
+
+    private float dieTime = 15f;
+
+    private IEnumerator inhaler;
+
+    public AudioSource Breathing;
+    public AudioSource InhalerPuff;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +44,8 @@ public class InhalerEffect : MonoBehaviour
         {
             Run();
         }
+
+        inhaler = Vignette(dieTime, 1);
     }
 
     void Run()
@@ -43,13 +56,38 @@ public class InhalerEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (DEBUGMODE)  // when click debugmode it runs it
+        {
+            Run();
+            DEBUGMODE = false;
+        }
+
+        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) return;
+
+        if (Depth.Instance.runInhaler && !curRunning)  // while inhaler events are allowed to be active
+        {
+            curRunning = true;
+            StartCoroutine(RunInhaler());
+        }
+        else if (curRunning && !Depth.Instance.runInhaler)  // turns off inhaler event during blackout
+        {
+            killInhaler();
+        }
+    }
+
+    public void killInhaler()
+    {
+        curRunning = false;  // event is now running
+        StopCoroutine(inhaler);
+        PPVolume.weight = 0;
     }
 
     IEnumerator RunInhaler()
     {
+        Breathing.Play();
         yield return new WaitForSeconds(1);
-        yield return StartCoroutine(Vignette(10, 1));
+        inhaler = Vignette(dieTime, 1);
+        yield return StartCoroutine(inhaler);
     }
 
     IEnumerator Vignette(float duration, float endWeight)
@@ -68,7 +106,10 @@ public class InhalerEffect : MonoBehaviour
 
             if (inhaled)
             {
-                yield return StartCoroutine(Inhale(1));
+                Breathing.Stop();
+                yield return StartCoroutine(Inhale(3.5f));
+                yield return new WaitForSeconds(Random.Range(cooldownMin, cooldownMax));  // cooldown
+                curRunning = false;
                 yield break;
             }
 
@@ -115,9 +156,10 @@ public class InhalerEffect : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PauseManager.Instance.getIsPaused()) { return; }  // Buttons can't be clicked while paused
+        if (PauseManager.Instance.getIsPaused() || !curRunning) { return; }  // Buttons can't be clicked while paused
         //audioSource.Play();
         inhaled = true;
+        InhalerPuff.Play();
     }
 
     private void OnMouseUp()
