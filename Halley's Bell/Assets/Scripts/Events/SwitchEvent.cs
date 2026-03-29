@@ -33,6 +33,10 @@ public class SwitchEvent : MonoBehaviour
 
     private bool isFirstEvent = true;
 
+    private bool coverDown = true;
+    private bool isOpening = false;
+    public GameObject SwitchCover;
+
     void Start()
     {
         rlMat.DisableKeyword("_EMISSION");
@@ -46,6 +50,7 @@ public class SwitchEvent : MonoBehaviour
     {
         if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) return;  // while paused, don't do or update anything
 
+        CheckSwitchCover();  // if can, flip open switch cover
         PowerOn();  // check for initial power on to start descent
 
         if (Depth.Instance.runSwitches)  // while switch events are allowed to be active
@@ -58,6 +63,28 @@ public class SwitchEvent : MonoBehaviour
             killSwitches();
             //turnOffSwitches();  // turns off lights during blackout
         }
+    }
+
+    public void CheckSwitchCover()
+    {
+        if (Depth.Instance.firstRadioDone && coverDown && !isOpening)
+        {
+            isOpening = true;
+            StartCoroutine(FlipSwitchCover());
+        }
+    }
+
+    public IEnumerator FlipSwitchCover()
+    {
+        // flips switch cover open
+
+        while (SwitchCover.transform.localRotation.z > -0.255)
+        {
+            SwitchCover.transform.Rotate(0f, 0f, -100f * Time.deltaTime);
+            yield return null;
+        }
+
+        coverDown = false;
     }
 
     public void PowerOn()
@@ -91,7 +118,7 @@ public class SwitchEvent : MonoBehaviour
 
                 flashingLight = true;
                 Light = RedLight();
-                StartCoroutine(RedLight());
+                StartCoroutine(RedLight());  // this should be Light probs
             }
             if (timer < warnTime && timerOn && !alarmAudio.isPlaying) { alarmAudio.Play(); } // alarm / warning sound in last <warnTime> seconds
 

@@ -22,7 +22,7 @@ public class Switch : MonoBehaviour, ButtonInterface
 
     public void Button(bool mouseDown, string message)
     {
-        if (!mouseDown || PauseManager.Instance.getIsPaused()) return;  // only on mousedown, and not while paused
+        if (!mouseDown || PauseManager.Instance.getIsPaused() || !Depth.Instance.firstRadioDone) return;  // only on mousedown, and not while paused, only once cover up
 
         if (!switchOn)  // if facing down, flip up
         {

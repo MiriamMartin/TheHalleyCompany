@@ -10,7 +10,7 @@ public class Checkpoints : MonoBehaviour
     void Start()
     {
         Instance = this;
-        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 0);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
@@ -30,16 +30,16 @@ public class Checkpoints : MonoBehaviour
                 StartCoroutine(CheckpointThree());
                 break;
             case 4:  // Inhaler Starts
-
+                StartCoroutine(CheckpointFour());
+                break;
             case 5:  // Blackout Starts
                 StartCoroutine(CheckpointFive());
                 break;
-            case 6:  // Backout Complete
-
+            case 6:  // Blackout Complete
+                StartCoroutine(CheckpointSix());
+                break;
             case 7:  // Ending Starts
                 StartCoroutine(CheckpointSeven());
-                break;
-            case 8:
                 break;
         }
     }
@@ -62,7 +62,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointOne()
     {
         // starts the descent, turns switches on,
-        Debug.Log("Loading Checkpoint 1");
+        Debug.Log("Loading Checkpoint 1 - Start Descent");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -74,7 +74,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointTwo()
     {
         // Starting Gauges
-        Debug.Log("Loading Checkpoint 2");
+        Debug.Log("Loading Checkpoint 2 - Gauges");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -82,7 +82,7 @@ public class Checkpoints : MonoBehaviour
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         //Depth.Instance.setRadioIndex(1);  // skips first message
-        Depth.Instance.setDepth(350f);  // starts players a few seconds BEFORE gauges
+        Depth.Instance.setDepth(550f);  // starts players a few seconds BEFORE gauges
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -90,14 +90,29 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointThree()
     {
         // Starting Switches
-        Debug.Log("Loading Checkpoint 3");
+        Debug.Log("Loading Checkpoint 3 - Switches");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(1);  // skips first message
-        Depth.Instance.setDepth(1600f);  // starts players a few seconds BEFORE switches message
+        Depth.Instance.setRadioIndex(3);  // skips first TWO messages (Gauge, Fear)
+        Depth.Instance.setDepth(3900f);  // starts players a few seconds BEFORE switches message
+        Depth.Instance.firstRadioDone = true;
+        Depth.Instance.tunedKeith = true;
+    }
+
+    public IEnumerator CheckpointFour()
+    {
+        // Starting Inhaler
+        Debug.Log("Loading Checkpoint 4 - Inhaler");
+
+        yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
+
+        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.descending = true;
+        Depth.Instance.setRadioIndex(4);  // skips first THREE messages (Gauge, Fear, Switch)
+        Depth.Instance.setDepth(5900f);  // starts players a few seconds BEFORE inhaler message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -105,14 +120,29 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointFive()
     {
         // Starting Blackout
-        Debug.Log("Loading Checkpoint 5");
+        Debug.Log("Loading Checkpoint 5 - Blackout");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(2);  // skips first two messages
-        Depth.Instance.setDepth(2900f);  // starts players a few seconds BEFORE blackout message
+        Depth.Instance.setRadioIndex(6);  // skips first FIVE messages (Gauge, Fear, Switch, Inhaler, Chat Sesh)
+        Depth.Instance.setDepth(10900f);  // starts players a few seconds BEFORE blackout message
+        Depth.Instance.firstRadioDone = true;
+        Depth.Instance.tunedKeith = true;
+    }
+
+    public IEnumerator CheckpointSix()
+    {
+        // After Blackout (WILL NEED TO ADD LIGHTS STUFF)
+        Debug.Log("Loading Checkpoint 6 - Blackout Over");
+
+        yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
+
+        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.descending = true;
+        Depth.Instance.setRadioIndex(7);  // skips ALL messages EXCEPT Hallucination one
+        Depth.Instance.setDepth(11900f);  // starts players further down than blackout
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -120,14 +150,14 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointSeven()
     {
         // Starting Blackout
-        Debug.Log("Loading Checkpoint 7");
+        Debug.Log("Loading Checkpoint 7 - Ending");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(3);  // skips ALL messages
-        Depth.Instance.setDepth(4200f);  // starts players a few seconds BEFORE blackout
+        Depth.Instance.setRadioIndex(8);  // skips ALL messages
+        Depth.Instance.setDepth(13500f);  // starts players a few seconds BEFORE ending
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }

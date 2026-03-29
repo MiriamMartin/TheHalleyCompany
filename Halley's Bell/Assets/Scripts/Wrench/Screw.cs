@@ -37,10 +37,13 @@ public class Screw : MonoBehaviour
     public void positionWrench()
     {
         // Moves the wrench into position (to the right of the screws)
+        Transform oldParent = wrench.transform.parent;
+        wrench.transform.parent = transform;
 
-        Vector3 newPos = new Vector3(transform.localPosition.x + 0.1f, transform.localPosition.y, transform.localPosition.z + 4.3f);
-        wrench.transform.localPosition = newPos;
+        wrench.transform.localPosition = new Vector3(0f, 0f, 0.03f);
         wrench.transform.localRotation = Quaternion.identity;
+
+        wrench.transform.parent = oldParent;
     }
 
     public void increaseCranks()
@@ -75,7 +78,8 @@ public class Screw : MonoBehaviour
     {
         // rotates the screw with the wrench (once per crank, gives player vis indicator of progress)
 
-        transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
+        //transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
+        transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z + (200f * cranks));
         screwAudio.Play();
     }
 

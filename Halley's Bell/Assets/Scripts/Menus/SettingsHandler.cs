@@ -23,8 +23,14 @@ public class SettingsHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI brightnessSliderNum;
     [SerializeField] private Slider brightnessSlider;
     [SerializeField] private Image brightnessImg;
-
+        
     public static float brightnessVal { get; private set; }
+    
+    [Header("----------------- Screen Shake Settings -----------------")]
+    [SerializeField] private Toggle ScreenShakeToggle;
+    public static bool ScreenShakeVal { get; private set; }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +46,13 @@ public class SettingsHandler : MonoBehaviour
         musicVol = PlayerPrefs.GetFloat("SavedMusicVolume", 1f);
         sfxVol = PlayerPrefs.GetFloat("SavedSFXVolume", 1f);
         brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", 0.001f);
+        ScreenShakeVal = PlayerPrefs.GetInt("SavedScreenShakeValue", 1) == 0 ? false : true;
 
         masterSlider.value = masterVol;
         musicSlider.value = musicVol;
         sfxSlider.value = sfxVol;
         brightnessSlider.value = brightnessVal;
+        ScreenShakeToggle.isOn = ScreenShakeVal;
     }
 
     // ========================== Audio =============================
@@ -91,5 +99,21 @@ public class SettingsHandler : MonoBehaviour
         Color brightnessCol = brightnessImg.color;
         brightnessCol.a = brightnessVal;
         brightnessImg.color = brightnessCol;
+    }
+
+    // ============================ Toggle Screen Shake ==============================
+
+    public void SetScreenShakeFromSettings(bool val)
+    {
+        ScreenShakeVal = val;
+        int valInt = val ? 1 : 0;
+
+        PlayerPrefs.SetInt("SavedScreenShakeValue", valInt);
+        UpdateShake();
+    }
+
+    public void UpdateShake()
+    {
+        ScreenShakeToggle.isOn = ScreenShakeVal;
     }
 }
