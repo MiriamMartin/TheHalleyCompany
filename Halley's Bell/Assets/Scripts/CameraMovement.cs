@@ -28,6 +28,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public GameObject controls_Space;
     public GameObject controls_W;
     public GameObject controls_Esc;
+    public GameObject controls_V;
     private float controlFadeSpeed = 1f;  // how long it takes to fade
     private float controlHangTime = 2f;  // how long before fade
 
@@ -393,5 +394,18 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         // disable it
         controlOverlay.SetActive(false);
+    }
+
+    public void WrenchControls()
+    {
+        // shows wrench control, then fades it when done
+        StartCoroutine(ShowWrenchCont());
+    }
+
+    public IEnumerator ShowWrenchCont()
+    {
+        controls_V.SetActive(true);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V));
+        StartCoroutine(FadeControls(controls_V));
     }
 }

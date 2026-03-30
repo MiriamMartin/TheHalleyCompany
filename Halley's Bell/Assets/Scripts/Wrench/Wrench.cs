@@ -29,6 +29,8 @@ public class Wrench : MonoBehaviour
 
     public GameObject plate;
 
+    private bool showControls = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,6 +103,11 @@ public class Wrench : MonoBehaviour
 
         isHoldingWrench = true;
 
+        if (showControls)
+        {
+            mainCamera.GetComponent<CameraMovement>().WrenchControls();
+            showControls = false;
+        }
     }
 
     public void DropWrench()
