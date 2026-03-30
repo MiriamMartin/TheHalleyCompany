@@ -57,7 +57,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         {
             { 0, 0, 0, 0, 0, 0, 0 },
             { 0, 0, 0, 2, 1, 1, 0 },
-            { 0, 0, 0, 1, 0, 1, 0 },
+            { 0, 0, 0, 0, 0, 1, 0 },
             { 0, 0, 0, 0, 0, 1, 0 },
             { 0, 0, 0, 1, 3, 1, 0 },
             { 0, 0, 0, 0, 0, 0, 0 }
@@ -114,6 +114,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
                 controls_W.SetActive(true);
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                canSit = true;
             }
 
             CameraShake();  // when Depth asks for camera shake, runs it.
@@ -171,6 +172,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         transform.rotation = endRotation;
         isRotating = false;
+        Move();
         //Debug.Log("Finished standing up");
     }
 
@@ -262,7 +264,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             StartCoroutine(SittingRotation(1));
             standing = false;
             canSit = false;
-            canStand = false;
+            canStand = true;
             transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         }
 
@@ -283,9 +285,19 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         return this.grid;
     }
 
+    public bool getIsSitting()
+    {
+        return !standing;
+    }
+
     public void setGridTile(int[,] grid, int row, int col, int tileType)
     {
         grid[row, col] = tileType;
+    }
+
+    public float getDuration()
+    {
+        return this.duration;
     }
 
     public void BlackoutEvent()
@@ -296,7 +308,6 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     public void BlackoutEnd()
     {
-        canSit = true;
         StartCoroutine(CrazyTimeTrigger());
     }
 

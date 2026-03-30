@@ -31,6 +31,9 @@ public class Depth : MonoBehaviour
     [Header("Blackout Event")]
     public BlackoutEvent blackoutEvent;
 
+    [Header("Hallucinationmaxxing Event")]
+    public HalucinationMax halucinationMax; //yes, I spelled hallucination wrong!
+
     [Header("Ending")]
     public bool ResetHandle = false;
     public Ending ending;  // will change this, just don't have time rn
@@ -126,6 +129,7 @@ public class Depth : MonoBehaviour
         if (depth >= blackoutSafeDepth && Checkpoints.Instance.getCheckpoint() < 6)
         {
             Checkpoints.Instance.updateCheckpoint(6);
+            halucinationMax.Run(); //Initialize hallucinationmaxxing
         }
         if (depth >= maxDepth && (runEnding == false))
         {

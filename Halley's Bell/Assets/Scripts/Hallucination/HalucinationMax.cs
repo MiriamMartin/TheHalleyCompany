@@ -12,6 +12,8 @@ public class HalucinationMax : MonoBehaviour
     //public float endingFreq;
     public float duration;
     public AnimationCurve intensityCurve; //curve for determinine intensity over time (x), x must be 0-1
+    [SerializeField] private MonoBehaviour[] hallucinationsInit; //Created because interfaces can't show up in the inspector for some reason... casted later to be the hallucination
+    private List<HallucinationInterface> hallucinations;
 
     [Header("Debug Settings")]
     public bool DEBUGMODE;
@@ -20,6 +22,23 @@ public class HalucinationMax : MonoBehaviour
 
     void Start()
     {
+        //initiallizing list of different hallucinations
+        hallucinations = new List<HallucinationInterface>();
+
+        if (hallucinationsInit.Length > 0)
+        {
+            foreach (MonoBehaviour hallucination in hallucinationsInit) 
+            {
+                HallucinationInterface h = hallucination as HallucinationInterface;
+                hallucinations.Add(h); //casting
+            }
+        } else
+        {
+            Debug.Log("There are no halluciniations in the hallucination list! :(");
+        }
+
+
+
         if (DEBUGMODE)
         {
             Run();
@@ -50,7 +69,7 @@ public class HalucinationMax : MonoBehaviour
             if (timer >= interval) //interval will go down as timer goes up. When they pass, a halucination will happen. This will happen more frequently as time goes on
             {
                 timer -= interval; //Reset timer
-                //CALL SMALL HALUCINATION
+                SmallHallucination();
                 Debug.Log("small halucination occured");
             }
 
@@ -63,6 +82,12 @@ public class HalucinationMax : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void SmallHallucination()
+    {
+        int randomIndex = Random.Range(0, hallucinations.Count);
+        hallucinations[randomIndex].Run(1); //REPLACE WITH VOLUME CONTROL
     }
 
     // Update is called once per frame
