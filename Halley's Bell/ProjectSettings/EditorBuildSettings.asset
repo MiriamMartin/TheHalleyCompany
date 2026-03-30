@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CurrentGame/MainMenu.unity
     guid: 57d072ce8027db84181383cd5ff9133c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CurrentGame/UnifiedScene.unity
     guid: 804ac0b6996b6a94c9ccd072d10686db
   - enabled: 1
@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CurrentGame/End.unity
     guid: c38d434cefaeb034d8d9791b4afe9455
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Working Scenes/NEW Miriam's.unity
     guid: 686eccec9f1f6c0408708484f8f95f62
+  - enabled: 1
+    path: Assets/Scenes/CurrentGame/UpdatedUnified.unity
+    guid: e36f54c5750827046a2e765ce1773735
   m_configObjects: {}
