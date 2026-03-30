@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpatialSounder : MonoBehaviour
+public class SpatialSounder : MonoBehaviour, HallucinationInterface
 {
     public AudioSource spatVolume; //Used to control all spatial objects in group!
     public float targetTime = 0f;
@@ -16,8 +16,9 @@ public class SpatialSounder : MonoBehaviour
         }
     }
 
-    void Run(float volume)
+    public void Run(float volume)
     {
+        Debug.Log("Was run!");
         SpatialSoundObject[] spatialSoundObjectScripts = GetComponentsInChildren<SpatialSoundObject>();
 
         foreach (SpatialSoundObject spatSoundObj in spatialSoundObjectScripts)

@@ -19,6 +19,15 @@ public class Ending : MonoBehaviour
     [Header("Credits")]
     public GameObject Creds;
 
+    [Header("End Music")]
+    public AudioSource end1;
+    public AudioSource end2;
+    public AudioSource endBackground;
+    public AudioSource endHit;
+    public AudioSource endEyes;
+    public AudioSource endCredits;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +35,9 @@ public class Ending : MonoBehaviour
         eyeMat.DisableKeyword("_EMISSION");
         wall1.SetActive(false);
         wall2.SetActive(false);
+        end1.volume = 0;
+        end2.volume = 0;
+        endBackground.volume = 0;
     }
 
     public void Run()
@@ -61,17 +73,52 @@ public class Ending : MonoBehaviour
         yield return new WaitUntil(() => trigger == true);
         cameraMovement.setGridTile(grid, 2, 5, 0);
         wall1.SetActive(true);
+
         yield return new WaitUntil(() => trigger == false);
+        yield return new WaitUntil(() => cameraMovement.getPlayerPosition()[0] == 1 && cameraMovement.getPlayerPosition()[1] == 5 && cameraMovement.GetDirection() == 1);
+        endHit.Play();
+        end1.Play();
+        StartCoroutine(AdjustVolume(end1, 1, 0.5f));
+        StartCoroutine(AdjustVolume(endBackground, 1, 0.5f));
+        yield return new WaitForSeconds(15f);
+
         yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
+        
         yield return new WaitForSeconds(0.5f);
         wall2.SetActive(true);
+
+        yield return new WaitUntil(() => cameraMovement.GetDirection() == 0);
+        endHit.Play();
+        end2.Play();
+        StartCoroutine(AdjustVolume(end2, 1, 0.5f));
         cameraMovement.setGridTile(grid, 1, 4, 0);
-        yield return new WaitUntil(() => cameraMovement.GetDirection() == 1);
+        yield return new WaitForSeconds(15);
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 3);
         cameraMovement.enabled = false;
-        yield return new WaitForSeconds(4);
+        StartCoroutine(AdjustVolume(end1, 0, 0.5f));
+        StartCoroutine(AdjustVolume(end2, 0, 0.5f));
+        StartCoroutine(AdjustVolume(endBackground, 0, 0.5f));
+        endEyes.Play();
+        yield return new WaitForSeconds(17);
         eyeMat.EnableKeyword("_EMISSION");
         yield return new WaitForSeconds(4);
         Creds.SetActive(true);  // rolls credits, which will then call the ending screen
+        yield return new WaitForSeconds(3);
+        endCredits.Play();
+    }
+
+    IEnumerator AdjustVolume(AudioSource audioSource, float endVolume, float duration)
+    {
+        float startVolume = audioSource.volume;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, endVolume, (t / duration));
+            yield return null;
+        }
+
+        audioSource.volume = endVolume;
     }
 }
