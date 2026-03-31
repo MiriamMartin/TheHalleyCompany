@@ -6,6 +6,7 @@ public class Screw : MonoBehaviour
 {
 
     public AudioSource screwAudio;
+    public AudioSource popAudio;
     public GameObject wrench;
     private Wrench wrenchScript;
     private int cranks = 0;
@@ -70,6 +71,7 @@ public class Screw : MonoBehaviour
     {
         // when screw undone, turns it off
 
+        popAudio.Play();
         resetWrench();
         gameObject.SetActive(false);
     }
@@ -81,6 +83,9 @@ public class Screw : MonoBehaviour
         //transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
         transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z + (200f * cranks));
         screwAudio.Play();
+
+        // moves screw out a bit || MIGHT NEED TO CHANGE FROM Z TO X
+        transform.position += Vector3.back * 0.02f;
     }
 
     public void resetWrench()

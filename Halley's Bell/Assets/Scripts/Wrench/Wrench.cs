@@ -31,6 +31,12 @@ public class Wrench : MonoBehaviour
 
     private bool showControls = true;
 
+    public AudioSource pickup;
+    public AudioSource putdown;
+
+    // test
+    private float lastAngle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +51,7 @@ public class Wrench : MonoBehaviour
         {
             HoldWrench();
         }
-        if (Input.GetKeyDown(dropWrench))
+        if (Input.GetKeyDown(dropWrench) && isHoldingWrench)
         {
             DropWrench();
         }
@@ -56,20 +62,28 @@ public class Wrench : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!isHoldingWrench) { HoldWrench(); }
+        if (!isHoldingWrench) 
+        {
+            pickup.Play();
+            HoldWrench(); 
+        }
 
         // for rotation stuffs
-        lastMousePosition = Input.mousePosition;
+        //lastMousePosition = Input.mousePosition;
+
+
+        // test
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 dir = Input.mousePosition - screenPos;
+
+        lastAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
     }
 
     private void OnMouseDrag()
     {
         if (OnScrew && !clickAgain)
         {
-
-            Debug.Log(transform.localRotation.z);
-
-            if (transform.localRotation.z <= -0.08)//transform.localRotation.z <= 0.45)
+            if (transform.localEulerAngles.z < 275 && transform.localEulerAngles.z > 265)//transform.localRotation.z <= 0.45)
             {
                 transform.localRotation = Quaternion.Euler(0f, 150f, 0f);
                 currentScrew.GetComponent<Screw>().increaseCranks();
@@ -114,6 +128,8 @@ public class Wrench : MonoBehaviour
     {
         // drop the wrench
 
+        putdown.Play();
+
         transform.parent = null;
 
         transform.localPosition = ogPos;
@@ -127,17 +143,21 @@ public class Wrench : MonoBehaviour
         }
     }
 
+
     public void Unscrew()
     {
         // Rotates the wrench to unscrew a screw
 
-        Vector3 deltaMouse = Input.mousePosition - lastMousePosition;
-        float rotationY = deltaMouse.y * 70 * Time.deltaTime;
-        float rotationX = deltaMouse.x * -70 * Time.deltaTime;
-        float totalRotation = rotationY + rotationX;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 dir = Input.mousePosition - screenPos;
 
-        transform.Rotate(Vector3.forward, totalRotation, Space.World);
-        lastMousePosition = Input.mousePosition;
+        float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
+
+        transform.Rotate(Vector3.forward, -deltaAngle * 1f);
+
+        lastAngle = currentAngle;
     }
 
     public void setOnScrew(bool val)
