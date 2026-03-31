@@ -10,8 +10,8 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     //Speeds
     private float speed;
-    public float gaugeSpeed = 5f;
-    public float handleSpeed = 10f;
+    public float gaugeSpeed = 3f;
+    public float maxSpeed = 3f;
 
     public float handleWhenPressed = 50f; //How much the handle get turned back
     public Vector3 forwardDirection = new Vector3();
@@ -19,8 +19,9 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     private Vector3 currDirection;
     public float angleMin = -90;
     public float angleMax = 90;
-    public float angleDanger = 50;
-    public float angleSteam = -30;
+    public float angleDangerMax = 50;
+    public float angleDangerMin = -50;
+    public float angleSteam = 0;
     private float currAngle;
     private bool handlePressed = false;
     
@@ -58,10 +59,12 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private bool canPress = true;
 
+    private bool postBlackout = false;
 
     private void Start()
     {
         canPress = true;
+        postBlackout = false;
         backwardDirection = -forwardDirection;
         currDirection = forwardDirection;
         speed = gaugeSpeed;
@@ -75,14 +78,26 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         steamAudioSource.volume = 0;
         steamWhistleAudioSource.volume = 0;
 
-        if (DEBUGMODE)
-        {
-            Run();
-        }
+        //Start randomizing speed
+        StartCoroutine(RandomizeSpeed());
+
+
+        Run();
+        
 
 
         handleRend = handle.GetComponent<Renderer>();  // this is used to only allow holding while handle is on screen
         handleInitRot = handle.transform.rotation;
+    }
+
+    IEnumerator RandomizeSpeed()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(5, 15));
+            speed = Random.Range(0.5f, maxSpeed);
+
+        }
     }
 
     public void Run()
@@ -95,7 +110,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         //checkVisibility();
         //checkUnpaused();
 
-        if (Depth.Instance.runGauges || run)
+        if (Depth.Instance.runGauges && run)
         {
             currAngle = needle.transform.eulerAngles.z;
             //coverting from 0->360 to -180->180
@@ -104,46 +119,64 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
                 currAngle -= 360f;
             }
 
-            if ((currAngle >= angleMin) || !handlePressed)
+            if (handlePressed)
             {
-                needle.transform.Rotate(speed * currDirection * Time.deltaTime); //This is the code that rotates
+                currDirection = backwardDirection;
+            } else
+            {
+                currDirection = forwardDirection;
             }
 
-            if (currAngle > angleMax)
+            needle.transform.Rotate(speed * currDirection * Time.deltaTime); //This is the code that rotates
+
+            if (currAngle > angleMax || currAngle < angleMin)
             {
                 run = false;
                 PauseManager.Instance.Death();
             }
-            else if ((currAngle > angleDanger) && !blinking && (currAngle < angleMax))
+            else if ((currAngle < angleDangerMin) && !blinking && (currAngle > angleMin)) 
+            {
+                InvokeRepeating("Blink", 0f, 0.2f);
+                blinking = true;
+            }
+            else if ((currAngle > angleDangerMax) && !blinking && (currAngle < angleMax))
             {
                 InvokeRepeating("Blink", 0f, 0.2f);
                 blinking = true;
             } 
-            else if ((currAngle <= angleDanger) && blinking)
+            else if (((currAngle <= angleDangerMax) && (currAngle >= angleDangerMin)) && blinking)
             {
                 CancelInvoke(nameof(Blink));
                 blinking = false;
                 mat.DisableKeyword("_EMISSION");
             }
 
-            //Steam
-            
-            if (currAngle > angleSteam)
-            {
-                float steamIntensity = Mathf.InverseLerp(angleSteam, angleMax, currAngle);
-                steam.startSpeed = (steamIntensityStart + (steamIntensity * steamIntensityMult));
-                steam.startColor = new Color(1f, 1f, 1f, steamIntensity);
-                steamAudioSource.volume = (steamIntensity * steamMaxVolume);
-                if (steamIntensity > 0.7)
-                {
-                    float whistleIntensity = Mathf.InverseLerp(0.7f, 1f, steamIntensity);
-                    steamWhistleAudioSource.volume = (whistleIntensity * whistleMaxVolume);
-                }
-                else
-                {
-                    steamWhistleAudioSource.volume = 0;
-                }
+            //Post blackout
+            if (postBlackout && (currAngle > (angleDangerMax + 10) || currAngle < (angleDangerMin - 10))) {
+                speed = 0;
             }
+            else if (postBlackout)
+            {
+                speed = maxSpeed * 5;
+            }
+
+            //Steam
+
+            float steamIntensity = Mathf.InverseLerp(angleSteam, angleMax, Mathf.Abs(currAngle));
+            steam.startSpeed = (steamIntensityStart + (steamIntensity * steamIntensityMult));
+            steam.startColor = new Color(1f, 1f, 1f, steamIntensity);
+            steamAudioSource.volume = (steamIntensity * steamMaxVolume);
+            if (steamIntensity > 0.7)
+            {
+                float whistleIntensity = Mathf.InverseLerp(0.7f, 1f, steamIntensity);
+
+                steamWhistleAudioSource.volume = (whistleIntensity * whistleMaxVolume);
+            }
+            else
+            {
+                steamWhistleAudioSource.volume = 0;
+            }
+           
 
 
         }
@@ -172,18 +205,18 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         {
             if (mouseDown)
             {
-                handlePressed = true;
-                speed = handleSpeed;
-                currDirection = backwardDirection;
-                handle.transform.Rotate(handleWhenPressed * handleDirection);
-            }
-            else if (handlePressed)
-            {
-                handlePressed = false;
-                speed = gaugeSpeed;
-                currDirection = forwardDirection;
-                handle.transform.Rotate(handleWhenPressed * -handleDirection);
                 handleAudioSRC.Play();
+                if (!handlePressed)
+                {
+                    handlePressed = true;
+                    handle.transform.Rotate(handleWhenPressed * handleDirection);
+                }
+                else
+                {
+                    handlePressed = false;
+                    handle.transform.Rotate(handleWhenPressed * -handleDirection);
+
+                }
             }
         }
     }
@@ -246,50 +279,41 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     {
         Debug.Log("BlackoutStartGauge");
         canPress = false;
-        currDirection = backwardDirection;
-        speed = gaugeSpeed * 2;
-        yield return new WaitUntil(() => {
-            currAngle = needle.transform.eulerAngles.z;
-            //coverting from 0->360 to -180->180
-            if (currAngle > 180f)
-            {
-                currAngle -= 360f;
-            }
-
-            return currAngle <= (angleMin + 10);
-        });
-        Debug.Log("BlackoutStartGauge FINISHED!");
-        speed = 0;
         run = false;
-    }
-    IEnumerator BlackoutEndCR()
-    {
-        Debug.Log("BlackoutEndGauge");
-        canPress = true;
-        currDirection = forwardDirection;
-        speed = gaugeSpeed * 40;
-        run = true;
-        yield return new WaitUntil(() => {
-            currAngle = needle.transform.eulerAngles.z;
-            //coverting from 0->360 to -180->180
-            if (currAngle > 180f)
-            {
-                currAngle -= 360f;
-            }
+        speed = gaugeSpeed * 2;
+        float steamStartVolume = steamAudioSource.volume;
+        float whistleStartVolume = steamWhistleAudioSource.volume;
+        float colorAlphaStart = steam.startColor.a;
+        float t = 0f;
+        float duration = 5f;
 
-            return currAngle > (angleDanger + 10);
-            });
-        Debug.Log("BlackoutEndGauge FINISHED!");
-        speed = 0;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            steamAudioSource.volume = Mathf.Lerp(steamStartVolume, 0, (t / duration));
+            steamWhistleAudioSource.volume = Mathf.Lerp(whistleStartVolume, 0, (t / duration));
+            float newAlpha = Mathf.Lerp(colorAlphaStart, 0, (t / duration));
+            steam.startColor = new Color(1f, 1f, 1f, newAlpha);
+            yield return null;
+        }
+
+        steamAudioSource.volume = 0;
+        steamWhistleAudioSource.volume = 0;
+        steam.startColor = new Color(1f, 1f, 1f, 0);
+        Debug.Log("BlackoutStartGauge FINISHED!");
     }
 
     public void BlackoutEnd()
     {
-        StartCoroutine(BlackoutEndCR());
+        Debug.Log("BlackoutEndGauge");
+        run = true;
+        postBlackout = true;
     }
 
     public void CrazyTime()
     {
+        canPress = true;
+        postBlackout = false;
         speed = gaugeSpeed;
     }
 }
