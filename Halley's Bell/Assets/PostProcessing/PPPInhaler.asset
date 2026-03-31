@@ -105,7 +105,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.62
+    value: 0.46
   smoothness:
     overrideState: 1
     value: 0.892
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: PPProfile
+  m_Name: PPPInhaler
   m_EditorClassIdentifier: 
   settings:
   - {fileID: -2160815350627391068}

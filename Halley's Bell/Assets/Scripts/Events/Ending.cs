@@ -11,6 +11,9 @@ public class Ending : MonoBehaviour
     [Header("Camera")]
     public CameraMovement cameraMovement;
 
+    [Header("Eyes")]
+    public Eyes eyes;
+
     [Header("Ending Objects")]
     public Material eyeMat;
     public GameObject wall1;
@@ -99,9 +102,10 @@ public class Ending : MonoBehaviour
         StartCoroutine(AdjustVolume(end2, 0, 0.5f));
         StartCoroutine(AdjustVolume(endBackground, 0, 0.5f));
         endEyes.Play();
-        yield return new WaitForSeconds(17);
+        yield return new WaitForSeconds(12);
         eyeMat.EnableKeyword("_EMISSION");
-        yield return new WaitForSeconds(4);
+        eyes.Run();
+        yield return new WaitForSeconds(8);
         Creds.SetActive(true);  // rolls credits, which will then call the ending screen
         yield return new WaitForSeconds(3);
         endCredits.Play();

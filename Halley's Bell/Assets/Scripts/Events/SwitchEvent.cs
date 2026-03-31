@@ -19,7 +19,7 @@ public class SwitchEvent : MonoBehaviour
 
     private int minResetWait = 30;  // min number of seconds after successful event that next one is triggered
     private int maxResetWait = 50;  // max number of seconds after successful event that next one is triggered
-    private float warnTime = 10f;    // alarm starts playing when this much time left                           
+    private float warnTime = 28f;    // alarm starts playing when this much time left                           
     private float failTime = 30f;   // how long from start of event before player has failed                    // NOTE: 25 feels good, made it 30 for extra room atm
 
     private bool startPowerOn = false;  // has the player turned them all on to start?
