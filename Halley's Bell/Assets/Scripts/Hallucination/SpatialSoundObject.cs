@@ -26,7 +26,7 @@ public class SpatialSoundObject : MonoBehaviour
         Debug.Log("Running");
         _as.volume = volume;
         StartCoroutine(Player());
-        StartCoroutine(Waiter());
+        //StartCoroutine(Waiter());
     }
 
     public void UpdateVolume(float volume)
@@ -56,6 +56,8 @@ public class SpatialSoundObject : MonoBehaviour
             _as.clip = audioClipArray[Random.Range(0, audioClipArray.Length)];
             waitTime = Random.Range(speed, speed + 3);
             _as.PlayOneShot(_as.clip);
+            //Debug.Log(_as.clip.length);
+            //yield return new WaitForSeconds(_as.clip.length);
             yield return new WaitForSeconds(waitTime);
 
             if (speed > 1.1f && mid == false)
