@@ -16,7 +16,8 @@ public class Credits : MonoBehaviour
 
     private bool fadeInComplete = false;
     public float fadeSpeed = 1f;
-    private float endLogoPos = 3800f;
+
+    public RectTransform lastElement;
 
     // Start is called before the first frame update
     void Start()
@@ -62,11 +63,16 @@ public class Credits : MonoBehaviour
     public void RollCredits()
     {
         rect.Translate(Vector3.up * scrollSpeed * Time.deltaTime);
-        if (rect.position.y >= endLogoPos)
+
+        // check if last logo in center
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(null,lastElement.position);
+        float screenCenterY = Screen.height / 2f;
+
+        if (Mathf.Abs(screenPos.y - screenCenterY) < 5f)
         {
             stopScrolling = true;
         }
-    }
+        }
 
     public void LogoFadeOut()
     {

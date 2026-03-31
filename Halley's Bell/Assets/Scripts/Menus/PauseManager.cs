@@ -27,6 +27,7 @@ public class PauseManager : MonoBehaviour
     [Header("----------------- GameObjects -----------------")]
     public GameObject PauseMenu;
     public GameObject SettingsMenu;
+    public GameObject ControlsMenu;
 
 
     // Start is called before the first frame update
@@ -94,6 +95,13 @@ public class PauseManager : MonoBehaviour
         SettingsMenu.SetActive(val);
     }
 
+    public void Controls(bool val)
+    {
+        // Turn settings menu on / off based on val
+
+        ControlsMenu.SetActive(val);
+    }
+
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu"); // Switch to main menu, need warning about progress not being saved
@@ -111,6 +119,6 @@ public class PauseManager : MonoBehaviour
 
     public void End()
     {
-        SceneManager.LoadScene("End");
+        SceneManager.LoadScene("MainMenu");   // takes us back to main menu when done
     }
 }

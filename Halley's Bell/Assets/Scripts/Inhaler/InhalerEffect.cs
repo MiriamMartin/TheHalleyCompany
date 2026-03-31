@@ -14,8 +14,8 @@ public class InhalerEffect : MonoBehaviour
     public GameObject playerInhaler;
 
     private bool curRunning = false;
-    private float cooldownMin = 30f;
-    private float cooldownMax = 60f;
+    private float cooldownMin = 45f;
+    private float cooldownMax = 80f;
 
     private float dieTime = 15f;
 

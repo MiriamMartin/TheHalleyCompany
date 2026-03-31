@@ -8,6 +8,7 @@ public class MainMenuHandler : MonoBehaviour
 {
     [Header("Settings")]
     public GameObject SettingsMenu;
+    public GameObject ControlsMenu;
 
     [Header("Window")]
     public GameObject Window;
@@ -153,6 +154,13 @@ public class MainMenuHandler : MonoBehaviour
         // turns settings on or off based on <val>
 
         SettingsMenu.SetActive(val);
+    }
+
+    public void OpenControls(bool val)
+    {
+        // turns settings on or off based on <val>
+
+        ControlsMenu.SetActive(val);
     }
 
     public void QuitGame()

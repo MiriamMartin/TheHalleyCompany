@@ -17,8 +17,6 @@ public class Wrench : MonoBehaviour
 
     public bool OnScrew = false;
 
-    private Vector3 lastMousePosition;
-
     public List<GameObject> screws;
     public GameObject currentScrew;
 
@@ -64,15 +62,12 @@ public class Wrench : MonoBehaviour
     {
         if (!isHoldingWrench) 
         {
+            Debug.Log("HERE");
             pickup.Play();
             HoldWrench(); 
         }
 
         // for rotation stuffs
-        //lastMousePosition = Input.mousePosition;
-
-
-        // test
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 

@@ -48,7 +48,7 @@ public class Checkpoints : MonoBehaviour
     {
         // Updates the current checkpoint
 
-        if (chkpt == PlayerPrefs.GetInt("CurrentCheckpoint") + 1)  // only updates checkpoint if it's one passed the current one (so only if new progress)
+        if (chkpt == PlayerPrefs.GetInt("CurrentCheckpoint") + 1)  // only updates checkpoint if it's one past the current one (so only if new progress)
         {
             PlayerPrefs.SetInt("CurrentCheckpoint", chkpt);
         }
@@ -82,7 +82,7 @@ public class Checkpoints : MonoBehaviour
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         //Depth.Instance.setRadioIndex(1);  // skips first message
-        Depth.Instance.setDepth(550f);  // starts players a few seconds BEFORE gauges
+        Depth.Instance.setDepth(500f);  // starts players a few seconds BEFORE gauges
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -96,8 +96,8 @@ public class Checkpoints : MonoBehaviour
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(3);  // skips first TWO messages (Gauge, Fear)
-        Depth.Instance.setDepth(3900f);  // starts players a few seconds BEFORE switches message
+        Depth.Instance.setRadioIndex(2);  // skips first TWO messages (Gauge, Fear)
+        Depth.Instance.setDepth(3800f);  // starts players a few seconds BEFORE switches message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -111,8 +111,8 @@ public class Checkpoints : MonoBehaviour
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(4);  // skips first THREE messages (Gauge, Fear, Switch)
-        Depth.Instance.setDepth(5900f);  // starts players a few seconds BEFORE inhaler message
+        Depth.Instance.setRadioIndex(3);  // skips first THREE messages (Gauge, Fear, Switch)
+        Depth.Instance.setDepth(5800f);  // starts players a few seconds BEFORE inhaler message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -126,8 +126,8 @@ public class Checkpoints : MonoBehaviour
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(6);  // skips first FIVE messages (Gauge, Fear, Switch, Inhaler, Chat Sesh)
-        Depth.Instance.setDepth(10900f);  // starts players a few seconds BEFORE blackout message
+        Depth.Instance.setRadioIndex(5);  // skips first FIVE messages (Gauge, Fear, Switch, Inhaler, Chat Sesh)
+        Depth.Instance.setDepth(10800f);  // starts players a few seconds BEFORE blackout message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -141,7 +141,7 @@ public class Checkpoints : MonoBehaviour
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(7);  // skips ALL messages EXCEPT Hallucination one
+        Depth.Instance.setRadioIndex(6);  // skips ALL messages EXCEPT Hallucination one
         Depth.Instance.setDepth(11900f);  // starts players further down than blackout
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
@@ -156,8 +156,8 @@ public class Checkpoints : MonoBehaviour
 
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
-        Depth.Instance.setRadioIndex(8);  // skips ALL messages
-        Depth.Instance.setDepth(13500f);  // starts players a few seconds BEFORE ending
+        Depth.Instance.setRadioIndex(7);  // skips ALL messages
+        Depth.Instance.setDepth(13800f);  // starts players a few seconds BEFORE ending
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }

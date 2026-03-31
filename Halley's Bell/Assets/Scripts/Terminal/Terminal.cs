@@ -15,7 +15,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("TEXT")]
     public TMP_Text terminalText;
     public TMP_Text display;
-    private float textSpeed = 0.08f;
+    private float textSpeed = 0.07f;
     private bool typingMssg = false;
 
     private Coroutine idle;
@@ -47,7 +47,12 @@ public class Terminal : MonoBehaviour, ButtonInterface
     void Start()
     {
         terminalText.text = ">";
-        setMssgIndex();
+        //setMssgIndex();
+        if (Checkpoints.Instance.getCheckpoint() > 0)
+        {
+            started = true;
+            fixMessages();
+        }
     }
 
     // Update is called once per frame
@@ -66,7 +71,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             radioMessageIndex++;
             started = true;
         }
-        if (Depth.Instance.radioTrigger)  // handles all subsequent messages [Delete K input, just for testing]
+        if (Depth.Instance.radioTrigger || Input.GetKeyDown(KeyCode.K))  // handles all subsequent messages [Delete K input, just for testing]
         {
             typeMessage(radioMessages[radioMessageIndex]);
             radioMessageIndex++;
@@ -75,7 +80,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     void OnMouseOver()
     {
-        Scroll();
+        Scroll("none");
     }
 
     
@@ -221,15 +226,15 @@ public class Terminal : MonoBehaviour, ButtonInterface
         else { return false; }
     }
         
-    public void Scroll()
+    public void Scroll(string dir)
     {
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scrollInput > 0f)
+        if (scrollInput > 0f || dir == "up")
         {
             ShiftLines(1, -1);
         }
-        else if (scrollInput < 0f)
+        else if (scrollInput < 0f || dir == "down")
         {
             ShiftLines(1, 1);
         }
@@ -237,7 +242,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void ShiftLines(int numLines, int dir)
     {
-        terminalText.transform.localPosition += new Vector3(dir * 86f * numLines, 0, 0);
+        terminalText.transform.localPosition += new Vector3(dir * 82f * numLines, 0, 0);
     }
 
     public void Delete(int numChars)
@@ -329,35 +334,30 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
 
     // ====================== Checkpoints =======================
-    public void setMssgIndex()
+    public void fixMessages()
     {
-        radioMessageIndex = Checkpoints.Instance.getCheckpoint();
+        // types all message before next audio clip
 
-        if (Checkpoints.Instance.getCheckpoint() == 2)
+        while (radioMessageIndex < getMssgNum())
         {
-            radioMessageIndex = 3;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 4)
-        {
-            radioMessageIndex = 4;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 5)
-        {
-            radioMessageIndex = 6;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 6)
-        {
-            radioMessageIndex = 7;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 7)
-        {
-            radioMessageIndex = 8;
+            terminalText.text += radioMessages[radioMessageIndex];
+            terminalText.text += "\n\n>";
+            radioMessageIndex++;
         }
     }
 
-    public void setPrevMssgs()
+    public int getMssgNum()
     {
-        // will do later
+        int chkptNum = Checkpoints.Instance.getCheckpoint();
+
+        if (chkptNum == 0) { return 0; }
+        else if (chkptNum == 1) {  return 1; }
+        else if (chkptNum == 2) {  return 1; }
+        else if (chkptNum == 3) {  return 3; }
+        else if (chkptNum == 4) {  return 4; }
+        else if (chkptNum == 5) {  return 6; }
+        else if (chkptNum == 6) { return 7; }
+        else { return 8; }
     }
 
 }
