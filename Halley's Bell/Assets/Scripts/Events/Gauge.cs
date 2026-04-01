@@ -21,7 +21,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     public float angleMax = 90;
     public float angleDangerMax = 50;
     public float angleDangerMin = -50;
-    public float angleSteam = 0;
+    public float angleSteam = 30;
     private float currAngle;
     private bool handlePressed = false;
     
