@@ -272,29 +272,21 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     public void setRadioClip()
     {
-        //radioClipIndex = Checkpoints.Instance.getCheckpoint() - 1;
-        radioClipIndex = Checkpoints.Instance.getCheckpoint();
+        radioClipIndex = getClipInd();
+    }
 
-        if (Checkpoints.Instance.getCheckpoint() == 2)
-        {
-            radioClipIndex = 3;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 4)
-        {
-            radioClipIndex = 4;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 5)
-        {
-            radioClipIndex = 6;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 6)
-        {
-            radioClipIndex = 7;
-        }
-        if (Checkpoints.Instance.getCheckpoint() == 7)
-        {
-            radioClipIndex = 8;
-        }
+    public int getClipInd()
+    {
+        int chkptNum = Checkpoints.Instance.getCheckpoint();
+
+        if (chkptNum == 0) { return 0; }
+        else if (chkptNum == 1) { return 1; }
+        else if (chkptNum == 2) { return 1; }
+        else if (chkptNum == 3) { return 3; }
+        else if (chkptNum == 4) { return 4; }
+        else if (chkptNum == 5) { return 6; }
+        else if (chkptNum == 6) { return 7; }
+        else { return 8; }
     }
 
     // =============================== TERMINAL ===============================
