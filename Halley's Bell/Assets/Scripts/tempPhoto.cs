@@ -20,7 +20,7 @@ public class tempPhoto : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Depth.Instance.runBlackout && !act)
+        if ((Depth.Instance.runBlackout || Checkpoints.Instance.getCheckpoint() >= 6) && !act)
         {
             act = true;
             text.SetActive(true);

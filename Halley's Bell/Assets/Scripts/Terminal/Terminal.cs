@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
+using TreeEditor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private Coroutine displayMssg;
     private float fadeDuration = 1f;
 
+    private int numLines = 0;
+    private float lineHeight = 107.4219f;
+    private int totalLineOffset = 4;
+    private float addOffset = 0f;
+
     [Header("NUMPAD")]
     public GameObject Numpad;
     public AudioSource clickPressed;
@@ -43,11 +49,21 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("STARTUP")]
     public Radio rad;  // lets us 'connect' radio once password entered
 
+    [Header("SCREENS")]
+    public Camera TermCam;
+    public GameObject TermTextCanv;
+    public GameObject TermDSCanv;
+
+    [Header("AUDIO")]
+    public AudioSource bootupAudio;
+    public AudioSource whirringAudio;
+    public AudioSource messageBeepAudio;
+
     // Start is called before the first frame update
     void Start()
     {
         terminalText.text = ">";
-        //setMssgIndex();
+
         if (Checkpoints.Instance.getCheckpoint() > 0)
         {
             started = true;
@@ -110,17 +126,40 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         // typing effect
 
+        PlayMessageBeep();
+        yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
+
         for (int i = 0; i < mssg.Length; i++)
         {
             terminalText.text += mssg[i];
+            AutoScroll();
             yield return new WaitForSeconds(textSpeed);
         }
 
         addNewline();
+        ShiftLines(2, -1);
 
         StopCoroutine(displayMssg);
         display.text = "";
         typingMssg = false;
+    }
+
+    public void AutoScroll()
+    {
+        int nowLines = terminalText.textInfo.lineCount;
+
+        float scrolledLines = Mathf.Abs(Mathf.Floor(terminalText.transform.localPosition.x / lineHeight));
+        //Debug.Log(scrolledLines);
+
+        if (nowLines > 9 && numLines != nowLines && (scrolledLines < (numLines - totalLineOffset)))
+        {
+            ShiftLines(1, -1);
+            numLines++;
+        }
+        else if (numLines != nowLines)
+        {
+            numLines++;
+        }
     }
 
     public IEnumerator displayTranscribing()
@@ -228,21 +267,27 @@ public class Terminal : MonoBehaviour, ButtonInterface
         
     public void Scroll(string dir)
     {
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        //  TEMP DISABLE MOUSE SCROLL, BUTTON SCROLL PERFECTLY FINE
+
+        // float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        // if (typingMssg) { scrollInput = 0f; }
+
+        float scrollInput = 0f;  // never mousescrolls
 
         if (scrollInput > 0f || dir == "up")
         {
-            ShiftLines(1, -1);
-        }
-        else if (scrollInput < 0f || dir == "down")
-        {
             ShiftLines(1, 1);
+        }
+        else if (scrollInput < 0f || dir == "down") 
+        {
+            ShiftLines(1, -1);
         }
     }
 
     public void ShiftLines(int numLines, int dir)
     {
-        terminalText.transform.localPosition += new Vector3(dir * 82f * numLines, 0, 0);
+        //lineHeight = terminalText.textInfo.lineInfo[0].lineHeight;
+        terminalText.transform.localPosition += new Vector3(dir * (lineHeight + addOffset) * numLines, 0, 0);
     }
 
     public void Delete(int numChars)
@@ -316,14 +361,26 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void TerminalOn()
     {
-        TerminalCanvas.SetActive(true);
-        this.GetComponent<AudioSource>().Play(); // play ambient whirring when on
+        bootupAudio.Play();
+        //this.GetComponent<AudioSource>().Play(); // play ambient whirring when on
+        //whirringAudio.Play();
         isTerminalOn = true;
+        StartCoroutine(BootSeq());
     }
+
+    public IEnumerator BootSeq()
+    {
+        //yield return new WaitUntil(() => !bootupAudio.isPlaying);  // Use this for cool launch screen
+        yield return new WaitForSeconds(1.5f);
+        TerminalCanvas.SetActive(true);
+        whirringAudio.Play();
+    }
+
     public void TerminalOff()
     {
         TerminalCanvas.SetActive(false);
-        this.GetComponent<AudioSource>().Stop(); // ambient whirring off
+        //this.GetComponent<AudioSource>().Stop(); // ambient whirring off
+        whirringAudio.Stop();
         isTerminalOn = false;
     }
 
@@ -332,6 +389,30 @@ public class Terminal : MonoBehaviour, ButtonInterface
         return isTerminalOn;
     }
 
+    // ====================== screens =======================
+
+    public void ChangeScreens()
+    {
+        if (TerminalCanvas == TermDSCanv)
+        {
+            TerminalCanvas.SetActive(false);
+            TermTextCanv.SetActive(true);
+            TerminalCanvas = TermTextCanv;
+        }
+        else
+        {
+            TerminalCanvas.SetActive(false);
+            TermDSCanv.SetActive(true);
+            TerminalCanvas = TermDSCanv;
+        }
+    }
+
+    // ====================== sounds =======================
+
+    public void PlayMessageBeep()
+    {
+        messageBeepAudio.Play();
+    }
 
     // ====================== Checkpoints =======================
     public void fixMessages()

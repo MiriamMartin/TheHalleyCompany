@@ -140,6 +140,7 @@ public class SwitchEvent : MonoBehaviour
             else if (!checkSwitchesComplete() && !timerOn)  // otherwise if timer's off and switches aren't done
             {
                 curRunning = false;
+                updateDeathTip();
                 PauseManager.Instance.Death();
             }
         }
@@ -268,6 +269,12 @@ public class SwitchEvent : MonoBehaviour
                 sw.GetComponent<Switch>().turnSwitchOff();
             }
         }
+    }
+
+
+    private void updateDeathTip()
+    {
+        PlayerPrefs.SetString("DeathTip","Tip: Make sure all the switches stay on.");
     }
 
 }

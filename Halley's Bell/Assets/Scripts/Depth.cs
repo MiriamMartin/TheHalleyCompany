@@ -32,7 +32,7 @@ public class Depth : MonoBehaviour
     public BlackoutEvent blackoutEvent;
 
     [Header("Hallucinationmaxxing Event")]
-    public HalucinationMax halucinationMax; //yes, I spelled hallucination wrong!
+    public HalucinationMax halucinationMax; //yes, I spelled hallucination wrong! --> we've all been there o7
 
     [Header("Ending")]
     public bool ResetHandle = false;
