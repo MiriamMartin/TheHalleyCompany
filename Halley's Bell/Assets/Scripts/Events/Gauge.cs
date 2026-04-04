@@ -322,6 +322,6 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private void updateDeathTip()
     {
-        PlayerPrefs.SetString("DeathTip", "Tip: Pay attention to the pressure valve, don't let it in the red.");
+        PlayerPrefs.SetString("DeathTip", "gauges");
     }
 }

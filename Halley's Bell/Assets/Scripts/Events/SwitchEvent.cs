@@ -274,7 +274,7 @@ public class SwitchEvent : MonoBehaviour
 
     private void updateDeathTip()
     {
-        PlayerPrefs.SetString("DeathTip","Tip: Make sure all the switches stay on.");
+        PlayerPrefs.SetString("DeathTip", "switches");
     }
 
 }

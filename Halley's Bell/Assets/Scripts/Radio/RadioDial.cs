@@ -5,6 +5,8 @@ using UnityEngine;
 public class RadioDial : MonoBehaviour
 {
 
+    public Camera mainCam;
+
     private float lastAngle;
     private bool turningRight = false;
     private bool turningLeft = false;
@@ -15,7 +17,7 @@ public class RadioDial : MonoBehaviour
     {
         // starts rotating from it's current direction (doesn't snap based on mouse pos)
 
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
         lastAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -35,7 +37,7 @@ public class RadioDial : MonoBehaviour
     {
         // rotates based on mouse
 
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
         float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

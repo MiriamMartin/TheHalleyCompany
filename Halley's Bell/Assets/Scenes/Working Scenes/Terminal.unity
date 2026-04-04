@@ -5713,7 +5713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3f1a8148aeffd9e469ae370649652f87, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1835210009659533079, guid: 3f1a8148aeffd9e469ae370649652f87, type: 3}
       propertyPath: m_Name
@@ -22865,6 +22865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389cf1eb19666c248a8d9ff2afc4694a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   rotationSpeed: 1
 --- !u!65 &962702238
 BoxCollider:
@@ -34331,7 +34332,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 63
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: dba4b7bc615aea247b0c7d73a7f49783, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -39877,7 +39878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   descentSpeed: 1
-  needle: {fileID: 0}
+  DepthText: {fileID: 0}
   descending: 0
   runGauges: 0
   runSwitches: 0
@@ -39937,6 +39938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5aa0df64a372841b33a4d3896964eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hallucinationMax: {fileID: 0}
 --- !u!1 &1693687683
 GameObject:
   m_ObjectHideFlags: 0

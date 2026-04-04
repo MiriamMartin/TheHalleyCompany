@@ -12,7 +12,7 @@ public class Checkpoints : MonoBehaviour
     void Start()
     {
         Instance = this;
-        //PlayerPrefs.SetInt("CurrentCheckpoint", 6);
+        //PlayerPrefs.SetInt("CurrentCheckpoint", 5);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 

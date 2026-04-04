@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
-using TreeEditor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("TEXT")]
     public TMP_Text terminalText;
     public TMP_Text display;
-    private float textSpeed = 0.07f;
+    private float textSpeed = 0.065f;
     private bool typingMssg = false;
 
     private Coroutine idle;
@@ -36,7 +35,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public AudioSource clickReleased;
     private bool keyPressed = false;
 
-    private string bootPasscode = "1234";
+    private string bootPasscode = "5437";
     private bool bootedPass = false;
 
     [Header("INCIDENT")]
@@ -59,6 +58,14 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public AudioSource whirringAudio;
     public AudioSource messageBeepAudio;
 
+    [Header("BARKS")]
+    public List<string> storyBarks = new List<string>();
+    public List<int> storyBarkTriggers = new List<int>();
+    private int barksIndex = 0;
+
+    [Header("BLACKOUT")]
+    private bool canTurnOn = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,7 +74,9 @@ public class Terminal : MonoBehaviour, ButtonInterface
         if (Checkpoints.Instance.getCheckpoint() > 0)
         {
             started = true;
+            bootedPass = true;
             fixMessages();
+            barksIndex = SetBarkIndex();
         }
     }
 
@@ -75,6 +84,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     void Update()
     {
         SonarRotate();
+        CheckBarks();
 
         if (!typingMssg && !idleRunning)
         {
@@ -92,6 +102,18 @@ public class Terminal : MonoBehaviour, ButtonInterface
             typeMessage(radioMessages[radioMessageIndex]);
             radioMessageIndex++;
         }
+
+        if (Depth.Instance.runBlackout && !Depth.Instance.FirstBlackoutDone)
+        {
+            canTurnOn = false;
+            TerminalOff();
+        }
+
+        if (Depth.Instance.FirstBlackoutDone && !canTurnOn)
+        {
+            canTurnOn = true;
+        }
+
     }
 
     void OnMouseOver()
@@ -249,6 +271,10 @@ public class Terminal : MonoBehaviour, ButtonInterface
         {
             Delete(1);
         }
+        else if (num == "up" || num == "down")
+        {
+            // ignore
+        }
         else
         {
             stopIdling();
@@ -271,6 +297,8 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
         // float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         // if (typingMssg) { scrollInput = 0f; }
+
+        if (TerminalCanvas == TermDSCanv) { return; }  // no scroll if on Depth / Sonar screen
 
         float scrollInput = 0f;  // never mousescrolls
 
@@ -330,7 +358,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             {
                 TerminalOff();
             }
-            else if (mouseDown && !isTerminalOn)
+            else if (mouseDown && !isTerminalOn && canTurnOn)
             {
                 TerminalOn();
             }
@@ -342,12 +370,12 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
         Transform key = Numpad.transform.Find(message);  // gets the key matching the mssg's transform
 
-        if (mouseDown && !keyPressed && !typingMssg)
+        if (mouseDown && !keyPressed)
         {
             keyPressed = true;
             clickPressed.Play();
             key.transform.position += Vector3.down * 0.015f;
-            if (isTerminalOn) { typeNumpad(message); }  // only types nums when terminal is on
+            if (isTerminalOn && !typingMssg) { typeNumpad(message); }  // only types nums when terminal is on
         }
         else if (keyPressed)
         {
@@ -364,7 +392,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
         bootupAudio.Play();
         //this.GetComponent<AudioSource>().Play(); // play ambient whirring when on
         //whirringAudio.Play();
-        isTerminalOn = true;
         StartCoroutine(BootSeq());
     }
 
@@ -373,6 +400,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         //yield return new WaitUntil(() => !bootupAudio.isPlaying);  // Use this for cool launch screen
         yield return new WaitForSeconds(1.5f);
         TerminalCanvas.SetActive(true);
+        isTerminalOn = true;
         whirringAudio.Play();
     }
 
@@ -405,6 +433,33 @@ public class Terminal : MonoBehaviour, ButtonInterface
             TermDSCanv.SetActive(true);
             TerminalCanvas = TermDSCanv;
         }
+    }
+
+    // ====================== Barks =======================
+
+    public void CheckBarks()
+    {
+        if (Depth.Instance.getDepth() >= storyBarkTriggers[barksIndex] && !typingMssg)
+        {
+            messageBeepAudio.Play();
+            addNewline();
+            terminalText.text += storyBarks[barksIndex];
+            barksIndex++;
+        }
+    }
+
+    public int SetBarkIndex()
+    {
+        int chkptNum = Checkpoints.Instance.getCheckpoint();
+
+        if (chkptNum == 0) { return 0; }
+        else if (chkptNum == 1) { return 0; }
+        else if (chkptNum == 2) { return 1; }
+        else if (chkptNum == 3) { return 2; }
+        else if (chkptNum == 4) { return 3; }
+        else if (chkptNum == 5) { return 4; }
+        else if (chkptNum == 6) { return 5; }
+        else { return 8; }
     }
 
     // ====================== sounds =======================
