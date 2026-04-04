@@ -51,6 +51,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
             animator.SetBool("hitLever", true); // plays the handle animation
             //Depth.Instance.runSwitches = true;
             //Depth.Instance.setDescending(true);
+            Depth.Instance.FirstBlackoutDone = true;  // used only for terminal power
             blackoutEnd.Invoke();
         }
     }

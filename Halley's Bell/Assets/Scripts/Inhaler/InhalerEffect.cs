@@ -80,6 +80,7 @@ public class InhalerEffect : MonoBehaviour
         curRunning = false;  // event is now running
         StopCoroutine(inhaler);
         PPVolume.weight = 0;
+        Breathing.Stop();
     }
 
     IEnumerator RunInhaler()
@@ -107,7 +108,7 @@ public class InhalerEffect : MonoBehaviour
             if (inhaled)
             {
                 Breathing.Stop();
-                yield return StartCoroutine(Inhale(3.5f));
+                yield return StartCoroutine(Inhale(7f));  // 3.5f on pitch = 2 for the sound if want quicker
                 yield return new WaitForSeconds(Random.Range(cooldownMin, cooldownMax));  // cooldown
                 curRunning = false;
                 yield break;
@@ -170,7 +171,7 @@ public class InhalerEffect : MonoBehaviour
 
     private void updateDeathTip()
     {
-        PlayerPrefs.SetString("DeathTip", "Tip: Use your inhaler when you start hyperventilating.");
+        PlayerPrefs.SetString("DeathTip", "inhaler");
     }
 
 }

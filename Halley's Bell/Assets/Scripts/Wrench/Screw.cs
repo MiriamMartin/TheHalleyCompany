@@ -12,6 +12,8 @@ public class Screw : MonoBehaviour
     private Wrench wrenchScript;
     private int cranks = 0;
 
+    public bool BH_nut = false;
+
     void Start()
     {
         wrenchScript = wrench.GetComponent<Wrench>();
@@ -105,10 +107,11 @@ public class Screw : MonoBehaviour
         // rotates the screw with the wrench (once per crank, gives player vis indicator of progress)
 
         //transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
-        transform.localRotation = Quaternion.Euler(0f, dir * 180f, transform.localRotation.z + (200f * cranks));
+        transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z + (-dir * 200f * cranks));
 
         // moves screw out a bit || MIGHT NEED TO CHANGE FROM Z TO X
-        transform.position += Vector3.back * 0.02f * dir;
+        if (!BH_nut) { transform.position += Vector3.back * 0.02f * dir; }
+        else { transform.position += Vector3.left * 0.02f * dir; } 
     }
 
     public void resetWrench()

@@ -17,7 +17,8 @@ public class Wrench : MonoBehaviour
 
     public bool OnScrew = false;
 
-    public List<GameObject> screws;
+    public List<GameObject> screws_projectFile;
+    public List<GameObject> screws_blackoutHandle;
     public GameObject currentScrew;
 
     public KeyCode dropWrench = KeyCode.V;
@@ -25,13 +26,13 @@ public class Wrench : MonoBehaviour
 
     private bool clickAgain = false;
 
-    public GameObject plate;
+    public GameObject plate_projectFile;
+    public GameObject plate_handle;
 
-    private bool showControls = false;  // CHANGE BACK TO TRUE
+    private bool showControls = true;
 
     public AudioSource pickup;
     public AudioSource putdown;
-    public AudioSource tighten;
 
     // test
     private float lastAngle;
@@ -61,7 +62,8 @@ public class Wrench : MonoBehaviour
         }
 
 
-        checkScrews();  // prob shouldn't call this constantly
+        checkScrews(screws_projectFile, plate_projectFile);  // prob shouldn't call this constantly
+        checkScrews(screws_blackoutHandle, plate_handle);  // prob shouldn't call this constantly
     }
 
     private void OnMouseDown()
@@ -73,7 +75,7 @@ public class Wrench : MonoBehaviour
         }
 
         // for rotation stuffs
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
         lastAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -83,7 +85,7 @@ public class Wrench : MonoBehaviour
     {
         if (OnScrew && !clickAgain)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - screenPos;
             float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
@@ -171,7 +173,7 @@ public class Wrench : MonoBehaviour
     {
         // Rotates the wrench to unscrew a screw
 
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
         float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -216,9 +218,9 @@ public class Wrench : MonoBehaviour
 
     // ================== Unscrew Event ===================
 
-    public void checkScrews()
+    public void checkScrews(List<GameObject> scr, GameObject plt)
     {
-        foreach (GameObject scrw in screws)
+        foreach (GameObject scrw in scr)
         {
             if (scrw.activeSelf)  // if ANY screw is active, still needs to be removed
             {
@@ -226,7 +228,7 @@ public class Wrench : MonoBehaviour
             }
         }
 
-        plate.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f);
+        plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f);
     }
 
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Depth : MonoBehaviour
@@ -11,7 +12,8 @@ public class Depth : MonoBehaviour
     private float depth = 0f;
 
     [Header("Depth Indicator")]
-    public Transform needle;
+    //public Transform needle;
+    public TMP_Text DepthText;
 
     [Header("Event Control")]
     public bool descending = false;
@@ -23,13 +25,14 @@ public class Depth : MonoBehaviour
     public bool runEnding = false;
     private float gaugeDepth = 600f; 
     private float switchDepth = 4400f;
-    private float inhalerDepth = 6500f;
+    private float inhalerDepth = 6700f;
     private float blackoutDepth = 11800f;
     private float blackoutSafeDepth = 11900f;
     private float maxDepth = 15000f;  // controls ending
 
     [Header("Blackout Event")]
     public BlackoutEvent blackoutEvent;
+    public bool FirstBlackoutDone = false;
 
     [Header("Hallucinationmaxxing Event")]
     public HalucinationMax halucinationMax; //yes, I spelled hallucination wrong!
@@ -77,7 +80,8 @@ public class Depth : MonoBehaviour
         if (!PauseManager.Instance.getIsPaused() && depth <= maxDepth)
         {
             depth += (1000F/60F) * descentSpeed * Time.deltaTime;  // Depth changes by 1000 every 60 seconds, times descentSpeed (default = 1)
-            needle.localPosition += Vector3.right * descentSpeed * Time.deltaTime * (1/1000f);  // standardized needle movement
+            //needle.localPosition += Vector3.right * descentSpeed * Time.deltaTime * (1/1000f);  // standardized needle movement
+            DepthText.text = Mathf.Floor(depth / 10).ToString();
         }
     }
 
@@ -165,5 +169,9 @@ public class Depth : MonoBehaviour
     public void setDepth(float newDepth)
     {
         depth = newDepth;
+    }
+    public float getDepth()
+    {
+        return depth;
     }
 }

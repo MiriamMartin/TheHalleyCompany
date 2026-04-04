@@ -352,6 +352,8 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     public IEnumerator Shaking(float strengthMult, float shakeDuration)
     {
+        this.GetComponent<AudioSource>().Play();  // play vessel shake
+
         Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
 
