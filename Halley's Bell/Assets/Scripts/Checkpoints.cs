@@ -6,11 +6,13 @@ public class Checkpoints : MonoBehaviour
 {
     public static Checkpoints Instance;
 
+    public HalucinationMax hallucinationMax;
+
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        //PlayerPrefs.SetInt("CurrentCheckpoint", 0);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
@@ -138,7 +140,8 @@ public class Checkpoints : MonoBehaviour
         Debug.Log("Loading Checkpoint 6 - Blackout Over");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
-
+        //Hallucinations
+        hallucinationMax.Run();
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         Depth.Instance.setRadioIndex(6);  // skips ALL messages EXCEPT Hallucination one

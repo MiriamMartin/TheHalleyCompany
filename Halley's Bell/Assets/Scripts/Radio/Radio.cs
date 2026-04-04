@@ -27,6 +27,7 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     //Logic
     private bool on = false;
+    private bool started = false;
 
     [Range(minFreq, maxFreq)]
     public float freq;
@@ -62,6 +63,7 @@ public class Radio : MonoBehaviour, ButtonInterface
         InitializeRadio();
         needleZ = needle.localPosition.z;
         freq = minFreq;
+        started = false;
 
         keith.clip = radioClips[0];
         radioClipIndex++;
@@ -110,22 +112,21 @@ public class Radio : MonoBehaviour, ButtonInterface
                 //Debug.Log("Tuned into a1");
                 SwapSpeakerLightSRC(speakerLightSources[0]);
             }
-            else if (radioPoint(a2, 108))
+            else if (radioPoint(a2, 106))
             {
                 //Debug.Log("Tuned into a2");
+                SwapSpeakerLightSRC(speakerLightSources[2]);
+
             }
             else if (radioPoint(keith, 100) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
             {
                 //Debug.Log("Tuned into Keith at at volume " + keith.volume);
-                Depth.Instance.tunedKeith = true;
-                keith.Play();
-                StartCoroutine(BellStartup());
-
-
-                //Demo code to freeze REMOVE POST DEMO
-                if (demoTriggered(100))
+                if (!started)
                 {
-                    demoFrozen = true;
+                    Depth.Instance.tunedKeith = true;
+                    keith.Play();
+                    StartCoroutine(BellStartup());
+                    started = true;
                 }
 
                 SwapSpeakerLightSRC(speakerLightSources[1]);

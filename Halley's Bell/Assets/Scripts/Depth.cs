@@ -129,6 +129,7 @@ public class Depth : MonoBehaviour
         if (depth >= blackoutSafeDepth && Checkpoints.Instance.getCheckpoint() < 6)
         {
             Checkpoints.Instance.updateCheckpoint(6);
+            canHallucinate = false;
             halucinationMax.Run(); //Initialize hallucinationmaxxing
         }
         if (depth >= maxDepth && (runEnding == false))
