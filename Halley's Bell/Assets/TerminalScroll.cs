@@ -11,6 +11,7 @@ public class TerminalScroll : MonoBehaviour
 
     private bool mouseDown = false;
     private bool canScroll = true;
+    private bool changing = false;
 
     private void OnMouseDown()
     {
@@ -19,7 +20,8 @@ public class TerminalScroll : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (mouseDown && canScroll) { StartCoroutine(scrolling()); }
+        if (mouseDown && dir == "changeScreen" && !changing) { term.ChangeScreens(); changing = true; }
+        else if (mouseDown && canScroll) { StartCoroutine(scrolling()); }
     }
 
     public IEnumerator scrolling()
@@ -33,5 +35,6 @@ public class TerminalScroll : MonoBehaviour
     private void OnMouseUp()
     {
         mouseDown = false;
+        changing = false;
     }
 }

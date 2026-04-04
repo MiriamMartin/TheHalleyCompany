@@ -117,6 +117,7 @@ public class InhalerEffect : MonoBehaviour
         }
 
         PPVolume.weight = endWeight;
+        updateDeathTip();
         PauseManager.Instance.Death(); //Dies when reaches max!
     }
 
@@ -165,6 +166,11 @@ public class InhalerEffect : MonoBehaviour
     private void OnMouseUp()
     {
         inhaled = false;
+    }
+
+    private void updateDeathTip()
+    {
+        PlayerPrefs.SetString("DeathTip", "Tip: Use your inhaler when you start hyperventilating.");
     }
 
 }

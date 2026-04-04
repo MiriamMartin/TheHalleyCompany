@@ -5,8 +5,9 @@ using UnityEngine;
 public class Screw : MonoBehaviour
 {
 
-    public AudioSource screwAudio;
+    public AudioSource loosenAudio;
     public AudioSource popAudio;
+    public AudioSource tightenAudio;
     public GameObject wrench;
     private Wrench wrenchScript;
     private int cranks = 0;
@@ -28,9 +29,13 @@ public class Screw : MonoBehaviour
         }
         else  // if clicking on screw NOT currently on attach to / switch to that screw.
         {
-            positionWrench();
-            wrenchScript.setOnScrew(true);
-            wrenchScript.setCurrentScrew(gameObject);
+            if (wrenchScript.isHoldingWrench)
+            {
+                positionWrench();
+                wrenchScript.setOnScrew(true);
+                wrenchScript.setCurrentScrew(gameObject);
+            }
+
         }
 
     }
@@ -41,23 +46,42 @@ public class Screw : MonoBehaviour
         Transform oldParent = wrench.transform.parent;
         wrench.transform.parent = transform;
 
-        wrench.transform.localPosition = new Vector3(0f, 0f, 0.03f);
+        wrench.transform.localPosition = new Vector3(0f, 0f, 0.005f);
         wrench.transform.localRotation = Quaternion.identity;
 
         wrench.transform.parent = oldParent;
     }
 
-    public void increaseCranks()
+    public void loosen()
     {
         // increases the number of cranks on this screw
         
         cranks++;
-        setScrewRotation();
+        loosenAudio.Play();
+        setScrewRotation(1);
 
         if (cranks >= 3)
         {
+            wrenchScript.setClickAgain(true);
             StartCoroutine(pauseUndone());
         }
+    }
+
+    public void tighten()
+    {
+        cranks--;
+        tightenAudio.Play();
+
+        if (cranks < 0)
+        {
+            wrenchScript.setClickAgain(true);
+            cranks = 0;
+        }
+        else
+        {
+            setScrewRotation(-1);
+        }
+        
     }
 
     public IEnumerator pauseUndone()
@@ -76,16 +100,15 @@ public class Screw : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void setScrewRotation()
+    public void setScrewRotation(int dir)
     {
         // rotates the screw with the wrench (once per crank, gives player vis indicator of progress)
 
         //transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
-        transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z + (200f * cranks));
-        screwAudio.Play();
+        transform.localRotation = Quaternion.Euler(0f, dir * 180f, transform.localRotation.z + (200f * cranks));
 
         // moves screw out a bit || MIGHT NEED TO CHANGE FROM Z TO X
-        transform.position += Vector3.back * 0.02f;
+        transform.position += Vector3.back * 0.02f * dir;
     }
 
     public void resetWrench()

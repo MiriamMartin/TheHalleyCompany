@@ -27,13 +27,15 @@ public class Wrench : MonoBehaviour
 
     public GameObject plate;
 
-    private bool showControls = true;
+    private bool showControls = false;  // CHANGE BACK TO TRUE
 
     public AudioSource pickup;
     public AudioSource putdown;
+    public AudioSource tighten;
 
     // test
     private float lastAngle;
+    private float totalRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +51,13 @@ public class Wrench : MonoBehaviour
         {
             HoldWrench();
         }
-        if (Input.GetKeyDown(dropWrench) && isHoldingWrench)
+        if (Input.GetKeyDown(dropWrench) && isHoldingWrench && !OnScrew)
         {
             DropWrench();
+        }
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D)) && isHoldingWrench && OnScrew)
+        {
+            HoldWrench();
         }
 
 
@@ -62,7 +68,6 @@ public class Wrench : MonoBehaviour
     {
         if (!isHoldingWrench) 
         {
-            Debug.Log("HERE");
             pickup.Play();
             HoldWrench(); 
         }
@@ -78,11 +83,32 @@ public class Wrench : MonoBehaviour
     {
         if (OnScrew && !clickAgain)
         {
-            if (transform.localEulerAngles.z < 275 && transform.localEulerAngles.z > 265)//transform.localRotation.z <= 0.45)
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - screenPos;
+            float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
+
+            if (deltaAngle >= 0)
             {
-                transform.localRotation = Quaternion.Euler(0f, 150f, 0f);
-                currentScrew.GetComponent<Screw>().increaseCranks();
-                clickAgain = true;
+                totalRotation += deltaAngle;
+            }
+            else if (deltaAngle < 0)
+            {
+                totalRotation += deltaAngle;
+            }
+
+            if (totalRotation >= 360f)
+            {
+                //transform.localRotation = Quaternion.Euler(0f, 150f, 0f);
+                currentScrew.GetComponent<Screw>().loosen();
+
+                totalRotation = 0f;
+            }
+            else if (totalRotation <= -360f)
+            {
+                currentScrew.GetComponent<Screw>().tighten();
+
+                totalRotation = 0f;
             }
             else
             {
@@ -123,8 +149,6 @@ public class Wrench : MonoBehaviour
     {
         // drop the wrench
 
-        putdown.Play();
-
         transform.parent = null;
 
         transform.localPosition = ogPos;
@@ -135,6 +159,10 @@ public class Wrench : MonoBehaviour
         if (OnScrew)
         {
             OnScrew = false;
+        }
+        else
+        {
+            putdown.Play();
         }
     }
 
@@ -179,6 +207,11 @@ public class Wrench : MonoBehaviour
     {
         if (currentScrew != null) { return currentScrew.name; }
         else { return "noScrew"; }
+    }
+
+    public void setClickAgain(bool val)
+    {
+        clickAgain = val;
     }
 
     // ================== Unscrew Event ===================
