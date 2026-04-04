@@ -10,6 +10,7 @@ public class Ending : MonoBehaviour
 
     [Header("Camera")]
     public CameraMovement cameraMovement;
+    public Camera mainCamera;
 
     [Header("Eyes")]
     public Eyes eyes;
@@ -18,6 +19,8 @@ public class Ending : MonoBehaviour
     public Material eyeMat;
     public GameObject wall1;
     public GameObject wall2;
+    public GameObject wallMisc;
+    public GameObject wallLever;
 
     [Header("Credits")]
     public GameObject Creds;
@@ -38,6 +41,8 @@ public class Ending : MonoBehaviour
         eyeMat.DisableKeyword("_EMISSION");
         wall1.SetActive(false);
         wall2.SetActive(false);
+        wallMisc.SetActive(false);
+        wallLever.SetActive(false);
         end1.volume = 0;
         end2.volume = 0;
         endBackground.volume = 0;
@@ -79,11 +84,12 @@ public class Ending : MonoBehaviour
 
         yield return new WaitUntil(() => trigger == false);
         yield return new WaitUntil(() => cameraMovement.getPlayerPosition()[0] == 1 && cameraMovement.getPlayerPosition()[1] == 5 && cameraMovement.GetDirection() == 1);
+        wallMisc.SetActive(true);
         endHit.Play();
         end1.Play();
         StartCoroutine(AdjustVolume(end1, 1, 0.5f));
         StartCoroutine(AdjustVolume(endBackground, 1, 0.5f));
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(12f);
 
         yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
         
@@ -91,17 +97,19 @@ public class Ending : MonoBehaviour
         wall2.SetActive(true);
 
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 0);
+        wallLever.SetActive(true);
         endHit.Play();
         end2.Play();
         StartCoroutine(AdjustVolume(end2, 1, 0.5f));
         cameraMovement.setGridTile(grid, 1, 4, 0);
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(12);
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 3);
         cameraMovement.enabled = false;
         StartCoroutine(AdjustVolume(end1, 0, 0.5f));
         StartCoroutine(AdjustVolume(end2, 0, 0.5f));
         StartCoroutine(AdjustVolume(endBackground, 0, 0.5f));
         endEyes.Play();
+        StartCoroutine(AdjustFOV(-10, 12));
         yield return new WaitForSeconds(12);
         eyeMat.EnableKeyword("_EMISSION");
         eyes.Run();
@@ -124,5 +132,20 @@ public class Ending : MonoBehaviour
         }
 
         audioSource.volume = endVolume;
+    }
+
+    IEnumerator AdjustFOV(float FOVchange, float duration)
+    {
+        float startFOV = mainCamera.fieldOfView;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            mainCamera.fieldOfView = Mathf.Lerp(startFOV, startFOV + FOVchange, (t / duration));
+            yield return null;
+        }
+
+        mainCamera.fieldOfView = startFOV + FOVchange;
     }
 }

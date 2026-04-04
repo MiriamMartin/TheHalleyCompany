@@ -64,7 +64,7 @@ public class InteractableObject : MonoBehaviour
         objectToInspect.SetActive(true);
         Transform cameraTransform = Camera.main.transform;
         objectToInspect.transform.position = cameraTransform.position + cameraTransform.forward * distance;
-        objectToInspect.transform.rotation = cameraTransform.rotation;  // temp turning this off else papers start sideways
+        //objectToInspect.transform.Rotate(new Vector3(objectToInspect.transform.position.x, objectToInspect.transform.position.y , objectToInspect.transform.position.z), Space.Self);
     }
 
     private void OnMouseUp()
