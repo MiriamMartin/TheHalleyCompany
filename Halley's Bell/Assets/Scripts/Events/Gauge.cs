@@ -132,6 +132,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             if (currAngle > angleMax || currAngle < angleMin)
             {
                 run = false;
+                updateDeathTip();
                 PauseManager.Instance.Death();
             }
             else if ((currAngle < angleDangerMin) && !blinking && (currAngle > angleMin)) 
@@ -315,5 +316,12 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         canPress = true;
         postBlackout = false;
         speed = gaugeSpeed;
+    }
+
+
+
+    private void updateDeathTip()
+    {
+        PlayerPrefs.SetString("DeathTip", "Tip: Pay attention to the pressure valve, don't let it in the red.");
     }
 }

@@ -44,8 +44,9 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public float moveMult = 1f;
 
     [Header("Camera Shake")]
-    public float shakeDuration = 1f;
+    //public float shakeDuration = 1f;
     public AnimationCurve shakeCurve;
+    private bool descentStarted = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -67,11 +68,17 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         playerPos = new int[] { 4, 4 }; //Starting position of player
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
+    }
 
+    void Start()
+    {
         //text stuff
-        controls_A.SetActive(true);
-        controls_D.SetActive(true);
-        controls_Esc.SetActive(true);
+        if (Checkpoints.Instance.getCheckpoint() < 2)  // control overlay only shows up for newgame start / bell descent
+        {
+            controls_A.SetActive(true);
+            controls_D.SetActive(true);
+            controls_Esc.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -332,11 +339,18 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         if (Depth.Instance.runHitFloor)
         {
             Depth.Instance.runHitFloor = false;
-            if (PlayerPrefs.GetInt("SavedScreenShakeValue") == 1) { StartCoroutine(Shaking()); }  // only runs if setting is on
+            int shake = PlayerPrefs.GetInt("SavedScreenShakeValue", 1);
+            if (shake == 1) { StartCoroutine(Shaking(1, 1)); }  // only runs if setting is on
+        }
+        if (Depth.Instance.descending && !descentStarted && Checkpoints.Instance.getCheckpoint() <= 1)
+        {
+            descentStarted = true;
+            int shake = PlayerPrefs.GetInt("SavedScreenShakeValue", 1);
+            if (shake == 1) { StartCoroutine(Shaking(0.08f, 7)); }
         }
     }
 
-    public IEnumerator Shaking()
+    public IEnumerator Shaking(float strengthMult, float shakeDuration)
     {
         Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
@@ -345,12 +359,14 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         {
             elapsedTime += Time.deltaTime;
             float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
-            transform.position = startPosition + Random.insideUnitSphere * strength;
+            transform.position = startPosition + Random.insideUnitSphere * strength * strengthMult;
             yield return null;
         }
 
         transform.position = startPosition;
     }
+
+    // ==================== Controls =======================
 
     // needed for testing, delete
     public void setStand(bool val)
