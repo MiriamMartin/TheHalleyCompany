@@ -44,7 +44,9 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
         yield return StartCoroutine(LightIntensify(roofLight, 0.1f, 1f));
         yield return StartCoroutine(LightIntensify(roofLight, 0.0f, 10f));
 
-        blackoutStart.Invoke();  // Affects CameraMovement, Sonar, and Gauge
+        
+
+        blackoutStart.Invoke();  // Affects CameraMovement, Sonar, and Gauge, Radio
 
         // Turns emergency lights on
         yield return new WaitForSeconds(1f);
