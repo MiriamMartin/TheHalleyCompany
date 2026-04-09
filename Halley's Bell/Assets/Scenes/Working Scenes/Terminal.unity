@@ -42141,8 +42141,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   fuzz: {fileID: 1654109447}
-  a1: {fileID: 1654109446}
-  a2: {fileID: 1654109445}
+  piano: {fileID: 0}
+  currentEvents: {fileID: 0}
+  music: {fileID: 0}
+  scary: {fileID: 0}
+  deepBlue: {fileID: 0}
   keith: {fileID: 500644789}
   freq: 0
   increaseRate: 1
@@ -43175,7 +43178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1700862115
 Transform:
   m_ObjectHideFlags: 0
