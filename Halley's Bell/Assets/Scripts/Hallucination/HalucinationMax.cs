@@ -6,6 +6,8 @@ public class HalucinationMax : MonoBehaviour
 {
     //Three types of halucinations: Ones that can happen at any time, ones that are dependent on view angle, and ones that require a specific trigger (which will be handled in their own script?)
 
+    public AudioSource keithHallucination;
+
 
     [Header("Halucination Controls")]
     //public float startingFreq;
@@ -74,9 +76,10 @@ public class HalucinationMax : MonoBehaviour
             }
 
             //Can play larger halucinations at specific times:
-            if (normalizedTime > 0.5 && !halucination1Played)
+            if (normalizedTime > 0.3 && !halucination1Played)
             {
                 //CALL LARGER HALUCINATION
+                keithHallucination.Play();
                 halucination1Played = true;
             }
 
