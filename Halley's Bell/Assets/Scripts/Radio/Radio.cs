@@ -7,9 +7,9 @@ using UnityEngine.Events;
 
 public class Radio : MonoBehaviour, ButtonInterface
 {
-    const float minFreq = 88f;
-    const float maxFreq = 108;
-    public float range = 5f;
+    const float minFreq = 85f;
+    const float maxFreq = 105;
+    public float range = 1.5f;
     public float triggerThreshold = 0.5f; //0.5 regular. FOR DEMO SET IT REALLY LOW TO LOCK IN
     public UnityEvent KeithTuned;
 
@@ -20,8 +20,11 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     //Audio
     public AudioSource fuzz;
-    public AudioSource a1;
-    public AudioSource a2;
+    public AudioSource piano;
+    public AudioSource currentEvents;
+    public AudioSource music;
+    public AudioSource scary;
+    public AudioSource deepBlue;
     public AudioSource keith;
     private AudioSource currAudioSource;
 
@@ -71,7 +74,7 @@ public class Radio : MonoBehaviour, ButtonInterface
 
         // checkpoint stuff
         setNeedle();
-        if (Checkpoints.Instance.getCheckpoint() == 0) 
+        if (Checkpoints.Instance.getCheckpoint() == 0 || Checkpoints.Instance.getCheckpoint() >= 6) // turn off if starting or post-blackout
         { 
             TurnOff();
         }
@@ -88,12 +91,19 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         // Initializes all radio vars at start
 
-        a1.volume = 0;
-        a2.volume = 0;
+        piano.volume = 0;
+        deepBlue.volume = 0;
         keith.volume = 0;
+        piano.volume = 0;
+        currentEvents.volume = 0;
+        scary.volume = 0;
+        music.volume = 0;
         fuzz.volume = 1;
-        a1.Play();
-        a2.Play();
+        piano.Play();
+        deepBlue.Play();
+        currentEvents.Play();
+        scary.Play();
+        music.Play();
         fuzz.Play();
     }
 
@@ -107,18 +117,16 @@ public class Radio : MonoBehaviour, ButtonInterface
         {
             //Updating state of radioPoints (mostly audio for now) and checking if they are tuned in
 
-            if (radioPoint(a1, 92))
+            if (radioPoint(piano, 90))
             {
-                //Debug.Log("Tuned into a1");
                 SwapSpeakerLightSRC(speakerLightSources[0]);
             }
-            else if (radioPoint(a2, 106))
+            else if (radioPoint(deepBlue, 92.5f))
             {
-                //Debug.Log("Tuned into a2");
-                SwapSpeakerLightSRC(speakerLightSources[2]);
+                SwapSpeakerLightSRC(speakerLightSources[1]);
 
             }
-            else if (radioPoint(keith, 100) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
+            else if (radioPoint(keith, 95) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
             {
                 //Debug.Log("Tuned into Keith at at volume " + keith.volume);
                 if (!started)
@@ -129,7 +137,22 @@ public class Radio : MonoBehaviour, ButtonInterface
                     started = true;
                 }
 
-                SwapSpeakerLightSRC(speakerLightSources[1]);
+                SwapSpeakerLightSRC(speakerLightSources[2]);
+            }
+            else if (radioPoint(music, 97.5f))
+            {
+                SwapSpeakerLightSRC(speakerLightSources[3]);
+
+            }
+            else if (radioPoint(currentEvents, 100))
+            {
+                SwapSpeakerLightSRC(speakerLightSources[4]);
+
+            }
+            else if (radioPoint(scary, 102.5f))
+            {
+                SwapSpeakerLightSRC(speakerLightSources[5]);
+
             }
             else
             {
@@ -204,10 +227,13 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     public void TurnOff()
     {
-        a1.volume = 0;
-        a2.volume = 0;
+        piano.volume = 0;
+        deepBlue.volume = 0;
         keith.volume = 0;
         fuzz.volume = 0;
+        piano.volume = 0;
+        currentEvents.volume = 0;
+        scary.volume = 0;
         message = "";
         on = false;
     }
@@ -258,6 +284,19 @@ public class Radio : MonoBehaviour, ButtonInterface
         Depth.Instance.firstRadioDone = true;
     }
 
+    public void BlackoutStart()
+    {
+        StartCoroutine(BlackoutStartCR());
+    }
+
+    IEnumerator BlackoutStartCR()
+    {
+        TurnOff();
+        yield return new WaitForSeconds(0.2f);
+        TurnOn();
+        yield return new WaitForSeconds(0.6f);
+        TurnOff();
+    }
 
     // ============================= Checkpoint Stuff ================================
 

@@ -8,7 +8,7 @@ public class Checkpoints : MonoBehaviour
 
     public HalucinationMax hallucinationMax;
 
-    private void Awake()
+private void Awake()
     {
         Instance = this;
     }
