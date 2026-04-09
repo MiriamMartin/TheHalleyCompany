@@ -8,10 +8,14 @@ public class Checkpoints : MonoBehaviour
 
     public HalucinationMax hallucinationMax;
 
+private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         PlayerPrefs.SetInt("CurrentCheckpoint", 6);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }

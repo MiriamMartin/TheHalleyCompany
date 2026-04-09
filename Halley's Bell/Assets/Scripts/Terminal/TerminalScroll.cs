@@ -20,7 +20,7 @@ public class TerminalScroll : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (mouseDown && dir == "changeScreen" && !changing) { term.ChangeScreens(); changing = true; }
+        if (mouseDown && dir.Substring(0, 2) == "CS" && !changing) { term.ChangeScreens(dir.Substring(3)); changing = true; }
         else if (mouseDown && canScroll) { StartCoroutine(scrolling()); }
     }
 
