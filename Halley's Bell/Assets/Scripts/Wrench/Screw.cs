@@ -17,6 +17,11 @@ public class Screw : MonoBehaviour
     void Start()
     {
         wrenchScript = wrench.GetComponent<Wrench>();
+
+        if (BH_nut && Checkpoints.Instance.getCheckpoint() >= 6)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnMouseDown()

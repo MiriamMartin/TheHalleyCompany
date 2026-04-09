@@ -32,14 +32,12 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("NUMPAD")]
     public GameObject Numpad;
     public AudioSource clickPressed;
-    public AudioSource clickReleased;
     private bool keyPressed = false;
 
     private string bootPasscode = "5437";
     private bool bootedPass = false;
 
     [Header("INCIDENT")]
-    public GameObject TerminalCanvas;
     private bool isTerminalOn = false;
     public List<string> radioMessages = new List<string>(); // might change to a file later, but since we only have like 6 messages this works fine
     private int radioMessageIndex = 0;
@@ -47,21 +45,26 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     [Header("STARTUP")]
     public Radio rad;  // lets us 'connect' radio once password entered
+    public GameObject TermBootCanv;
 
     [Header("SCREENS")]
-    public Camera TermCam;
+    public Camera TermCam;  // for hallucination
+    public GameObject TerminalCanvas;  // current canvas
     public GameObject TermTextCanv;
-    public GameObject TermDSCanv;
+    public GameObject TermDepthCanv;
+    public GameObject TermSonarCanv;
 
     [Header("AUDIO")]
     public AudioSource bootupAudio;
     public AudioSource whirringAudio;
     public AudioSource messageBeepAudio;
+    public List<AudioClip> messageTones = new List<AudioClip>();  // tone[0] = radio, tone[1] = terminal bark
 
     [Header("BARKS")]
     public List<string> storyBarks = new List<string>();
     public List<int> storyBarkTriggers = new List<int>();
     private int barksIndex = 0;
+    private string lineBRK = "-_-_-_-_-_-_-_-_-_-_-_-_-_-_";
 
     [Header("BLACKOUT")]
     private bool canTurnOn = true;
@@ -69,14 +72,17 @@ public class Terminal : MonoBehaviour, ButtonInterface
     // Start is called before the first frame update
     void Start()
     {
-        terminalText.text = ">";
-
         if (Checkpoints.Instance.getCheckpoint() > 0)
         {
+            terminalText.text = ">";
             started = true;
             bootedPass = true;
             fixMessages();
             barksIndex = SetBarkIndex();
+        }
+        else
+        {
+            terminalText.text = ">Enter Passcode: "; // Enter passcode so easier to see when starting?
         }
     }
 
@@ -97,8 +103,10 @@ public class Terminal : MonoBehaviour, ButtonInterface
             radioMessageIndex++;
             started = true;
         }
-        if (Depth.Instance.radioTrigger || Input.GetKeyDown(KeyCode.K))  // handles all subsequent messages [Delete K input, just for testing]
+        if (Depth.Instance.radioTrigger)  // handles all subsequent messages
         {
+            Depth.Instance.radioTrigger = false;
+            messageBeepAudio.clip = messageTones[0];
             typeMessage(radioMessages[radioMessageIndex]);
             radioMessageIndex++;
         }
@@ -115,12 +123,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
 
     }
-
-    void OnMouseOver()
-    {
-        Scroll("none");
-    }
-
     
     // ========================= SONAR =========================
 
@@ -168,10 +170,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void AutoScroll()
     {
+        if (!isTerminalOn) { return; }
+
         int nowLines = terminalText.textInfo.lineCount;
 
         float scrolledLines = Mathf.Abs(Mathf.Floor(terminalText.transform.localPosition.x / lineHeight));
-        //Debug.Log(scrolledLines);
 
         if (nowLines > 9 && numLines != nowLines && (scrolledLines < (numLines - totalLineOffset)))
         {
@@ -293,20 +296,15 @@ public class Terminal : MonoBehaviour, ButtonInterface
         
     public void Scroll(string dir)
     {
-        //  TEMP DISABLE MOUSE SCROLL, BUTTON SCROLL PERFECTLY FINE
+        //  Scroll up or down
 
-        // float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        // if (typingMssg) { scrollInput = 0f; }
+        if (TerminalCanvas != TermTextCanv) { return; }  // no scroll if on Depth or Sonar screen
 
-        if (TerminalCanvas == TermDSCanv) { return; }  // no scroll if on Depth / Sonar screen
-
-        float scrollInput = 0f;  // never mousescrolls
-
-        if (scrollInput > 0f || dir == "up")
+        if (dir == "up")
         {
             ShiftLines(1, 1);
         }
-        else if (scrollInput < 0f || dir == "down") 
+        else if (dir == "down") 
         {
             ShiftLines(1, -1);
         }
@@ -314,7 +312,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void ShiftLines(int numLines, int dir)
     {
-        //lineHeight = terminalText.textInfo.lineInfo[0].lineHeight;
         terminalText.transform.localPosition += new Vector3(dir * (lineHeight + addOffset) * numLines, 0, 0);
     }
 
@@ -335,16 +332,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     }
 
     // ========================= Numpad =========================
-
-    public IEnumerator animateOnClick(Transform key)
-    {
-        // 'Animates' Numpad button press
-
-        key.transform.position += Vector3.down * 0.015f;
-        yield return new WaitForSeconds(0.5f);
-        key.transform.position += Vector3.up * 0.015f;
-    }
-
 
     public void Button(bool mouseDown, string message)
     {
@@ -380,7 +367,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
         else if (keyPressed)
         {
             key.transform.position += Vector3.up * 0.015f;
-            //clickReleased.Play();
             keyPressed = false;
         }
     }
@@ -390,15 +376,15 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public void TerminalOn()
     {
         bootupAudio.Play();
-        //this.GetComponent<AudioSource>().Play(); // play ambient whirring when on
-        //whirringAudio.Play();
+        TerminalCanvas = TermTextCanv; // ALWAYS bootup on text screen
         StartCoroutine(BootSeq());
     }
 
     public IEnumerator BootSeq()
     {
-        //yield return new WaitUntil(() => !bootupAudio.isPlaying);  // Use this for cool launch screen
+        TermBootCanv.SetActive(true);
         yield return new WaitForSeconds(1.5f);
+        TermBootCanv.SetActive(false);
         TerminalCanvas.SetActive(true);
         isTerminalOn = true;
         whirringAudio.Play();
@@ -407,7 +393,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public void TerminalOff()
     {
         TerminalCanvas.SetActive(false);
-        //this.GetComponent<AudioSource>().Stop(); // ambient whirring off
         whirringAudio.Stop();
         isTerminalOn = false;
     }
@@ -419,19 +404,30 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     // ====================== screens =======================
 
-    public void ChangeScreens()
+    public void ChangeScreens(string scrn)
     {
-        if (TerminalCanvas == TermDSCanv)
-        {
-            TerminalCanvas.SetActive(false);
-            TermTextCanv.SetActive(true);
+        if (!isTerminalOn) { return; }  // only change screens when terminal is on
+
+        if (scrn == "text" && TerminalCanvas != TermTextCanv)
+        {   
             TerminalCanvas = TermTextCanv;
+            TermTextCanv.SetActive(true);
+            TermDepthCanv.SetActive(false);
+            TermSonarCanv.SetActive(false);
         }
-        else
+        else if (scrn == "depth" && TerminalCanvas != TermDepthCanv)
         {
-            TerminalCanvas.SetActive(false);
-            TermDSCanv.SetActive(true);
-            TerminalCanvas = TermDSCanv;
+            TerminalCanvas = TermDepthCanv;
+            TermDepthCanv.SetActive(true);
+            TermTextCanv.SetActive(false);
+            TermSonarCanv.SetActive(false);
+        }
+        else if (scrn == "sonar" && TerminalCanvas != TermSonarCanv)
+        {
+            TerminalCanvas = TermSonarCanv;
+            TermSonarCanv.SetActive(true);
+            TermTextCanv.SetActive(false);
+            TermDepthCanv.SetActive(false);
         }
     }
 
@@ -441,9 +437,29 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         if (Depth.Instance.getDepth() >= storyBarkTriggers[barksIndex] && !typingMssg)
         {
+            messageBeepAudio.clip = messageTones[1];
             messageBeepAudio.Play();
-            addNewline();
-            terminalText.text += storyBarks[barksIndex];
+
+            var tt = terminalText.text;
+
+            if (tt.Substring(tt.Length - 2) == ">_")
+            {
+                terminalText.text = tt.Remove(terminalText.text.Length - 1);
+                terminalText.text = tt.Remove(terminalText.text.Length - 1);
+            }
+            else if (tt.Substring(tt.Length - 1) == ">")
+            {
+                terminalText.text = tt.Remove(terminalText.text.Length - 1);
+            }
+            else
+            {
+                terminalText.text += "\n";
+            }
+
+            terminalText.text += lineBRK + "\n\n";
+            terminalText.text += ">" + storyBarks[barksIndex];
+            terminalText.text += "\n\n" + lineBRK + "\n\n>";
+            
             barksIndex++;
         }
     }
@@ -495,5 +511,4 @@ public class Terminal : MonoBehaviour, ButtonInterface
         else if (chkptNum == 6) { return 7; }
         else { return 8; }
     }
-
 }

@@ -238,7 +238,6 @@ public class Radio : MonoBehaviour, ButtonInterface
 
         if (on && Depth.Instance.radioTrigger)  // Radio Trigger from Depth
         {
-            Depth.Instance.radioTrigger = false;
             PlayRadioMessage();
         }
     }
