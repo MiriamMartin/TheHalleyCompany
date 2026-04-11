@@ -16,7 +16,7 @@ private void Awake()
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerPrefs.SetInt("CurrentCheckpoint", 6);
+        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
