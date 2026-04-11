@@ -47,6 +47,8 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     public GameObject needle;
 
+    public AudioSource implosionSound;
+
     [Header("Handle")]
     public GameObject handle;
     private Vector3 handleDirection = new Vector3(0, -1, 0);
@@ -132,8 +134,8 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             if (currAngle > angleMax || currAngle < angleMin)
             {
                 run = false;
-                updateDeathTip();
-                PauseManager.Instance.Death();
+                StartCoroutine(DeathSequence());
+
             }
             else if ((currAngle < angleDangerMin) && !blinking && (currAngle > angleMin)) 
             {
@@ -182,6 +184,14 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
         }
  
+    }
+
+    IEnumerator DeathSequence()
+    {
+        implosionSound.Play();
+        yield return new WaitForSeconds(6.9f); //timing for audio
+        updateDeathTip();
+        PauseManager.Instance.Death();
     }
 
     private void Blink()

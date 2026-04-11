@@ -10,6 +10,8 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
     public Material glowStrips;
     public Light roofLight;
     public Light emergencyLight;
+    public Light leverLight;
+    public Light wallLight;
 
     [Header("Event")]
     public UnityEvent blackoutStart;
@@ -53,6 +55,9 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
         glowStrips.EnableKeyword("_EMISSION");
         yield return new WaitForSeconds(3f);
         yield return StartCoroutine(LightIntensify(emergencyLight, 2f, 3f));
+        yield return StartCoroutine(LightIntensify(leverLight, 4f, 3f));
+        yield return StartCoroutine(LightIntensify(wallLight, 4f, 3f));
+
     }
 
     IEnumerator BlackoutEndCR()
@@ -65,6 +70,9 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
         yield return new WaitForSeconds(2f);
         glowStrips.DisableKeyword("_EMISSION");
         yield return StartCoroutine(LightIntensify(emergencyLight, 0f, 1f));
+        yield return StartCoroutine(LightIntensify(leverLight, 0f, 1f));
+        yield return StartCoroutine(LightIntensify(wallLight, 0f, 1f));
+
     }
 
     IEnumerator LightIntensify(Light l, float endIntensity, float duration)

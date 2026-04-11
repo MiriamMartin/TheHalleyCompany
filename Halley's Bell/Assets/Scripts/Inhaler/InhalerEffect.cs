@@ -25,12 +25,16 @@ public class InhalerEffect : MonoBehaviour
     public AudioSource InhalerPuff;
     public AudioSource Fail;
 
+    public Light inhalerLight;
+
     // Start is called before the first frame update
     void Start()
     {
         PPVolume.weight = 0;
 
         playerInhaler.SetActive(false);
+
+        inhalerLight.intensity = 0;
 
         if (DEBUGMODE)
         {
@@ -96,10 +100,13 @@ public class InhalerEffect : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
 
-            PPVolume.weight = Mathf.Lerp(startWeight, endWeight, t);
+            float w = Mathf.Lerp(startWeight, endWeight, t);
+            PPVolume.weight = w;
+            inhalerLight.intensity = w * 8;
 
             if (inhaled)
             {
+                inhalerLight.intensity = 0;
                 Breathing.Stop();
                 yield return StartCoroutine(Inhale(7f));  // 3.5f on pitch = 2 for the sound if want quicker
                 curRunning = false;
