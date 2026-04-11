@@ -35,6 +35,9 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private bool keyPressed = false;
 
     private string bootPasscode = "5437";
+    public List<string> passwords = new List<string>();
+    public List<string> passMssgs = new List<string>();
+    private List<char> digits = new List<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private bool bootedPass = false;
 
     [Header("INCIDENT")]
@@ -105,7 +108,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
         if (Depth.Instance.radioTrigger)  // handles all subsequent messages
         {
-            Depth.Instance.radioTrigger = false;
             messageBeepAudio.clip = messageTones[0];
             typeMessage(radioMessages[radioMessageIndex]);
             radioMessageIndex++;
@@ -248,13 +250,15 @@ public class Terminal : MonoBehaviour, ButtonInterface
         if (num == "Enter")
         {
             CheckLastChar();
+            string lore = CheckLoreCodes();
+
             if (CheckPasscode(bootPasscode))
             {
                 if (!bootedPass)  // if first time entering password
                 {
                     terminalText.text += "\n\n>PASSWORD CORRECT: BOOTING STARTUP PROTOCOL...\n\n> ";
                     rad.ConnectRadio();  // turns radio on
-                    terminalText.text += "Hello hello, Operator.\nTune the Radio to 100 whenever you're ready :^D.\n\n> ";
+                    terminalText.text += "Hello hello, Operator. Tune the Radio to the red whenever you're ready.\n\n> ";
                     bootedPass = true;
                 }
                 else  // if entering password when already booted systems / started descent
@@ -262,7 +266,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
                     terminalText.text += "\n\n>DESCENT IN PROGRESS\n\n> ";
                 }
             }
-            else
+            else if (lore != "NONE")
+            {
+                terminalText.text += "\n\n" + lore + "\n\n>";
+            }
+            else 
             {
                 terminalText.text += "\n\n>PASSWORD INCORRECT\n\n>";
             }
@@ -287,7 +295,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public bool CheckPasscode(string psc)
     {
-        if (terminalText.text.Length >= psc.Length && terminalText.text.Substring(terminalText.text.Length - psc.Length) == psc)
+        if (terminalText.text.Length >= psc.Length && terminalText.text.Substring(terminalText.text.Length - psc.Length) == psc && !digits.Contains(terminalText.text[terminalText.text.Length - psc.Length - 1]))
         {
             return true;
         }
@@ -511,4 +519,36 @@ public class Terminal : MonoBehaviour, ButtonInterface
         else if (chkptNum == 6) { return 7; }
         else { return 8; }
     }
+
+    // ====================== Lore Codes =======================
+
+    public string CheckLoreCodes()
+    {
+        int index = 0;
+        bool found = false;
+
+        foreach (string code in passwords)
+        {
+            if (CheckPasscode(code))
+            {
+                found = true;
+                break;
+            }
+            else
+            {
+                index++;
+            }
+        }
+
+        if (!found)
+        {
+            return "NONE";
+        }
+        else
+        {
+            return passMssgs[index];
+        }
+    }
+
+
 }
