@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-
 public class CameraMovement : MonoBehaviour, BlackoutInterface
 {
 
@@ -31,6 +30,9 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public GameObject controls_V;
     private float controlFadeSpeed = 1f;  // how long it takes to fade
     private float controlHangTime = 2f;  // how long before fade
+
+    private bool SpaceOn = false;
+    private bool hasStood = false;
 
     //MOVMENT INITIALIZING
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
@@ -78,17 +80,15 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             controls_A.SetActive(true);
             controls_D.SetActive(true);
             controls_Esc.SetActive(true);
+
+            StartCoroutine(watchADControls(controls_A, controls_D, KeyCode.A, KeyCode.D));
+            StartCoroutine(watchESCControls(controls_Esc, KeyCode.Escape));
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            StartCoroutine(FadeControls(controls_Esc));
-        }
-
         //Activating rotation/movement coroutines based on user input
         if (!isRotating && !isMoving && !PauseManager.Instance.getIsPaused())
         {
@@ -96,15 +96,11 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
             {
                 StartCoroutine(Rotate(1));
                 AudioHandler.Instance.PlayMovement(1);
-                StartCoroutine(FadeControls(controls_A));
-                StartCoroutine(FadeControls(controls_D));
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 StartCoroutine(Rotate(-1));
                 AudioHandler.Instance.PlayMovement(1);
-                StartCoroutine(FadeControls(controls_A));
-                StartCoroutine(FadeControls(controls_D));
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
@@ -112,14 +108,14 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
                 {
                     StartCoroutine(Move());
                     AudioHandler.Instance.PlayMovement(2);
-                    StartCoroutine(FadeControls(controls_W));
+                    hasStood = true;  // should be called has moved whoops
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !standing && canStand)
             {
                 StartCoroutine(StandingRotation(1));
-                StartCoroutine(FadeControls(controls_Space));
-                controls_W.SetActive(true);
+                if (!hasStood) { controls_W.SetActive(true); }
+                StartCoroutine(watchWControls(controls_W, KeyCode.W));
                 standing = true;
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
                 canSit = true;
@@ -311,11 +307,17 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     public void BlackoutEvent()
     {
         canStand = true;
-        controls_Space.SetActive(true);
+        if (!SpaceOn && !standing)
+        {
+            SpaceOn = true;
+            controls_Space.SetActive(true);
+            StartCoroutine(watchSPACEControls(controls_Space, KeyCode.Space));
+        }
     }
 
     public void BlackoutEnd()
     {
+        SpaceOn = false;
         StartCoroutine(CrazyTimeTrigger());
     }
 
@@ -370,6 +372,35 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     // ==================== Controls =======================
 
+    public IEnumerator watchADControls(GameObject overlay1, GameObject overlay2, KeyCode inp, KeyCode inp2)
+    {
+        float endWaitTime = Time.time + 8f;
+        yield return new WaitUntil(() => (Input.GetKeyDown(inp) || Input.GetKeyDown(inp2)) || Time.time >= endWaitTime);
+        StartCoroutine(FadeControls(overlay1));
+        StartCoroutine(FadeControls(overlay2));
+    }
+
+    public IEnumerator watchESCControls(GameObject esc, KeyCode esc_inp)
+    {
+        float endWaitTime = Time.time + 8f;
+        yield return new WaitUntil(() => Input.GetKeyDown(esc_inp) || Time.time >= endWaitTime);
+        StartCoroutine(FadeControls(esc));
+    }
+
+    public IEnumerator watchSPACEControls(GameObject spc, KeyCode spc_inp)
+    {
+        float endWaitTime = Time.time + 8f;
+        yield return new WaitUntil(() => Input.GetKeyDown(spc_inp) || Time.time >= endWaitTime);
+        StartCoroutine(FadeControls(spc));
+    }
+
+    public IEnumerator watchWControls(GameObject w, KeyCode w_inp)
+    {
+        float endWaitTime = Time.time + 8f;
+        yield return new WaitUntil(() => Input.GetKeyDown(w_inp) || Time.time >= endWaitTime);
+        StartCoroutine(FadeControls(w));
+    }
+
     // needed for testing, delete
     public void setStand(bool val)
     {
@@ -422,8 +453,9 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     public IEnumerator ShowWrenchCont()
     {
+        float endWaitTime = Time.time + 4f;
         controls_V.SetActive(true);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V) || Time.time >= endWaitTime);
         StartCoroutine(FadeControls(controls_V));
     }
 }

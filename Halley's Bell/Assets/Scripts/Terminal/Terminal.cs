@@ -106,7 +106,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             radioMessageIndex++;
             started = true;
         }
-        if (Depth.Instance.radioTrigger)  // handles all subsequent messages
+        if (Depth.Instance.radioTrigger && radioMessageIndex < radioMessages.Count)  // handles all subsequent messages
         {
             messageBeepAudio.clip = messageTones[0];
             typeMessage(radioMessages[radioMessageIndex]);

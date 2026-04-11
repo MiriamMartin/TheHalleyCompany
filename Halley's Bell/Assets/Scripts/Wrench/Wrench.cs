@@ -48,10 +48,6 @@ public class Wrench : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(grabWrench) && !isHoldingWrench)
-        {
-            HoldWrench();
-        }
         if (Input.GetKeyDown(dropWrench) && isHoldingWrench && !OnScrew)
         {
             DropWrench();
