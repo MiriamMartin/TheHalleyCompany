@@ -24,6 +24,12 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
         pressed = false;
         isRotating = false;
         targetPos = new Vector3(90f, 0f, -90f);
+
+        if (Checkpoints.Instance.getCheckpoint() >= 6)
+        {
+            animator.SetBool("hitLever", true); // plays the handle animation
+        }
+
     }
 
     public void Update()

@@ -16,7 +16,7 @@ private void Awake()
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
+        //PlayerPrefs.SetInt("CurrentCheckpoint", 6);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
@@ -164,7 +164,7 @@ private void Awake()
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         Depth.Instance.setRadioIndex(7);  // skips ALL messages
-        Depth.Instance.setDepth(13800f);  // starts players a few seconds BEFORE ending
+        Depth.Instance.setDepth(14500f);  // starts players a few seconds BEFORE ending
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
