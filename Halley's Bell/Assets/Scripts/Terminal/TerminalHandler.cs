@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Terminal : MonoBehaviour, ButtonInterface
+public class TerminalHandler : MonoBehaviour
 {
 
+    // Clone-ish of 'Terminal' Script, to try and consolidate all terminal things for messages
+    // and make saving happen, yea :)
     [Header("SONAR")]
     public Image sonar;
 
@@ -37,7 +37,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private string bootPasscode = "5437";
     public List<string> passwords = new List<string>();
     public List<string> passMssgs = new List<string>();
-    private List<char> digits = new List<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private List<char> digits = new List<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     private bool bootedPass = false;
 
     [Header("INCIDENT")]
@@ -131,7 +131,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
 
     }
-    
+
     // ========================= SONAR =========================
 
     public void SonarRotate()
@@ -248,7 +248,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             Delete(1);
         }
     }
-    
+
     public void typeNumpad(string num)
     {
         // types input from the NumPad
@@ -276,7 +276,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             {
                 terminalText.text += "\n\n" + lore + "\n\n>";
             }
-            else 
+            else
             {
                 terminalText.text += "\n\n>PASSWORD INCORRECT\n\n>";
             }
@@ -307,7 +307,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
         else { return false; }
     }
-        
+
     public void Scroll(string dir)
     {
         //  Scroll up or down
@@ -318,7 +318,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         {
             ShiftLines(1, 1);
         }
-        else if (dir == "down") 
+        else if (dir == "down")
         {
             ShiftLines(1, -1);
         }
@@ -335,7 +335,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         {
             terminalText.text = terminalText.text.Substring(0, terminalText.text.Length - numChars);
         }
-        
+
     }
 
     public void stopIdling()
@@ -440,7 +440,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         if (!isTerminalOn) { return; }  // only change screens when terminal is on
 
         if (scrn == "text" && TerminalCanvas != TermTextCanv)
-        {   
+        {
             TerminalCanvas = TermTextCanv;
             TermTextCanv.SetActive(true);
             TermDepthCanv.SetActive(false);
@@ -490,7 +490,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
             terminalText.text += lineBRK + "\n\n";
             terminalText.text += ">" + storyBarks[barksIndex];
             terminalText.text += "\n\n" + lineBRK + "\n\n>";
-            
+
             barksIndex++;
         }
     }
@@ -534,11 +534,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
         int chkptNum = Checkpoints.Instance.getCheckpoint();
 
         if (chkptNum == 0) { return 0; }
-        else if (chkptNum == 1) {  return 1; }
-        else if (chkptNum == 2) {  return 1; }
-        else if (chkptNum == 3) {  return 3; }
-        else if (chkptNum == 4) {  return 4; }
-        else if (chkptNum == 5) {  return 6; }
+        else if (chkptNum == 1) { return 1; }
+        else if (chkptNum == 2) { return 1; }
+        else if (chkptNum == 3) { return 3; }
+        else if (chkptNum == 4) { return 4; }
+        else if (chkptNum == 5) { return 6; }
         else if (chkptNum == 6) { return 7; }
         else { return 8; }
     }
@@ -575,3 +575,4 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
 
 }
+
