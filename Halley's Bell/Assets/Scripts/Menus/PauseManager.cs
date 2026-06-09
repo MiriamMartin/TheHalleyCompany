@@ -29,6 +29,8 @@ public class PauseManager : MonoBehaviour
     public GameObject SettingsMenu;
     public GameObject ControlsMenu;
 
+    [Header("----------------- Death Animation -----------------")]
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -109,11 +111,19 @@ public class PauseManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("NewUnified"); // Reloads game scene
+        SceneManager.LoadScene("NewerUnified"); // Reloads game scene
     }
 
     public void Death()
     {
+        StartCoroutine(DeathAnim());
+    }
+    public IEnumerator DeathAnim()
+    {
+        animator.SetTrigger("deathBlink");
+        yield return null;
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+
         SceneManager.LoadScene("Death");
     }
 
