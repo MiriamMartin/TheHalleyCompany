@@ -19,6 +19,10 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
     [Header("Animation")]
     public Animator animator;
 
+    [Header("Trailhead Demo?")]
+    private bool DEMO = true;
+    public GameObject end_script;
+
     public void Start()
     {
         pressed = false;
@@ -58,7 +62,14 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
             //Depth.Instance.runSwitches = true;
             //Depth.Instance.setDescending(true);
             Depth.Instance.FirstBlackoutDone = true;  // used only for terminal power
-            blackoutEnd.Invoke();
+            if (DEMO)
+            {
+                end_script.GetComponent<Ending>().RUN_DEMO_ENDING();
+            }
+            else
+            {
+                blackoutEnd.Invoke();  // this is what it normally did pre-demo
+            }
         }
     }
 
