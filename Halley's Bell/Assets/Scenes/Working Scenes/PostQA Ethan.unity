@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5430,7 +5430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   descentSpeed: 1
-  needle: {fileID: 931065224}
+  DepthText: {fileID: 0}
   descending: 0
   runGauges: 0
   runSwitches: 0
@@ -5439,6 +5439,7 @@ MonoBehaviour:
   runHitFloor: 0
   runEnding: 0
   blackoutEvent: {fileID: 2108389855}
+  FirstBlackoutDone: 0
   halucinationMax: {fileID: 1322441064}
   ResetHandle: 0
   ending: {fileID: 347718606}
@@ -15381,8 +15382,8 @@ MonoBehaviour:
   display: {fileID: 1018255004}
   Numpad: {fileID: 2064233590}
   clickPressed: {fileID: 2064233592}
-  clickReleased: {fileID: 2064233592}
-  TerminalCanvas: {fileID: 1832845159}
+  passwords: []
+  passMssgs: []
   radioMessages:
   - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
     you were able to figure out the Radio. Good news, good news. If you can\u2019t
@@ -15484,6 +15485,21 @@ MonoBehaviour:
     None of us are makin\u2019 it out now. Sorry to Stella. Goodbye, Op.\""
   - ERROR
   rad: {fileID: 2132771392}
+  TermBootCanv: {fileID: 0}
+  TerminalCanvas: {fileID: 1832845159}
+  TermTextCanv: {fileID: 0}
+  TermDepthCanv: {fileID: 0}
+  TermSonarCanv: {fileID: 0}
+  bootupAudio: {fileID: 0}
+  whirringAudio: {fileID: 0}
+  messageBeepAudio: {fileID: 0}
+  messageTones: []
+  storyBarks: []
+  storyBarkTriggers: 
+  TermCam: {fileID: 0}
+  ScreenMesh: {fileID: 0}
+  TermNormal: {fileID: 0}
+  TermHallucinate: {fileID: 0}
 --- !u!82 &292190210
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18389,6 +18405,111 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &367207329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367207330}
+  - component: {fileID: 367207333}
+  - component: {fileID: 367207332}
+  - component: {fileID: 367207331}
+  m_Layer: 0
+  m_Name: Wall (20)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &367207330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367207329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.84, y: 2.943, z: 1.65}
+  m_LocalScale: {x: 16.12, y: 0.34, z: 11.55}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1694718267}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &367207331
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367207329}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &367207332
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367207329}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 92a46c97ecdf58b46812979f0a40ef7c, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &367207333
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367207329}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &371415343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21934,9 +22055,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9091d8ba43bd142adffc86298438f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screwAudio: {fileID: 460864852}
+  loosenAudio: {fileID: 0}
   popAudio: {fileID: 460864857}
+  tightenAudio: {fileID: 0}
   wrench: {fileID: 1244240360}
+  BH_nut: 0
 --- !u!23 &460864855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23375,9 +23498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9091d8ba43bd142adffc86298438f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screwAudio: {fileID: 509187447}
+  loosenAudio: {fileID: 0}
   popAudio: {fileID: 509187452}
+  tightenAudio: {fileID: 0}
   wrench: {fileID: 1244240360}
+  BH_nut: 0
 --- !u!23 &509187450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31627,6 +31752,7 @@ MonoBehaviour:
   PauseMenu: {fileID: 1080195683}
   SettingsMenu: {fileID: 366282469}
   ControlsMenu: {fileID: 768009448}
+  animator: {fileID: 0}
 --- !u!4 &744190239
 Transform:
   m_ObjectHideFlags: 0
@@ -33780,6 +33906,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a4cda3c96ce3e0144b7d16a410815faf, type: 3}
   m_PrefabInstance: {fileID: 827527885}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &827851345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827851346}
+  - component: {fileID: 827851347}
+  m_Layer: 0
+  m_Name: Point Light (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &827851346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827851345}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.73, y: 0, z: 5.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928700749}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!108 &827851347
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827851345}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.93750656, b: 0.1641509, a: 1}
+  m_Intensity: 3.26
+  m_Range: 3.7
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &829787001
 GameObject:
   m_ObjectHideFlags: 0
@@ -37986,7 +38206,6 @@ MonoBehaviour:
   controls_Esc: {fileID: 1649495033}
   controls_V: {fileID: 536165310}
   moveMult: 1.5
-  shakeDuration: 1
   shakeCurve:
     serializedVersion: 2
     m_Curve:
@@ -39432,9 +39651,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9091d8ba43bd142adffc86298438f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screwAudio: {fileID: 985861424}
+  loosenAudio: {fileID: 0}
   popAudio: {fileID: 985861429}
+  tightenAudio: {fileID: 0}
   wrench: {fileID: 1244240360}
+  BH_nut: 0
 --- !u!23 &985861427
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41225,6 +41446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389cf1eb19666c248a8d9ff2afc4694a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   rotationSpeed: 1
 --- !u!65 &1036141214
 BoxCollider:
@@ -46404,6 +46626,7 @@ MonoBehaviour:
   whistleMaxVolume: 0.122
   steamMaxVolume: 0.04
   needle: {fileID: 2030053689}
+  implosionSound: {fileID: 0}
   handle: {fileID: 996130641}
   handleAudioSRC: {fileID: 1221411506}
 --- !u!82 &1221411506
@@ -47583,15 +47806,13 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   isHoldingWrench: 0
   OnScrew: 0
-  screws:
-  - {fileID: 460864851}
-  - {fileID: 509187446}
-  - {fileID: 985861423}
-  - {fileID: 1947268935}
+  screws_projectFile: []
+  screws_blackoutHandle: []
   currentScrew: {fileID: 0}
   dropWrench: 118
   grabWrench: 108
-  plate: {fileID: 411654124}
+  plate_projectFile: {fileID: 0}
+  plate_handle: {fileID: 0}
   pickup: {fileID: 1244240365}
   putdown: {fileID: 1244240364}
 --- !u!4 &1244240363
@@ -50231,6 +50452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e00ab7d20464d4d8c4986fedd38c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keithHallucination: {fileID: 0}
   duration: 170
   intensityCurve:
     serializedVersion: 2
@@ -59019,7 +59241,7 @@ Transform:
   m_GameObject: {fileID: 1583190845}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.24, y: 0, z: -1.1}
+  m_LocalPosition: {x: -3.43, y: 0, z: -1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59036,9 +59258,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.9438936, g: 0.9528302, b: 0.40809897, a: 1}
-  m_Intensity: 6.13
-  m_Range: 6.93
+  m_Color: {r: 1, g: 0.96763426, b: 0.57924527, a: 1}
+  m_Intensity: 2.04
+  m_Range: 9.02
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -63693,6 +63915,7 @@ Transform:
   - {fileID: 1463117748}
   - {fileID: 1386099771}
   - {fileID: 878064256}
+  - {fileID: 367207330}
   - {fileID: 1955607838}
   - {fileID: 348921281}
   - {fileID: 1148854243}
@@ -63719,6 +63942,8 @@ MonoBehaviour:
   playerInhaler: {fileID: 996552248}
   Breathing: {fileID: 1698015206}
   InhalerPuff: {fileID: 1698015205}
+  Fail: {fileID: 0}
+  inhalerLight: {fileID: 0}
 --- !u!65 &1698015203
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69746,11 +69971,12 @@ Transform:
   m_GameObject: {fileID: 1928700748}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.572, y: 2.612, z: 1.24}
+  m_LocalPosition: {x: 16.71, y: 2.58, z: 1.24}
   m_LocalScale: {x: 0.5, y: 0.07, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1583190846}
+  - {fileID: 827851346}
   m_Father: {fileID: 1694718267}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1928700750
@@ -70257,9 +70483,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9091d8ba43bd142adffc86298438f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screwAudio: {fileID: 1947268936}
+  loosenAudio: {fileID: 0}
   popAudio: {fileID: 1947268941}
+  tightenAudio: {fileID: 0}
   wrench: {fileID: 1244240360}
+  BH_nut: 0
 --- !u!23 &1947268939
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -77062,6 +77290,8 @@ MonoBehaviour:
   glowStrips: {fileID: 2100000, guid: 0cfc991cd064a3d4bbef719c7ac5d62f, type: 2}
   roofLight: {fileID: 1583190847}
   emergencyLight: {fileID: 2057283656}
+  leverLight: {fileID: 0}
+  wallLight: {fileID: 0}
   blackoutStart:
     m_PersistentCalls:
       m_Calls:
@@ -78554,8 +78784,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   fuzz: {fileID: 2132771391}
-  a1: {fileID: 2132771390}
-  a2: {fileID: 2132771389}
+  piano: {fileID: 0}
+  currentEvents: {fileID: 0}
+  music: {fileID: 0}
+  scary: {fileID: 0}
+  deepBlue: {fileID: 0}
   keith: {fileID: 1627282398}
   freq: 103.6
   increaseRate: 1
