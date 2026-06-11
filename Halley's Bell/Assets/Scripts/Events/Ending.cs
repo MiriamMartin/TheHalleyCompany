@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ending : MonoBehaviour
 {
@@ -117,6 +118,32 @@ public class Ending : MonoBehaviour
         Creds.SetActive(true);  // rolls credits, which will then call the ending screen
         yield return new WaitForSeconds(3);
         endCredits.Play();
+    }
+
+    // This is such a shitty way to do omg im so sorry
+    public void RUN_DEMO_ENDING()
+    {
+        StartCoroutine(DEMO_ENDING());
+    }
+    public IEnumerator DEMO_ENDING()
+    {
+        cameraMovement.enabled = false;
+        
+        Creds.SetActive(true);  // rolls credits, which will then call the ending screen
+        yield return new WaitForSeconds(3);
+        endCredits.Play();
+
+        Image fb = Creds.transform.Find("BLACKOUT").GetComponent<Image>();
+
+        Color fblack = fb.color;
+
+        while (fblack.a < 1)
+        {
+            // print(fblack.a);
+            fblack.a = fblack.a + 1 * 0.05f * Time.deltaTime;
+            fb.color = fblack;
+            yield return null;
+        }
     }
 
     IEnumerator AdjustVolume(AudioSource audioSource, float endVolume, float duration)

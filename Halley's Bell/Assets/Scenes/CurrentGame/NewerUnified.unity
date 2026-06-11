@@ -68392,7 +68392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Employee of the Month - Maple Martin
+  m_text: Employee of the Month - Maple
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 109a80438af2a3441b24084aea59b8a4, type: 2}
   m_sharedMaterial: {fileID: -6763452321403479321, guid: 109a80438af2a3441b24084aea59b8a4, type: 2}
@@ -76573,6 +76573,7 @@ MonoBehaviour:
         m_CallState: 2
   handle: {fileID: 865160987}
   animator: {fileID: 1680820536}
+  end_script: {fileID: 347718602}
 --- !u!1 &1682226207
 GameObject:
   m_ObjectHideFlags: 0
@@ -84398,7 +84399,7 @@ GameObject:
   - component: {fileID: 1934790787}
   - component: {fileID: 1934790786}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BLACKOUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
