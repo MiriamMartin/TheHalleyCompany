@@ -50175,6 +50175,7 @@ MonoBehaviour:
   - 42553972355
   - 628842673
   - 92824464
+  - 67372867
   - 8656696
   - 732738
   - 72346
@@ -50190,18 +50191,18 @@ MonoBehaviour:
   - 3937
   - 81
   passMssgs:
-  - 'Thus, a secondary objective of the Radio Operator is to ensure that THC will
-    not be liable to any charges pressed by a rogue Bell Operator after resurfacing.
-    There are several ways to achieve this:'
+  - A simulated, real-time underwater experience.
   - "You can\u2019t really think that exists. Use your head\u2014 what else could
     NC be? The pieces are all there; you just have to put them together."
   - "Watching\u2026 waiting\u2026 commiserating\u2026 you know that one?"
+  - P:HB harnesses the power of Neural Chips, inserted into internally-selected,
+    long-time employees at THC.
   - "Into the unknown. That\u2019s definitely the nicest way to phrase this experience."
   - "Secret indeed. Halley\u2019s Bell is rife with them\u2014 I wonder what the
     other keywords are? Here, I\u2019ll give you a hint: 6837. Over."
   - "The Radio Operator is responsible for overseeing the Bell Operator\u2019s descent
-    and has the connection code to the Neural Chip on file; they are permitted to
-    close the connection if a threat to P:HB\u2019s secrecy is detected at any time."
+    and has the connection code on file; they are permitted to close the connection
+    if a threat is detected."
   - Can't be easy for him, either. What do you think?
   - Yeah. I think we all are.
   - "Ever seen a beer tower before? They\u2019re the best."
@@ -50213,11 +50214,10 @@ MonoBehaviour:
   - "Don\u2019t trained divers usually use three letters of morse code for this one?"
   - Ding dong!
   - "Feel them on you yet? If not, don\u2019t worry. You will by the end."
-  - "The model of the Bell that you\u2019re currently in. THC\u2019s original patent.
-    It was unsuccessful, at first, and got swept under the table. But, looking around,
-    it\u2019s cool, right? That\u2019s what I thought, so I tweaked the pitch to
-    get more eyes on it and\u2026 now I\u2019m trapped in here, just like you probably
-    are."
+  - "The model of the Bell that you\u2019re in. THC\u2019s original patent. It was
+    unsuccessful at first and got swept under the table. But, looking around, it\u2019s
+    cool, right? That\u2019s what I thought, so I tweaked the pitch to get more eyes
+    on it and\u2026 now I\u2019m here, just like you."
   radioMessages:
   - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
     you were able to figure out the Radio. Good news, good news. If you can\u2019t
