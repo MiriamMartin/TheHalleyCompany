@@ -111,7 +111,7 @@ public class PauseManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("NewerUnified"); // Reloads game scene
+        SceneManager.LoadScene("FastDemo"); // Reloads game scene
     }
 
     public void Death()

@@ -16,7 +16,7 @@ private void Awake()
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerPrefs.SetInt("CurrentCheckpoint", 5);
+        //PlayerPrefs.SetInt("CurrentCheckpoint", 0);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
@@ -88,7 +88,7 @@ private void Awake()
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         //Depth.Instance.setRadioIndex(1);  // skips first message
-        Depth.Instance.setDepth(450f);  // starts players a few seconds BEFORE gauges
+        Depth.Instance.setDepth(250f);  // starts players a few seconds BEFORE gauges
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -103,7 +103,7 @@ private void Awake()
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         Depth.Instance.setRadioIndex(2);  // skips first TWO messages (Gauge, Fear)
-        Depth.Instance.setDepth(3800f);  // starts players a few seconds BEFORE switches message
+        Depth.Instance.setDepth(1500f);  // starts players a few seconds BEFORE switches message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -118,7 +118,7 @@ private void Awake()
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         Depth.Instance.setRadioIndex(3);  // skips first THREE messages (Gauge, Fear, Switch)
-        Depth.Instance.setDepth(5800f);  // starts players a few seconds BEFORE inhaler message
+        Depth.Instance.setDepth(2800f);  // starts players a few seconds BEFORE inhaler message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }
@@ -133,7 +133,7 @@ private void Awake()
         // Need to update Depth Indicator Needle (!!)
         Depth.Instance.descending = true;
         Depth.Instance.setRadioIndex(5);  // skips first FIVE messages (Gauge, Fear, Switch, Inhaler, Chat Sesh)
-        Depth.Instance.setDepth(10800f);  // starts players a few seconds BEFORE blackout message
+        Depth.Instance.setDepth(4400f);  // starts players a few seconds BEFORE blackout message
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.tunedKeith = true;
     }

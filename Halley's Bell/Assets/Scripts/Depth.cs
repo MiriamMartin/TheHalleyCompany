@@ -23,10 +23,10 @@ public class Depth : MonoBehaviour
     public bool runBlackout = false;
     public bool runHitFloor = false;
     public bool runEnding = false;
-    private float gaugeDepth = 600f; 
-    private float switchDepth = 4400f;
-    private float inhalerDepth = 6700f;
-    private float blackoutDepth = 11800f;
+    private float gaugeDepth = 300; 
+    private float switchDepth = 2100;
+    private float inhalerDepth = 3700;
+    private float blackoutDepth = 4601;
     private float blackoutSafeDepth = 11900f;
     private float maxDepth = 15000f;  // controls ending
 
@@ -119,6 +119,7 @@ public class Depth : MonoBehaviour
         {
             runInhaler = true;
             Checkpoints.Instance.updateCheckpoint(4);
+            halucinationMax.Run(); //Initialize hallucinationmaxxing FOR FAST-DEMO ONLY
         }
         if (depth >= blackoutDepth && (runBlackout == false) && Checkpoints.Instance.getCheckpoint() <= 5) // only run blackout IF not passed it already
         {

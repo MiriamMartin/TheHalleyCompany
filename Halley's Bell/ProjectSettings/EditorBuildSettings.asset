@@ -20,7 +20,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/CurrentGame/NewUnified.unity
     guid: 20e1a5715d73cb34d981ce5a896f51c7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CurrentGame/NewerUnified.unity
     guid: 2d2f13ad482e3c54fb27ae3c008bb93f
+  - enabled: 1
+    path: Assets/Scenes/CurrentGame/FastDemo.unity
+    guid: ef7a577c7253c44408e70a5576a13cf5
   m_configObjects: {}
