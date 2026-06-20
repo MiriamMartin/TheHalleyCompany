@@ -79,7 +79,7 @@ public class HalucinationMax : MonoBehaviour
             if (normalizedTime > 0.3 && !halucination1Played)
             {
                 //CALL LARGER HALUCINATION
-                keithHallucination.Play();
+                //keithHallucination.Play(); REMOVED FOR FAST-DEMO
                 halucination1Played = true;
             }
 

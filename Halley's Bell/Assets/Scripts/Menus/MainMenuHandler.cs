@@ -138,7 +138,7 @@ public class MainMenuHandler : MonoBehaviour
     {
         // Continues game from current checkpoint game
 
-        SceneManager.LoadScene("NewerUnified"); // Switch to main game's scene name
+        SceneManager.LoadScene("FastDemo"); // Switch to main game's scene name
     }
 
     public void StartGame()
@@ -146,7 +146,7 @@ public class MainMenuHandler : MonoBehaviour
         // starts game by loading the specified game scene
 
         PlayerPrefs.SetInt("CurrentCheckpoint", 0);  // resets checkpoints
-        SceneManager.LoadScene("NewerUnified"); // Switch to main game's scene name
+        SceneManager.LoadScene("FastDemo"); // Switch to main game's scene name
     }
 
     public void OpenSettings(bool val)
