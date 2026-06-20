@@ -140,7 +140,7 @@ public class Ending : MonoBehaviour
         while (fblack.a < 1)
         {
             // print(fblack.a);
-            fblack.a = fblack.a + 1 * 0.05f * Time.deltaTime;
+            fblack.a = fblack.a + 1 * 0.075f * Time.deltaTime; // OG FOR LONG DEMO == 1 * 0.05f, QUICK DEMO == 1 * 0.075f
             fb.color = fblack;
             yield return null;
         }

@@ -34,7 +34,7 @@ public class MainMenuHandler : MonoBehaviour
         baseEmissionColor = mat.GetColor("_EmissionColor");
         StartCoroutine(Flicker());
 
-        SetCheckpointVals();  // sets checkpoint stuff (darkness, continue button)
+        //SetCheckpointVals();  // sets checkpoint stuff (darkness, continue button)   ==========> Removed for quick demo since both gone, add back for game!
 
     }
 
