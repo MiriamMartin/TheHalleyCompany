@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
 public class InteractManager : MonoBehaviour
 {
     public static InteractManager Instance;
     private bool isInteracting = false;
-    public PostProcessVolume PPVolume;
+    //public PostProcessVolume PPVolume;
     public GameObject canvas;
     public Transform overlayObjects;
+
+    public GameObject BlurEffect;
 
     // Start is called before the first frame update
     void Start()
     {
+        BlurEffect.SetActive(false);
         canvas.SetActive(false);
-        PPVolume.weight = 0;
         Instance = this;
         isInteracting = false;
     }
@@ -36,13 +37,13 @@ public class InteractManager : MonoBehaviour
         isInteracting = val;
         if (isInteracting)
         {
-            PPVolume.weight = 1;
+            BlurEffect.SetActive(true);
             canvas.SetActive(true);
 
         }
         else
         {
-            PPVolume.weight = 0;
+            BlurEffect.SetActive(false);
             canvas.SetActive(false);
             foreach (Transform child in overlayObjects)
             {

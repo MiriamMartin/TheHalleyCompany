@@ -32,7 +32,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     private Material mat;
 
     //Steam stuff
-    public ParticleSystem steam;
+    public ParticleSystem stm;
     public float steamIntensityStart = 15f;
     public float steamIntensityMult = 5f;
     public AudioSource steamAudioSource;
@@ -65,6 +65,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     private void Start()
     {
+        ParticleSystem.MainModule steam = stm.main;
         canPress = true;
         postBlackout = false;
         backwardDirection = -forwardDirection;
@@ -75,7 +76,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         mat.DisableKeyword("_EMISSION");
         blink = false;
         blinking = false;
-        steam.startSpeed = (steamIntensityStart + (0 * steamIntensityMult));
+        steam.startSpeedMultiplier = (steamIntensityStart + (0 * steamIntensityMult));
         steam.startColor = new Color(1f, 1f, 1f, 0);
         steamAudioSource.volume = 0;
         steamWhistleAudioSource.volume = 0;
@@ -164,7 +165,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             }
 
             //Steam
-
+            ParticleSystem.MainModule steam = stm.main;
             float steamIntensity = Mathf.InverseLerp(angleSteam, angleMax, Mathf.Abs(currAngle));
             steam.startSpeed = (steamIntensityStart + (steamIntensity * steamIntensityMult));
             steam.startColor = new Color(1f, 1f, 1f, steamIntensity);
@@ -288,13 +289,15 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
 
     IEnumerator BlackoutStartCR()
     {
+        ParticleSystem.MainModule steam = stm.main;
+
         Debug.Log("BlackoutStartGauge");
         canPress = false;
         run = false;
         speed = gaugeSpeed * 2;
         float steamStartVolume = steamAudioSource.volume;
         float whistleStartVolume = steamWhistleAudioSource.volume;
-        float colorAlphaStart = steam.startColor.a;
+        float colorAlphaStart = steam.startColor.color.a;
         float t = 0f;
         float duration = 5f;
 

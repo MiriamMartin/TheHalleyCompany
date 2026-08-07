@@ -10,7 +10,7 @@ public class InteractableObject : MonoBehaviour
 
     //Some code from YouTube tutorial: https://www.youtube.com/watch?v=_lEZ4PBw3Co&t=197s
     public GameObject objectToInspect;
-    public float rotationSpeed = 10f;
+    public float rotationSpeed;
     private Vector3 previousMousePosition;
 
 
@@ -45,10 +45,10 @@ public class InteractableObject : MonoBehaviour
             if (Input.GetMouseButton(0) && !PauseManager.Instance.getIsPaused())
             {
                 Vector3 deltaMousePosition = Input.mousePosition - previousMousePosition;
-                float rotationX = deltaMousePosition.y * rotationSpeed * Time.deltaTime;
+                //float rotationX = deltaMousePosition.y * rotationSpeed * Time.deltaTime;
                 float rotationY = -deltaMousePosition.x * rotationSpeed * Time.deltaTime;
 
-                Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
+                Quaternion rotation = Quaternion.Euler(0, rotationY, 0);
                 objectToInspect.transform.rotation = rotation * objectToInspect.transform.rotation;
 
                 previousMousePosition = Input.mousePosition;
@@ -65,10 +65,5 @@ public class InteractableObject : MonoBehaviour
         Transform cameraTransform = Camera.main.transform;
         objectToInspect.transform.position = cameraTransform.position + cameraTransform.forward * distance;
         //objectToInspect.transform.Rotate(new Vector3(objectToInspect.transform.position.x, objectToInspect.transform.position.y , objectToInspect.transform.position.z), Space.Self);
-    }
-
-    private void OnMouseUp()
-    {
-
     }
 }

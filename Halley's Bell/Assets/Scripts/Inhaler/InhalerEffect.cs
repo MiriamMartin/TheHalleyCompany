@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class InhalerEffect : MonoBehaviour
 {
 
     public bool DEBUGMODE = false;
 
-    public PostProcessVolume PPVolume;
+    //public PostProcessVolume PPVolume;
     private bool inhaled = false;
     public GameObject playerInhaler;
 
@@ -27,10 +28,20 @@ public class InhalerEffect : MonoBehaviour
 
     public Light inhalerLight;
 
+    public Volume Inhaler_Effect;        
+    Vignette vignette;
+    FilmGrain film_grain;
+
     // Start is called before the first frame update
     void Start()
     {
-        PPVolume.weight = 0;
+        Inhaler_Effect.profile.TryGet<Vignette>(out vignette);
+        Inhaler_Effect.profile.TryGet<FilmGrain>(out film_grain);
+
+        vignette.intensity.value = 0f;
+        film_grain.intensity.value = 0f;
+        vignette.active = true;
+        film_grain.active = true;
 
         playerInhaler.SetActive(false);
 
@@ -76,7 +87,8 @@ public class InhalerEffect : MonoBehaviour
     {
         curRunning = false;  // event is now running
         StopCoroutine(inhaler);
-        PPVolume.weight = 0;
+        vignette.intensity.value = 0f;
+        film_grain.intensity.value = 0f;
         Breathing.Stop();
     }
 
@@ -92,7 +104,8 @@ public class InhalerEffect : MonoBehaviour
     {
         // Increases Vignette over duration (seconds) to endWeight (0-1)
 
-        float startWeight = PPVolume.weight;
+        //float startWeight = PPVolume.weight;
+        float startWeight = 0f;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -101,7 +114,8 @@ public class InhalerEffect : MonoBehaviour
             float t = elapsed / duration;
 
             float w = Mathf.Lerp(startWeight, endWeight, t);
-            PPVolume.weight = w;
+            vignette.intensity.value = w;
+            film_grain.intensity.value = w;
             inhalerLight.intensity = w * 8;
 
             if (inhaled)
@@ -118,7 +132,7 @@ public class InhalerEffect : MonoBehaviour
             yield return null;
         }
 
-        PPVolume.weight = endWeight;
+        //PPVolume.weight = endWeight;
         updateDeathTip();
         PauseManager.Instance.Death(); //Dies when reaches max!
     }
@@ -134,7 +148,8 @@ public class InhalerEffect : MonoBehaviour
 
         playerInhaler.SetActive(true);
 
-        float startWeight = PPVolume.weight;
+        //float startWeight = PPVolume.weight;
+        //float startWeight = 0f;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -142,12 +157,15 @@ public class InhalerEffect : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
 
-            PPVolume.weight = Mathf.Lerp(startWeight, 0, t);
+            vignette.intensity.value = Mathf.Lerp(0f, 0, t);
+            film_grain.intensity.value = Mathf.Lerp(0f, 0, t);
 
             yield return null;
         }
 
-        PPVolume.weight = 0;
+        //PPVolume.weight = 0;
+        vignette.intensity.value = 0f;
+        film_grain.intensity.value = 0f;
 
         playerInhaler.SetActive(false);
 
