@@ -111,7 +111,7 @@ public class PauseManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("FastDemo"); // Reloads game scene
+        SceneManager.LoadScene("CurrentGame"); // Reloads game scene
     }
 
     public void Death()
@@ -122,6 +122,7 @@ public class PauseManager : MonoBehaviour
     {
         animator.SetTrigger("deathBlink");
         yield return null;
+        yield return new WaitForSeconds(0.3f);
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
 
         SceneManager.LoadScene("Death");

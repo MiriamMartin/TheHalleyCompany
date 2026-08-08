@@ -18,12 +18,15 @@ EditorBuildSettings:
     path: Assets/Scenes/CurrentGame/End.unity
     guid: c38d434cefaeb034d8d9791b4afe9455
   - enabled: 0
-    path: Assets/Scenes/CurrentGame/NewUnified.unity
+    path: Assets/Scenes/_old/NewUnified.unity
     guid: 20e1a5715d73cb34d981ce5a896f51c7
   - enabled: 0
-    path: Assets/Scenes/CurrentGame/NewerUnified.unity
+    path: Assets/Scenes/_old/NewerUnified.unity
     guid: 2d2f13ad482e3c54fb27ae3c008bb93f
-  - enabled: 1
-    path: Assets/Scenes/CurrentGame/FastDemo.unity
+  - enabled: 0
+    path: Assets/Scenes/_old/FastDemo.unity
     guid: ef7a577c7253c44408e70a5576a13cf5
+  - enabled: 1
+    path: Assets/Scenes/CurrentGame/CurrentGame.unity
+    guid: 7a48768b782ca6d4ea29687cf76309b8
   m_configObjects: {}
