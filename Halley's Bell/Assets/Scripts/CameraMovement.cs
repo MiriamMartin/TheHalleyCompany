@@ -59,16 +59,26 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         //initializing 2d representation of moveable area (0 is wall, 1 & 2 is moveable, 2 is special trigger
         grid = new int[,]
         {
-            { 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 2, 1, 1, 0 },
-            { 0, 0, 0, 0, 0, 1, 0 },
-            { 0, 0, 0, 0, 0, 1, 0 },
-            { 0, 0, 0, 1, 3, 1, 0 },
-            { 0, 0, 0, 0, 0, 0, 0 }
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 1, 1, 1, 0,1,0,0 },
+            { 0, 0, 0, 1, 0, 1, 0,1,0,0 },
+            { 0, 0, 0, 1, 0, 1, 1,1,0,0 },
+            { 0, 0, 0, 1, 0, 1, 0,0,0,0 },
+            { 0, 0, 0, 1, 0, 1, 1,1,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 },
+            { 0, 0, 0, 2, 1, 1, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 1, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 1, 0,0,0,0 },
+            { 0, 0, 0, 1, 3, 1, 0,0,0,0 },
+            { 0, 0, 0, 0, 0, 0, 0,0,0,0 }
         };
 
 
-        playerPos = new int[] { 4, 4 }; //Starting position of player
+        playerPos = new int[] { 14, 4 }; //Starting position of player
         gridDir = 3; //MAKE SURE THIS NUMBER CORROSPONDS TO STARTING DIRECTION
     }
 
