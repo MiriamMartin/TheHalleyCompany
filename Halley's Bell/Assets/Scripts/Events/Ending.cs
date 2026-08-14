@@ -22,6 +22,10 @@ public class Ending : MonoBehaviour
     public GameObject wall2;
     public GameObject wallMisc;
     public GameObject wallLever;
+    public GameObject removeableWall;
+    public GameObject bellHull;
+    public GameObject door;
+    public GameObject fakeEye;
 
     [Header("Credits")]
     public GameObject Creds;
@@ -79,21 +83,36 @@ public class Ending : MonoBehaviour
 
     IEnumerator EndSequence()
     {
-        yield return new WaitUntil(() => trigger == true);
-        cameraMovement.setGridTile(grid, 2, 5, 0);
-        wall1.SetActive(true);
-
-        yield return new WaitUntil(() => trigger == false);
-        yield return new WaitUntil(() => cameraMovement.getPlayerPosition()[0] == 1 && cameraMovement.getPlayerPosition()[1] == 5 && cameraMovement.GetDirection() == 1);
-        wallMisc.SetActive(true);
-        endHit.Play();
+        //First Segment
+        yield return new WaitUntil(() => trigger == true); //Wait until stepping onto tile "2"
+        cameraMovement.setGridTile(grid, 12, 5, 0); //Create wall
+        wall1.SetActive(true); //Create wall visual
+        yield return new WaitUntil(() => trigger == false); //Wait until stepping off of "2"
+        yield return new WaitUntil(() => cameraMovement.getPlayerPosition()[0] == 11 && cameraMovement.getPlayerPosition()[1] == 5 && cameraMovement.GetDirection() == 1); //Wait until looking at new wall
+        wallMisc.SetActive(true); //Add pipes in hallway
+        //Play scary sounds
+        endHit.Play(); 
         end1.Play();
         StartCoroutine(AdjustVolume(end1, 1, 0.5f));
         StartCoroutine(AdjustVolume(endBackground, 1, 0.5f));
-        yield return new WaitForSeconds(12f);
+        //yield return new WaitForSeconds(12f); No pause post-maze
+        //Remove hull and wall leading into maze
+        bellHull.SetActive(false);
+        removeableWall.SetActive(false);
+        fakeEye.SetActive(false);
+        door.SetActive(false);
+        cameraMovement.setGridTile(grid, 10, 3, 1); //Make maze opening tile walkable
 
+
+        //Second Segment
+        yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 3)); //Wait until looking at the newly formed maze
+        endHit.Play();
+        end2.Play();
+        StartCoroutine(AdjustVolume(end2, 1, 0.5f));
+
+        /*
+        //Second Segment (Pre-Maze)
         yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
-        
         yield return new WaitForSeconds(0.5f);
         wall2.SetActive(true);
 
@@ -102,9 +121,12 @@ public class Ending : MonoBehaviour
         endHit.Play();
         end2.Play();
         StartCoroutine(AdjustVolume(end2, 1, 0.5f));
-        cameraMovement.setGridTile(grid, 1, 4, 0);
+        cameraMovement.setGridTile(grid, 11, 4, 0);
         yield return new WaitForSeconds(12);
-        yield return new WaitUntil(() => cameraMovement.GetDirection() == 3);
+        */
+
+        //Third Segment (Zoom)
+        yield return new WaitUntil(() => (cameraMovement.GetDirection() == 3) && cameraMovement.getPlayerPosition()[0] == 5 && cameraMovement.getPlayerPosition()[1] == 7); //Wait until in front of and looking at maze exit
         cameraMovement.enabled = false;
         StartCoroutine(AdjustVolume(end1, 0, 0.5f));
         StartCoroutine(AdjustVolume(end2, 0, 0.5f));
