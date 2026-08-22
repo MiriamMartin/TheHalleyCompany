@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TerminalHandler : MonoBehaviour
 {
+    // CURRENTLY UNUSED
 
     // Clone-ish of 'Terminal' Script, to try and consolidate all terminal things for messages
     // and make saving happen, yea :)

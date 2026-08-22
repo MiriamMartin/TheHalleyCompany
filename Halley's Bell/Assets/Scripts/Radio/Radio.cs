@@ -164,11 +164,19 @@ public class Radio : MonoBehaviour, ButtonInterface
             {
                 freq += increaseRate * Time.deltaTime;
                 freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+                if (freq == maxFreq)
+                {
+                    OneDial.GetComponent<RadioDial>().SetStopRight(true);
+                }
             }
             else if (OneDial.GetComponent<RadioDial>().GetLeft())
             {
                 freq -= increaseRate * Time.deltaTime;
                 freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+                if (freq == minFreq)
+                {
+                    OneDial.GetComponent<RadioDial>().SetStopLeft(true);
+                }
             }
             needle.localPosition = new Vector3(needle.localPosition.x, needle.localPosition.y, needleZ - ((freq - minFreq) * distanceMod));
         }
