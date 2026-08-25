@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Terminal : MonoBehaviour, ButtonInterface
+public class Terminal_NEW : MonoBehaviour, ButtonInterface
 {
 
     [Header("SONAR")]
@@ -60,7 +60,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public AudioSource bootupAudio;
     public AudioSource whirringAudio;
     public AudioSource messageBeepAudio;
-    public AudioSource sonarPing;
     public List<AudioClip> messageTones = new List<AudioClip>();  // tone[0] = radio, tone[1] = terminal bark
 
     [Header("BARKS")]
@@ -71,12 +70,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     [Header("BLACKOUT")]
     private bool canTurnOn = true;
-
-    [Header("SONAR PING")]
-    private bool canSonarPing = true;
-    private bool sonarPinged = false;
-    public GameObject sonarBlip;
-    private Vector3 localOffset = new Vector3(-200f, 122f, -0.1f);
 
     [Header("HALLUCINATION")]
     public Camera TermCam;  // for hallucination
@@ -107,7 +100,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         SonarRotate();
         CheckBarks();
-        if (TermSonarCanv.activeSelf == true && canSonarPing) { StartCoroutine(SonarPing()); } // will only ping if blackout is done && player on sonar screen
 
         if (!typingMssg && !idleRunning)
         {
@@ -136,7 +128,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
         if (Depth.Instance.FirstBlackoutDone && !canTurnOn)
         {
             canTurnOn = true;
-            canSonarPing = true;
         }
 
     }
@@ -146,34 +137,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public void SonarRotate()
     {
         sonar.transform.Rotate(0, 0, -20f * Time.deltaTime);
-        if (!sonarPinged) { sonarBlip.transform.position = sonar.transform.TransformPoint(localOffset); }
-    }
-
-    public IEnumerator SonarPing()
-    {
-        canSonarPing = false;
-        yield return new WaitForSeconds(1f);
-        sonarPing.Play();
-        sonarBlip.SetActive(true);
-        sonarPinged = true;
-
-        yield return new WaitForSeconds(2f);
-
-
-        Color blip = sonarBlip.GetComponent<Image>().color;
-        float startAlpha = blip.a;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < 3f)  // duration is 3f
-        {
-            elapsedTime += Time.deltaTime;
-            float normalizedTime = elapsedTime / 3f;
-
-            float curAlpha = Mathf.Lerp(startAlpha, 0f, normalizedTime);
-            sonarBlip.GetComponent<Image>().color = new Color(blip.r, blip.g, blip.b, curAlpha);
-            yield return null; 
-        }
-        sonarBlip.GetComponent<Image>().color = new Color(blip.r, blip.g, blip.b, 0f);
     }
 
     // ========================= TEXT =========================

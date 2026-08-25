@@ -11,6 +11,9 @@ public class RadioDial : MonoBehaviour
     private bool turningRight = false;
     private bool turningLeft = false;
 
+    private bool StopLeft = false;
+    private bool StopRight = false;
+
     public float rotationSpeed = 1f;
 
     private void OnMouseDown()
@@ -44,7 +47,11 @@ public class RadioDial : MonoBehaviour
 
         float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
 
-        transform.Rotate(Vector3.forward, -deltaAngle * rotationSpeed);
+        if ((deltaAngle > 0f && !StopLeft) || (deltaAngle < 0f) && !StopRight)
+        {
+            transform.Rotate(Vector3.forward, -deltaAngle * rotationSpeed);
+        }
+        
 
         lastAngle = currentAngle;
 
@@ -52,11 +59,13 @@ public class RadioDial : MonoBehaviour
         {
             turningLeft = true;
             turningRight = false;
+            StopRight = false;
         }
         else if (deltaAngle < 0f)  // turning right (clockwise)
         {
             turningRight = true;
             turningLeft = false;
+            StopLeft = false;
         }
 
         if (Mathf.Abs(deltaAngle) < 0.01f)  // if not dragging but mouse still held
@@ -75,5 +84,15 @@ public class RadioDial : MonoBehaviour
     public bool GetRight()
     {
         return turningRight;
+    }
+
+    public void SetStopLeft(bool val)
+    {
+        StopLeft = val;
+    }
+
+    public void SetStopRight(bool val)
+    {
+        StopRight = val;
     }
 }

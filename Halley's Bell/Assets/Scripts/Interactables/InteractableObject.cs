@@ -13,10 +13,12 @@ public class InteractableObject : MonoBehaviour
     public float rotationSpeed;
     private Vector3 previousMousePosition;
 
+    private Quaternion ogRotation;
 
     void Start()
     {
         interactManager = GetComponentInParent<InteractManager>();
+        rotatable = false;
         if (interactManager == null)
         {
             Debug.Log("Interactable object '" + gameObject.name + "' needs to be a child of interact manager object!");
@@ -53,6 +55,12 @@ public class InteractableObject : MonoBehaviour
 
                 previousMousePosition = Input.mousePosition;
             } 
+
+            if (objectToInspect.activeSelf == false)  // once inspect is done (insp obj off), resets rotation stuff
+            {
+                rotatable = false;
+                objectToInspect.transform.rotation = ogRotation;
+            }
         }
     }
 
@@ -60,10 +68,14 @@ public class InteractableObject : MonoBehaviour
     private void OnMouseDown()
     {
         if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) { return; }  // Interactables can't be clicked while paused or already interacting
+
         interactManager.setIsInteracting(true);
         objectToInspect.SetActive(true);
         Transform cameraTransform = Camera.main.transform;
         objectToInspect.transform.position = cameraTransform.position + cameraTransform.forward * distance;
-        //objectToInspect.transform.Rotate(new Vector3(objectToInspect.transform.position.x, objectToInspect.transform.position.y , objectToInspect.transform.position.z), Space.Self);
+        
+        // Inspect Obj Rotation
+        rotatable = true;  // allows it to rotate, and prevents it from being rotated when not focused
+        ogRotation = objectToInspect.transform.rotation;  // saves the original rotation, so can be reset when exiting
     }
 }

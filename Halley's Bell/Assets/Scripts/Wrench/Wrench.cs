@@ -74,7 +74,7 @@ public class Wrench : MonoBehaviour
         Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
-        lastAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        lastAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
     }
 
     private void OnMouseDrag()
@@ -83,7 +83,7 @@ public class Wrench : MonoBehaviour
         {
             Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - screenPos;
-            float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            float currentAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
             float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
 
             if (deltaAngle >= 0)
@@ -172,7 +172,7 @@ public class Wrench : MonoBehaviour
         Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position);
         Vector3 dir = Input.mousePosition - screenPos;
 
-        float currentAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float currentAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
 
         float deltaAngle = Mathf.DeltaAngle(lastAngle, currentAngle);
 

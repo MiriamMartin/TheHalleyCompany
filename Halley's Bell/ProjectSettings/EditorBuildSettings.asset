@@ -27,6 +27,6 @@ EditorBuildSettings:
     path: Assets/Scenes/_old/FastDemo.unity
     guid: ef7a577c7253c44408e70a5576a13cf5
   - enabled: 1
-    path: Assets/Scenes/CurrentGame/CurrentGame.unity
+    path: Assets/Scenes/_old/CurrentGame-PREMAZE.unity
     guid: 7a48768b782ca6d4ea29687cf76309b8
   m_configObjects: {}
