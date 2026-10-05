@@ -38,11 +38,16 @@ public class Wrench : MonoBehaviour
     private float lastAngle;
     private float totalRotation = 0f;
 
+    //Highlight
+    public Renderer rend;
+    float EMax;
+
     // Start is called before the first frame update
     void Start()
     {
         ogPos = transform.localPosition;
         ogRot = transform.localRotation;
+        EMax = rend.material.GetFloat("_EMax");
     }
 
     // Update is called once per frame
@@ -67,7 +72,7 @@ public class Wrench : MonoBehaviour
         if (!isHoldingWrench) 
         {
             pickup.Play();
-            HoldWrench(); 
+            HoldWrench();
         }
 
         // for rotation stuffs
@@ -119,6 +124,19 @@ public class Wrench : MonoBehaviour
     {
         clickAgain = false;
     }
+    //Highlight
+    public void OnMouseEnter()
+    {
+        //if (!isHoldingWrench)
+        rend.material.SetFloat("_ELevel", 1.0f);
+        print("MouseEnter");
+    }
+
+    public void OnMouseExit()
+    {
+        rend.material.SetFloat("_ELevel", 0.0f);
+        print("MouseExit");
+    }
 
     public void HoldWrench()
     {
@@ -135,6 +153,9 @@ public class Wrench : MonoBehaviour
         this.transform.localRotation = Quaternion.Euler(-20, -95, 20);
 
         isHoldingWrench = true;
+
+        //Deactivate Highlight
+        //rend.material.SetFloat("_ELevel", 0.0f);
 
         if (showControls)
         {
