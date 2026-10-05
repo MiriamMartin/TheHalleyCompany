@@ -313,7 +313,7 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         if (Checkpoints.Instance.getCheckpoint() >= 1)  // if radio was previous tuned into, start tuning AT keith frequency
         {
-            needle.localPosition = new Vector3(2.410085f, 1.918846f, -1.1527f);
+            needle.localPosition = new Vector3(2.410085f, 1.8464f, -1.1527f);
             freq = 95f;
         }
     }
