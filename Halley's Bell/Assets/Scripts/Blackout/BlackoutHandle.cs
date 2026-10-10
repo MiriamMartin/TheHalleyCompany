@@ -20,7 +20,7 @@ public class BlackoutHandle : MonoBehaviour, ButtonInterface
     public Animator animator;
 
     [Header("Trailhead Demo?")]
-    private bool DEMO = true;
+    private bool DEMO = false;
     public GameObject end_script;
 
     public void Start()
