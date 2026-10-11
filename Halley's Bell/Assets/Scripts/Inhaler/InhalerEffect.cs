@@ -116,7 +116,7 @@ public class InhalerEffect : MonoBehaviour
             float w = Mathf.Lerp(startWeight, endWeight, t);
             vignette.intensity.value = w;
             film_grain.intensity.value = w;
-            inhalerLight.intensity = w * 8;
+            inhalerLight.intensity = w * 4;
 
             if (inhaled)
             {

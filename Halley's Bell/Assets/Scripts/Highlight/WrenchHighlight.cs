@@ -6,21 +6,27 @@ using UnityEngine;
 public class WrenchHighlight : MonoBehaviour
 {
     public Renderer rend;
+    public Wrench w;
     float EMax;
 
     private void Start()
     {
         EMax = rend.material.GetFloat("_EMax");
-        
+        rend.material.SetFloat("_ELevel", 0.0f);
 
     }
 
 
     void OnMouseEnter()
     {
-        rend.material.SetFloat("_ELevel", EMax);
-
-
+        if (!w.isHoldingWrench)
+        {
+            Debug.Log(w.isHoldingWrench + "HIGHLIGHT");
+            rend.material.SetFloat("_ELevel", EMax);
+        } else
+        {
+            Debug.Log("ELSE");
+        }
     }
 
     void OnMouseExit()

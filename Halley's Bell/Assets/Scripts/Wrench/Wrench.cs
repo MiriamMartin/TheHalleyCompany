@@ -48,6 +48,7 @@ public class Wrench : MonoBehaviour
         ogPos = transform.localPosition;
         ogRot = transform.localRotation;
         EMax = rend.material.GetFloat("_EMax");
+        rend.material.SetFloat("_ELevel", 0.0f);
     }
 
     // Update is called once per frame
@@ -72,6 +73,7 @@ public class Wrench : MonoBehaviour
         if (!isHoldingWrench) 
         {
             pickup.Play();
+            rend.material.SetFloat("_ELevel", 0.0f);
             HoldWrench();
         }
 
@@ -127,9 +129,11 @@ public class Wrench : MonoBehaviour
     //Highlight
     public void OnMouseEnter()
     {
-        //if (!isHoldingWrench)
-        rend.material.SetFloat("_ELevel", 1.0f);
-        print("MouseEnter");
+        if (!isHoldingWrench)
+        {
+            rend.material.SetFloat("_ELevel", 1.0f);
+            print("MouseEnter");
+        }
     }
 
     public void OnMouseExit()
