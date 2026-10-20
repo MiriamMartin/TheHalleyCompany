@@ -20,7 +20,7 @@ public class Eye : MonoBehaviour
     IEnumerator FadeIn()
     {
         yield return new WaitForSeconds(Random.Range(0f, 3f));
-        float randBrightness = Random.Range(0.6f, 0.9f);
+        float randBrightness = Random.Range(0.008f, 0.1f);
         float t = 0f;
         float duration = Random.Range(1f, 3f);
 

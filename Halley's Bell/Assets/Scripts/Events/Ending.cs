@@ -126,7 +126,7 @@ public class Ending : MonoBehaviour
         */
 
         //Third Segment (Zoom)
-        yield return new WaitUntil(() => (cameraMovement.GetDirection() == 3) && cameraMovement.getPlayerPosition()[0] == 5 && cameraMovement.getPlayerPosition()[1] == 7); //Wait until in front of and looking at maze exit
+        yield return new WaitUntil(() => (cameraMovement.GetDirection() == 3) && cameraMovement.getPlayerPosition()[0] == 1 && cameraMovement.getPlayerPosition()[1] == 9); //Wait until in front of and looking at maze exit
         cameraMovement.enabled = false;
         StartCoroutine(AdjustVolume(end1, 0, 0.5f));
         StartCoroutine(AdjustVolume(end2, 0, 0.5f));
