@@ -610,5 +610,83 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
     }
 
+    // =================================================================================== Script Obj Test
 
+    public void TypeMessageDescentSeq(string mssg, List<int> timings)
+    {
+        // types mssg on terminal screen
+
+        stopIdling();
+        typingMssg = true;
+
+        addNewline();
+
+        StartCoroutine(timedTypingEffect(mssg, timings));
+        displayMssg = StartCoroutine(displayTranscribing());
+    }
+
+    public IEnumerator timedTypingEffect(string mssg, List<int> timing)
+    {
+        // typing effect
+
+        PlayMessageBeep();
+        yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
+
+        string[] mssgPortions = mssg.Split("|");
+
+        for (int index = 0; index < mssgPortions.Length; index++)
+        {
+            string curMsg = mssgPortions[index];
+            float typeDelay;
+            if (index == 0)
+            {
+                typeDelay = ((float)timing[index] * 0.5f) / curMsg.Length;
+            }
+            else 
+            {
+                typeDelay = (float)timing[index] / curMsg.Length;
+            }
+                
+
+            Debug.Log(curMsg);
+            Debug.Log(typeDelay);
+            
+            for (int i = 0; i < curMsg.Length; i++)
+            {
+                terminalText.text += curMsg[i];
+                AutoScroll();
+                yield return new WaitForSeconds(typeDelay);
+            }
+        }
+
+        addNewline();
+        ShiftLines(2, -1);
+
+        StopCoroutine(displayMssg);
+        display.text = "";
+        typingMssg = false;
+    }
+
+    public void Bark(string mssg)
+    {
+        var tt = terminalText.text;
+
+        if (tt.Substring(tt.Length - 2) == ">_")
+        {
+            terminalText.text = tt.Remove(terminalText.text.Length - 1);
+            terminalText.text = tt.Remove(terminalText.text.Length - 1);
+        }
+        else if (tt.Substring(tt.Length - 1) == ">")
+        {
+            terminalText.text = tt.Remove(terminalText.text.Length - 1);
+        }
+        else
+        {
+            terminalText.text += "\n";
+        }
+
+        terminalText.text += lineBRK + "\n\n";
+        terminalText.text += ">" + mssg;
+        terminalText.text += "\n\n" + lineBRK + "\n\n>";
+    }
 }
