@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: DescentSequence
+  m_EditorClassIdentifier: Assembly-CSharp::DescentSequence
+  events:
+  - Name: Intro
+    EventID: R1
+    Text: "Hello? Hello hello? You there, Newbie?| Okay, well, if you can hear me,
+      that means you were able to figure out the Radio. Good news, good news. If
+      you can\u2019t hear me, too bad. I don\u2019t really got all day to wait around
+      and watch ya press buttons till you find the right frequency, yanno?| Uh, let\u2019s
+      see here\u2026| Huh, that\u2019s new. Gettin\u2019 some funky echo through
+      the speaker\u2026 must be \u2018cause it\u2019s old.| Uhh, yeah\u2026 Terminal\u2026
+      transmitter\u2026 yeah. Yeah, yeah, this is\u2014 this is too much too fast
+      for a newbie like you.| How \u2018bout this for now: I\u2019m Keith, The Halley
+      Company\u2019s resident Radio Operator. I\u2019ll be broadcasting, um, every
+      once in a while to help ya out in your diving bell, so don\u2019t forget this
+      frequency, you hear?| Okay, what else\u2026 oh, right, right. Just so you know,
+      I can\u2019t actually see inside the Bell. So you\u2019ve got sooome privacy,
+      just, uh\u2026 don\u2019t do anything weird, \u2018kay? You don\u2019t wanna
+      go down as that guy.| Anyways, should be a panel of Switches somewhere. Flip
+      \u2018em all on, and, uh, the Bell\u2019ll start to descend.| I\u2019ll let
+      you go, then\u2014 it\u2019s gonna take a sec to get your bearings once things
+      start movin\u2019. Trust me.| Talk to you soon-ish. And, uh, congrats on becoming
+      Operator."
+    Audio: {fileID: 8300000, guid: 04d6a076b23db484daf728ba390c1f7b, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 040000000d0000000300000006000000090000000c0000000d000000060000000600000004000000
+  - Name: Post-Intro Bark
+    EventID: T1
+    Text: I know you're just going straight down, but in the perpetual darkness,
+      I'd never find my way. Kudos to you, really.
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: Gauges
+    EventID: E1
+    Text: "Hello? Ya there, Op? Hope you don\u2019t mind a good ol\u2019 nickname.|
+      Me again. Forgot to mention somethin\u2019. Whoops.| Uhh, the Bell might look
+      a bit different from what you saw during the briefing\u2014 this is an older
+      model from a few years back. It doesn\u2019t have all the fancy new features,
+      so you\u2019re gonna hafta maintain this guy for, uh\u2026 uh, your entire
+      expedition.| Gives ya somethin\u2019 to do while you\u2019re plungin\u2019
+      into the \u201Cdeep wonders of below,\u201D as The Halley Company likes to
+      say, you know?| But yeah. Should be a Gauge somewhere\u2014 you might not hear
+      any steam releasing yet, uh, but if you do, that\u2019s no good, no good at
+      all.| Hold the lever on the pipe down, and, uh, that\u2019ll gradually normalize
+      the pressure in there. You\u2019ll know it worked if the red light turns off.
+      Oh, and, uh, don\u2019t overdo it\u2014 make sure to keep the indicator in
+      the middle range, got it got it?| It was a huge pain in the ass to get the
+      last Bell up when the Operator didn\u2019t maintain it, so let\u2019s just
+      stay on top of that for everyone\u2019s sake, okay?| Good luck, buddy."
+    Audio: {fileID: 8300000, guid: 25b35b0a139aa3b42b5a9107897ab7ab, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 05000000040000000e00000006000000090000000b0000000800000002000000
+  - Name: Fearmongering
+    EventID: R2
+    Text: "Salutations, Op. Man, coming up with these greetings is tough.| How\u2019s
+      maintenance goin\u2019? Got a handle on it yet?| I\u2019d hope so, y\u2019know\u2014
+      submersible catastrophes are noooot pretty. Lots of, uh, projectile dismemberment.
+      No one wants to see that.| And, well, you can\u2019t really do anything about
+      this part, but thousands of meters down? Water gets heaaavy. Combine that with
+      poor manufacturing, and ya just might hear one hell of a hull crunch, and then\u2026|
+      Boom. Implosion.| Haha, I\u2019ll\u2014 I\u2019ll stop before I scare ya for
+      real. Being isolated down there seems spooky enough as is. I\u2019ve noticed
+      it\u2019s not uncommon to start hearing strange, strange voices in your head,
+      and seeing all sorts of funky stuff, so\u2026 makes sense why astronauts have
+      to go through so much training.| Anyways, I\u2019ve kept ya long enough. Just
+      figured you\u2019d \u2018ppreciate the company. If you get bored, feel free
+      ta check out the other Radio channels, ya hear?"
+    Audio: {fileID: 8300000, guid: 15aea8e097f57254b98f834118293114, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 0500000003000000080000000c000000020000000f00000008000000
+  - Name: Switches
+    EventID: E2
+    Text: "Hello? Yoohoo, Newbie.| Just Keith, checkin\u2019 in. Aren\u2019t I nice.|
+      So, anything new or unusual on your end?| Well, if I\u2019m gonna be honest\u2026
+      uh, we\u2019re detecting some anomalous behaviour. Can you turn towards the
+      Switchbox and make sure all the switches are flicked up?| Ah-he-hem. I\u2014
+      I\u2019ve got, um, documentation here, you see. Says somethin\u2019 about the
+      Switchbox going out of wack occasionally under troubleshooting?| Mmhm. That\u2014
+      the red light, I mean\u2014 shouldn\u2019t be happening.| Not sure what\u2019s
+      goin\u2019 on, but red lights are usually a warning to maintain the Bell\u2019s
+      systems. So, keep an eye on it, would ya? Like I said, the Bell you\u2019re
+      in is an older model, so it might keep happenin\u2019.| Ta-ta for now."
+    Audio: {fileID: 8300000, guid: e690f1f5bc8295f49b59960af7a04a59, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 0300000004000000040000000800000009000000050000000b00000001000000
+  - Name: Post-Switches Bark
+    EventID: T2
+    Text: Iron maidens are kind of bell-shaped, aren't they? Iron't ya glad yours
+      isn't tryin' ta kill you?
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: Inhaler
+    EventID: E3
+    Text: "Heyooo, Newbie. Ya feelin\u2019 crazy yet?| You\u2019re looking kinda
+      rough. They want me to tell you that with the changes in pressure \u2018n stuff
+      it\u2019s normal to be a bit dizzy.| Not that I\u2019m saying that you are\u2014
+      but, uhh, if you are, there should be an Inhaler lying around. L-shaped, red,
+      plastic? Whenever your vision starts getting fuzzy or you\u2019re having a
+      hard time breathing, give that guy a goood drag, and the meds should fix ya
+      right up.| What\u2019s in the meds? Couldn\u2019t tell ya, honestly. Heard
+      they can feel pre\u2019tty good, though.| Puff puff, Op."
+    Audio: {fileID: 8300000, guid: 41f961de1cb132546ace95d4e36abfdf, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 0500000006000000100000000700000001000000
+  - Name: Pre-Chat Bark
+    EventID: T3
+    Text: "No offense, Op, but this is a snoozefest. What I wouldn't give for a vacation.
+      Could use some cashmere hills filled with evergreens\u2026 but you've got the
+      shortest end of the stick, so I can't complain."
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: Chat Sesh
+    EventID: R3
+    Text: "Knock knock. Op, you there?| There\u2019s not actually all that much to
+      do on this side, \u2018sides monitoring. None of the action you\u2019re getting.|
+      So, uh, I\u2019ve got your file here\u2014 hope you don\u2019t mind me taking
+      a peek. And, if you do\u2026 I already did. Sorry, sorry!| Mhm, mhm\u2026|
+      Wow, you been with us ten years? Talk about dedication. Why the loyalty?| Uh,
+      guess I can check for myself, here. Okay\u2026 vitals\u2026| Not bad, buddy.
+      Rough neighbourhood, though.| NC connection code\u2026| Emergency contact\u2026|
+      Oh, right. Uh, down the hallway, there should be a backup generator. I\u2019m
+      meant to let ya know in case of emergencies.| Uhh, but, anyway, uh, reason
+      for applying is that you heard successful Operators get a promotion? Really?|
+      That can\u2019t be it. No dyin\u2019 family or anything? Says you got a dog\u2014
+      your dog doing alright?| I hope you left her in good company.| Well, either
+      way. Straightforward. I respect it.| Hm, risking it all for some extra cash,
+      huh. So, how far would ya go? Would you sell your soul? Would you sell your
+      mind?| Whoops, got a liiiil\u2019 too serious there. Just pullin\u2019 your
+      leg\u2014 nothing to do with me in the end, right right?| Rootin\u2019 for
+      you, Newbie."
+    Audio: {fileID: 8300000, guid: 5fa79d751b2809349b5933cbe0bd99cc, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 03000000040000000b00000003000000060000000500000004000000020000000300000008000000080000000800000003000000040000000a0000000700000002000000
+  - Name: Post-Chat Sesh Bark
+    EventID: T4
+    Text: How much do you think a mind weighs?
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: Blackout
+    EventID: E4
+    Text: "Newbie? Hey, Newbie? I know you\u2019re there\u2014 can ya hear me?| So,
+      how badly did you want that promotion, again? Just so you know, that\u2019s
+      not happening anymore.| You\u2019re pretty upset, aren\u2018tcha?| That\u2019s
+      okay\u2014 numbers tend to go up with big reactions.| As for why\u2026 hmm.|
+      That health screening you had to do last month? That wasn\u2019t just a screening.
+      They had to, ahem, \u201Creallocate funds\u201D to cover the cost of the mandatory
+      procedure they did on ya. Installation\u2019s pricey these days!| Sorry to
+      Stella, though.| That is your dog, right?| Hey, hey, remember, uh, what I was
+      sayin\u2019 earlier about implosion? What if there\u2019s, like, a crack in
+      the bell or somethin\u2019? You\u2019d expire, and then she would, too. Bet
+      that makes the promotion feel a hell of a lot less important.| Or\u2014 what
+      if there\u2019s a sea monster circling the diving bell? Ooh, what if you\u2019re
+      actually a rat in a maze, and a scientist\u2019s recording your reactions?|
+      What do you think those sounds are, Op?| Bit of unsolicited advice? Write Stella
+      a letter. It\u2019ll last lon\u2014"
+    Audio: {fileID: 8300000, guid: 5c3a2219eb68ce44fadad25c6105e897, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 0a000000090000000300000004000000020000001100000003000000030000000f0000000a0000000400000004000000
+  - Name: Blackout Safe
+    EventID: E5
+    Text: 
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: HallucinationMax Bark 1
+    EventID: T5
+    Text: How'd it feel to be trapped in an iron lung? Suffocating? Claustrophobic?
+      Glad I'm not confined to one for the rest of my life, haha.
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: His Voice
+    EventID: R4
+    Text: "Been a sec, Newbie.| Or\u2014 I guess you\u2019re experienced now, huh?
+      I\u2019ll stick with Op.|  Look, bottom line is, you\u2019re not making it
+      outta here. We\u2019ve been watching this whole time and, well, you\u2019ve
+      been doing a great job \u2018n all, but your time\u2019s almost up.| Y\u2019know,
+      in all my years as the Radio Guy, I\u2019ve never stepped foot into the Bell.
+      Too many ghosts.| Spend enough time in there, and, uh, you\u2019ll start ta
+      feel \u2018em\u2026| Or so I\u2019ve observed.| Or maybe what you\u2019re feeling
+      is just\u2026| Our eyes on you? (Our eyes on you?)| Say, when\u2014 when you
+      first booted up the Terminal, the sight was a little too familiar, wasn\u2019t
+      it? Almost like something had crawled into your head and was, uh, transmitting
+      your, mm, vision data.| Honestly, that wasn\u2019t supposed to happen\u2014
+      but it worked out in the end, so.| For us, anyways.| You shoulda figured it
+      out sooner, you really shoulda. It\u2019s too late no\u2014 well, it was always
+      too late for you.| Goodbye, Op.| (Good bye, Op.)| (Good bye, Op.)| (Good bye,
+      Op.)| (Good bye, Op.)| (Good bye, Op.)| (Good bye, Op.) "
+    Audio: {fileID: 8300000, guid: a417339bab4f38942916bc0e96aecd20, type: 3}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 04000000070000000d00000008000000040000000400000004000000050000000f00000006000000030000000a00000001000000010000000100000001000000010000000100000001000000
+  - Name: HallucinationMax Bark 2
+    EventID: T6
+    Text: What would you do if none of your experiences were actually yours alone?
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: HallucinationMax Bark 3
+    EventID: T6
+    Text: '''pparently, explorers have barely seen the seafloor ''cause it''s mostly
+      deep ocean. Think the observer effect plays a role? Maybe the creatures know
+      we''re watching.'
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 
+  - Name: Ending
+    EventID: E6
+    Text: 
+    Audio: {fileID: 0}
+    EventTrigger: 0
+    MessageTrigger: 0
+    TextTiming: 

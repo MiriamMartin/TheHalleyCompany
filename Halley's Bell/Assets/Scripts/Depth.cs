@@ -49,7 +49,7 @@ public class Depth : MonoBehaviour
     public bool tunedKeith = false;  // has first radio message been invoked?
 
     [Header("Hallucinations")]
-    public bool canHallucinate = false;
+    public bool canHallucinate = false; // ---------------------------------------------------------------------------------- Delete w/ AudioHandling Hallucinate?
 
     // Start is called before the first frame update
     void Start()

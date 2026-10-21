@@ -344,4 +344,12 @@ public class Radio : MonoBehaviour, ButtonInterface
         radioConnected = true;
         TurnOn();
     }
+
+    // ============================================================================== SCRIPT OBJ TEST
+
+    public void PlayRadioDescentSeq(AudioClip radioClip)
+    {
+        keith.clip = radioClip;
+        keith.Play();
+    }
 }
