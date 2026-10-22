@@ -34,16 +34,18 @@ MonoBehaviour:
       start movin\u2019. Trust me.| Talk to you soon-ish. And, uh, congrats on becoming
       Operator."
     Audio: {fileID: 8300000, guid: 04d6a076b23db484daf728ba390c1f7b, type: 3}
-    EventTrigger: 0
     MessageTrigger: 0
-    TextTiming: 040000000d0000000300000006000000090000000c0000000d000000060000000600000004000000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
+    TextTiming: 040000000d0000000300000006000000090000000c0000000d000000050000000500000004000000
   - Name: Post-Intro Bark
     EventID: T1
     Text: I know you're just going straight down, but in the perpetual darkness,
       I'd never find my way. Kudos to you, really.
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 200
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: Gauges
     EventID: E1
@@ -63,8 +65,9 @@ MonoBehaviour:
       last Bell up when the Operator didn\u2019t maintain it, so let\u2019s just
       stay on top of that for everyone\u2019s sake, okay?| Good luck, buddy."
     Audio: {fileID: 8300000, guid: 25b35b0a139aa3b42b5a9107897ab7ab, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 600
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: -50
     TextTiming: 05000000040000000e00000006000000090000000b0000000800000002000000
   - Name: Fearmongering
     EventID: R2
@@ -82,8 +85,9 @@ MonoBehaviour:
       figured you\u2019d \u2018ppreciate the company. If you get bored, feel free
       ta check out the other Radio channels, ya hear?"
     Audio: {fileID: 8300000, guid: 15aea8e097f57254b98f834118293114, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 2200
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 0500000003000000080000000c000000020000000f00000008000000
   - Name: Switches
     EventID: E2
@@ -98,16 +102,18 @@ MonoBehaviour:
       systems. So, keep an eye on it, would ya? Like I said, the Bell you\u2019re
       in is an older model, so it might keep happenin\u2019.| Ta-ta for now."
     Audio: {fileID: 8300000, guid: e690f1f5bc8295f49b59960af7a04a59, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 4000
+    EventTriggerOffset: 400
+    CheckpointDepthOffset: -200
     TextTiming: 0300000004000000040000000800000009000000050000000b00000001000000
   - Name: Post-Switches Bark
     EventID: T2
     Text: Iron maidens are kind of bell-shaped, aren't they? Iron't ya glad yours
       isn't tryin' ta kill you?
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 5000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: Inhaler
     EventID: E3
@@ -120,8 +126,9 @@ MonoBehaviour:
       right up.| What\u2019s in the meds? Couldn\u2019t tell ya, honestly. Heard
       they can feel pre\u2019tty good, though.| Puff puff, Op."
     Audio: {fileID: 8300000, guid: 41f961de1cb132546ace95d4e36abfdf, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 6000
+    EventTriggerOffset: 300
+    CheckpointDepthOffset: -200
     TextTiming: 0500000006000000100000000700000001000000
   - Name: Pre-Chat Bark
     EventID: T3
@@ -129,8 +136,9 @@ MonoBehaviour:
       Could use some cashmere hills filled with evergreens\u2026 but you've got the
       shortest end of the stick, so I can't complain."
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 7100
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: Chat Sesh
     EventID: R3
@@ -152,15 +160,17 @@ MonoBehaviour:
       leg\u2014 nothing to do with me in the end, right right?| Rootin\u2019 for
       you, Newbie."
     Audio: {fileID: 8300000, guid: 5fa79d751b2809349b5933cbe0bd99cc, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 8000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 03000000040000000b00000003000000060000000500000004000000020000000300000008000000080000000800000003000000040000000a0000000700000002000000
   - Name: Post-Chat Sesh Bark
     EventID: T4
     Text: How much do you think a mind weighs?
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 9800
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: Blackout
     EventID: E4
@@ -180,23 +190,26 @@ MonoBehaviour:
       What do you think those sounds are, Op?| Bit of unsolicited advice? Write Stella
       a letter. It\u2019ll last lon\u2014"
     Audio: {fileID: 8300000, guid: 5c3a2219eb68ce44fadad25c6105e897, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 11000
+    EventTriggerOffset: 1385
+    CheckpointDepthOffset: -200
     TextTiming: 0a000000090000000300000004000000020000001100000003000000030000000f0000000a0000000400000004000000
   - Name: Blackout Safe
     EventID: E5
     Text: 
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 11900
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: HallucinationMax Bark 1
     EventID: T5
     Text: How'd it feel to be trapped in an iron lung? Suffocating? Claustrophobic?
       Glad I'm not confined to one for the rest of my life, haha.
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 12400
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: His Voice
     EventID: R4
@@ -216,29 +229,33 @@ MonoBehaviour:
       too late for you.| Goodbye, Op.| (Good bye, Op.)| (Good bye, Op.)| (Good bye,
       Op.)| (Good bye, Op.)| (Good bye, Op.)| (Good bye, Op.) "
     Audio: {fileID: 8300000, guid: a417339bab4f38942916bc0e96aecd20, type: 3}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 12800
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 04000000070000000d00000008000000040000000400000004000000050000000f00000006000000030000000a00000001000000010000000100000001000000010000000100000001000000
   - Name: HallucinationMax Bark 2
     EventID: T6
     Text: What would you do if none of your experiences were actually yours alone?
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 14000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: HallucinationMax Bark 3
-    EventID: T6
+    EventID: T7
     Text: '''pparently, explorers have barely seen the seafloor ''cause it''s mostly
       deep ocean. Think the observer effect plays a role? Maybe the creatures know
       we''re watching.'
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 14700
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
     TextTiming: 
   - Name: Ending
     EventID: E6
     Text: 
     Audio: {fileID: 0}
-    EventTrigger: 0
-    MessageTrigger: 0
+    MessageTrigger: 15000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: -500
     TextTiming: 

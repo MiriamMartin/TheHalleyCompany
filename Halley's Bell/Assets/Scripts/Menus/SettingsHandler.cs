@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
 
 public class SettingsHandler : MonoBehaviour
 {
@@ -22,8 +25,11 @@ public class SettingsHandler : MonoBehaviour
     [Header("----------------- Brightness Settings -----------------")]
     [SerializeField] private TextMeshProUGUI brightnessSliderNum;
     [SerializeField] private Slider brightnessSlider;
-    [SerializeField] private Image brightnessImg;
-        
+
+    public Volume globalVolume;
+    private float minBrightness = -0.45f;  // as defined by the range on the actual slider
+    private float maxBrightness = 0.35f;   // as defined by the range on the actual slider
+
     public static float brightnessVal { get; private set; }
     
     [Header("----------------- Screen Shake Settings -----------------")]
@@ -88,7 +94,8 @@ public class SettingsHandler : MonoBehaviour
     public void SetBrightnessFromSlider(float val)
     {
         brightnessVal = val;
-        brightnessSliderNum.text = ((int)(val * 1000)).ToString();  // slider goes to 0.1, 0.1 x 1000 = 100 for display purposes
+        float percentage = Mathf.InverseLerp(minBrightness, maxBrightness, brightnessVal);
+        brightnessSliderNum.text = Mathf.RoundToInt(percentage * 100f).ToString();  // slider goes to 0.1, 0.1 x 1000 = 100 for display purposes
 
         PlayerPrefs.SetFloat("SavedBrightnessValue", val);
         UpdateBrightness();
@@ -96,9 +103,17 @@ public class SettingsHandler : MonoBehaviour
 
     public void UpdateBrightness()
     {
-        Color brightnessCol = brightnessImg.color;
-        brightnessCol.a = brightnessVal;
-        brightnessImg.color = brightnessCol;
+        if (globalVolume.profile.TryGet(out ShadowsMidtonesHighlights smh)) 
+        {
+            smh.midtones.overrideState = true;
+            smh.shadows.overrideState = true;
+
+            Vector4 currentMidtones = smh.midtones.value;
+            Vector4 currentShadows = smh.shadows.value;
+
+            smh.midtones.value = new Vector4(currentMidtones.x, currentMidtones.y, currentMidtones.z, brightnessVal);
+            smh.shadows.value = new Vector4(currentShadows.x, currentShadows.y, currentShadows.z, brightnessVal);
+        }
     }
 
     // ============================ Toggle Screen Shake ==============================

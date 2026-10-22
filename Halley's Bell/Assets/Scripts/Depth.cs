@@ -23,12 +23,17 @@ public class Depth : MonoBehaviour
     public bool runBlackout = false;
     public bool runHitFloor = false;
     public bool runEnding = false;
-    private float gaugeDepth = 300; 
-    private float switchDepth = 2100;
-    private float inhalerDepth = 3700;
-    private float blackoutDepth = 4601;
-    private float blackoutSafeDepth = 11900f;
     private float maxDepth = 15000f;  // controls ending
+
+    [Header("NEW DEPTH SEQUENCING")]
+    public DescentSequence DS;
+    public int nextEventIndex = 0;
+    private DepthEvent curEvent;
+    private HashSet<string> triggeredEvents = new HashSet<string>();
+    private bool evntFired = false;
+    private bool mssgFired = false;
+    public Radio radio;
+    public Terminal terminal;
 
     [Header("Blackout Event")]
     public BlackoutEvent blackoutEvent;
@@ -42,11 +47,7 @@ public class Depth : MonoBehaviour
     public Ending ending;  // will change this, just don't have time rn
 
     [Header("Radio Exposition")]
-    public bool radioTrigger = false;
-    public List<float> radioTriggerDepths = new List<float>();  
-    private int radioTriggerIndex = 0;  // radio message 2 is first trigger (message 1 starts auto when tune in)
     public bool firstRadioDone = false;  // is first radio message done?
-    public bool tunedKeith = false;  // has first radio message been invoked?
 
     [Header("Hallucinations")]
     public bool canHallucinate = false; // ---------------------------------------------------------------------------------- Delete w/ AudioHandling Hallucinate?
@@ -55,6 +56,7 @@ public class Depth : MonoBehaviour
     void Start()
     {
         Instance = this;
+        curEvent = DS.events[nextEventIndex];
     }
 
     // Update is called once per frame
@@ -71,87 +73,126 @@ public class Depth : MonoBehaviour
     {
         // When initial radio message done && switches all on, call this to start descent
 
-        descending = true;
         this.GetComponent<AudioSource>().Play(); // plays start descent sound
         Checkpoints.Instance.updateCheckpoint(1);
+        descending = true;
     }
     public void UpdateDepth()
     {
         if (!PauseManager.Instance.getIsPaused() && depth <= maxDepth)
         {
-            depth += (1000F/60F) * descentSpeed * Time.deltaTime;  // Depth changes by 1000 every 60 seconds, times descentSpeed (default = 1)
-            //needle.localPosition += Vector3.right * descentSpeed * Time.deltaTime * (1/1000f);  // standardized needle movement
+            depth += (1000F / 60F) * descentSpeed * Time.deltaTime;  // Depth changes by 1000 every 60 seconds, times descentSpeed (default = 1)
             DepthText.text = Mathf.Floor(depth / 10).ToString();
         }
     }
 
     public void checkDepthEvents()
     {
-        // At the given depth, set the run var for each event to true to trigger it.
-        //
-        // Each event's script should check to see if this is true in update,
-        // calling run / allowing it to continue to run while this is true.
-        //
-        // When this is reset to false, it will stop.
-
-        // Radio Triggering
-        if (radioTriggerIndex < radioTriggerDepths.Count && (depth >= radioTriggerDepths[radioTriggerIndex]))
+        if (mssgFired && evntFired && !triggeredEvents.Contains(curEvent.EventID))
         {
-            radioTrigger = true;
-            radioTriggerIndex++;
+            queueNextEvent();
+            evntFired = false;
+            mssgFired = false;
+        }
+        else if (depth >= curEvent.EventTrigger && !evntFired)
+        {
+            evntFired = true;
+            CheckExtraConditions(curEvent.EventID);
+        }
+        else if (depth >= curEvent.MessageTrigger && !mssgFired)
+        {
+            mssgFired = true;
+            curEvent.PlayMessage(radio, terminal);
         }
 
-        // Actual Events
-        if (depth >= gaugeDepth && (runGauges == false))
+    }
+
+    void CheckExtraConditions(string id)
+    {
+        switch (id)
         {
-            runGauges = true;
-            canHallucinate = true; // start hallucinations post gauges
-            AudioHandler.Instance.SetHallucinateInterval(60f);  // Delete These
-            Checkpoints.Instance.updateCheckpoint(2);
-        }
-        if (depth >= switchDepth && (runSwitches == false) && !runBlackout)
-        {
-            runSwitches = true;
-            AudioHandler.Instance.SetHallucinateInterval(45f);  // Delete These
-            Checkpoints.Instance.updateCheckpoint(3);
-        }
-        if (depth >= inhalerDepth && (runInhaler == false))
-        {
-            runInhaler = true;
-            Checkpoints.Instance.updateCheckpoint(4);
-            halucinationMax.Run(); //Initialize hallucinationmaxxing FOR FAST-DEMO ONLY
-        }
-        if (depth >= blackoutDepth && (runBlackout == false) && Checkpoints.Instance.getCheckpoint() <= 5) // only run blackout IF not passed it already
-        {
-            runBlackout = true;
-            runSwitches = false;
-            runInhaler = false;
-            descending = false; 
-            blackoutEvent.Run(); 
-            AudioHandler.Instance.SetHallucinateInterval(20f);
-            Checkpoints.Instance.updateCheckpoint(5);
-        }
-        if (depth >= blackoutSafeDepth && Checkpoints.Instance.getCheckpoint() < 6)
-        {
-            Checkpoints.Instance.updateCheckpoint(6);
-            canHallucinate = false;
-            halucinationMax.Run(); //Initialize hallucinationmaxxing
-        }
-        if (depth >= maxDepth && (runEnding == false))
-        {
-            runHitFloor = true;
-            runEnding = true;
-            runSwitches = false;
-            runGauges = false; // i don't think this is needed? but just extra assurance for the demo
-            runInhaler = false;
-            descending = false;
-            blackoutEvent.Run();
-            ending.Run();
-            Checkpoints.Instance.updateCheckpoint(7);
+            case "E1": // Gauges
+                runGauges = true;
+                canHallucinate = true; // start hallucinations post gauges
+                AudioHandler.Instance.SetHallucinateInterval(60f);  // Delete These
+                Checkpoints.Instance.updateCheckpoint(2);
+                break;
+
+            case "E2": // Switches
+                runSwitches = true;
+                AudioHandler.Instance.SetHallucinateInterval(45f);  // Delete These
+                Checkpoints.Instance.updateCheckpoint(3);
+                break;
+
+            case "E3": // Inhaler
+                runInhaler = true;
+                Checkpoints.Instance.updateCheckpoint(4);
+                break;
+
+            case "E4": // Blackout
+                if (Checkpoints.Instance.getCheckpoint() <= 5)
+                {
+                    runBlackout = true;
+                    runSwitches = false;
+                    runInhaler = false;
+                    descending = false;
+                    blackoutEvent.Run();
+                    AudioHandler.Instance.SetHallucinateInterval(20f);
+                    Checkpoints.Instance.updateCheckpoint(5);
+                }
+                break;
+
+
+            case "E5":  // Safe Post-Blackout
+                canHallucinate = false;
+                Checkpoints.Instance.updateCheckpoint(6);
+                halucinationMax.Run(); //Initialize hallucinationmaxxing
+                FirstBlackoutDone = true;
+                break;
+
+            case "E6":  // Ending
+                runHitFloor = true;
+                runEnding = true;
+                runSwitches = false;
+                runGauges = false; // i don't think this is needed? but just extra assurance for the demo
+                runInhaler = false;
+                descending = false;
+                blackoutEvent.Run();
+                ending.Run();
+                Checkpoints.Instance.updateCheckpoint(7);
+                break;
         }
     }
 
+    public void onCheckpointLoad(int chck)
+    {
+        for (int i = 0; i < chck; i++)
+        {
+            curEvent.addSavedText(terminal);
+            CheckExtraConditions(curEvent.EventID);
+            queueNextEvent();
+        }
+    }
+
+    public void playIntro()
+    {
+        curEvent.PlayAudio(radio);
+        curEvent.TypeText(terminal);
+        queueNextEvent();
+    }
+
+    public void queueNextEvent()
+    {
+        triggeredEvents.Add(curEvent.EventID);
+        nextEventIndex++;
+        curEvent = DS.events[nextEventIndex];
+    }
+
     // Getters & Setters
+    public void setCheckpointDepth(int index)
+    {
+        depth = DS.events[index].CheckpointDepth;
+    }
     public void setDescending(bool val)
     {
         descending = val;
@@ -164,7 +205,7 @@ public class Depth : MonoBehaviour
 
     public void setRadioIndex(int index)
     {
-        radioTriggerIndex = index;
+        var radioTriggerIndex = index;
     }
 
     public void setDepth(float newDepth)

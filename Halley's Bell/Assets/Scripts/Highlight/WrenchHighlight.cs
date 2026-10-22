@@ -21,11 +21,7 @@ public class WrenchHighlight : MonoBehaviour
     {
         if (!w.isHoldingWrench)
         {
-            Debug.Log(w.isHoldingWrench + "HIGHLIGHT");
             rend.material.SetFloat("_ELevel", EMax);
-        } else
-        {
-            Debug.Log("ELSE");
         }
     }
 

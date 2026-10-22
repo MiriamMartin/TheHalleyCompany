@@ -111,7 +111,7 @@ public class PauseManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("CurrentGame"); // Reloads game scene
+        SceneManager.LoadScene("_Main"); // Reloads game scene
     }
 
     public void Death()
