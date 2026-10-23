@@ -8,13 +8,12 @@ using UnityEngine.Events;
 public class Radio : MonoBehaviour, ButtonInterface
 {
     const float minFreq = 85f;
-    const float maxFreq = 105;
+    const float maxFreq = 105f;
     public float range = 1.5f;
     public float triggerThreshold = 0.5f; //0.5 regular. FOR DEMO SET IT REALLY LOW TO LOCK IN
     public UnityEvent KeithTuned;
 
     //Button stuff
-    private bool demoFrozen = false;
     private bool mouseDown;
     private string message;
 
@@ -40,10 +39,6 @@ public class Radio : MonoBehaviour, ButtonInterface
     private float needleZ;
     public float distanceMod = 1;
 
-    [Header("Radio Message Sequencing")]
-    public List<AudioClip> radioClips = new List<AudioClip>();
-    private int radioClipIndex = 0;
-
     [Header("Speaker Light")]
     public Material speakerBulbMat;
     public AudioLoudnessDetection ald;
@@ -60,6 +55,8 @@ public class Radio : MonoBehaviour, ButtonInterface
     [Header("Startup")]
     public bool radioConnected;
 
+    public AudioSource HELPME;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,8 +65,6 @@ public class Radio : MonoBehaviour, ButtonInterface
         freq = minFreq;
         started = false;
 
-        keith.clip = radioClips[0];
-        radioClipIndex++;
         speakerBulbMat.EnableKeyword("_EMISSION");
 
         // checkpoint stuff
@@ -80,7 +75,6 @@ public class Radio : MonoBehaviour, ButtonInterface
         }
         else
         {
-            setRadioClip();
             radioConnected = true;
             TurnOn();
             on = true;
@@ -110,12 +104,33 @@ public class Radio : MonoBehaviour, ButtonInterface
     // Update is called once per frame
     void Update()
     {
-        CheckRadioTrigger();  // check for radio triggers from Depth
         SpeakerIntensity();  // update speaker intensity if needed
 
-        if (on && !demoFrozen)
+        if (on)
         {
             //Updating state of radioPoints (mostly audio for now) and checking if they are tuned in
+
+            //  Increasing or decreasing the freq over time depending on which button pressed   
+            if (OneDial.GetComponent<RadioDial>().GetRight())
+            {
+                freq += increaseRate * Time.deltaTime;
+                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+                if (freq == maxFreq)
+                {
+                    OneDial.GetComponent<RadioDial>().SetStopRight(true);
+                }
+            }
+            else if (OneDial.GetComponent<RadioDial>().GetLeft())
+            {
+                freq -= increaseRate * Time.deltaTime;
+                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
+                if (freq == minFreq)
+                {
+                    OneDial.GetComponent<RadioDial>().SetStopLeft(true);
+                }
+            }
+            needle.localPosition = new Vector3(needle.localPosition.x, needle.localPosition.y, needleZ - ((freq - minFreq) * distanceMod));
+
 
             if (radioPoint(piano, 90))
             {
@@ -126,13 +141,12 @@ public class Radio : MonoBehaviour, ButtonInterface
                 SwapSpeakerLightSRC(speakerLightSources[1]);
 
             }
-            else if (radioPoint(keith, 95) && Checkpoints.Instance.getCheckpoint() < 1)  // doesn't play 1st message if past that checkpoint
+            else if (radioPoint(keith, 95f))
             {
-                //Debug.Log("Tuned into Keith at at volume " + keith.volume);
+                HELPME.Play();
                 if (!started)
                 {
-                    Depth.Instance.tunedKeith = true;
-                    keith.Play();
+                    Depth.Instance.playIntro();
                     StartCoroutine(BellStartup());
                     started = true;
                 }
@@ -158,27 +172,6 @@ public class Radio : MonoBehaviour, ButtonInterface
             {
                 DisableSpeakerLight();
             }
-
-            //  Increasing or decreasing the freq over time depending on which button pressed   
-            if (OneDial.GetComponent<RadioDial>().GetRight())
-            {
-                freq += increaseRate * Time.deltaTime;
-                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
-                if (freq == maxFreq)
-                {
-                    OneDial.GetComponent<RadioDial>().SetStopRight(true);
-                }
-            }
-            else if (OneDial.GetComponent<RadioDial>().GetLeft())
-            {
-                freq -= increaseRate * Time.deltaTime;
-                freq = Mathf.Clamp(freq, minFreq, maxFreq); //  Constraining the range
-                if (freq == minFreq)
-                {
-                    OneDial.GetComponent<RadioDial>().SetStopLeft(true);
-                }
-            }
-            needle.localPosition = new Vector3(needle.localPosition.x, needle.localPosition.y, needleZ - ((freq - minFreq) * distanceMod));
         }
 
         if ((message == "power" && mouseDown) && radioConnected)
@@ -218,12 +211,6 @@ public class Radio : MonoBehaviour, ButtonInterface
     {
         this.mouseDown = mouseDown;
         this.message = message;   
-    }
-
-    private bool demoTriggered(float freq)
-    {
-        float closeness = getCloseness(freq);
-        return (closeness > (1 - triggerThreshold));
     }
 
     public void TurnOn()
@@ -266,29 +253,15 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     // ============================= Radio Message Sequencing ================================
 
-    public void CheckRadioTrigger()
+    public void PlayRadioDescentSeq(AudioClip radioClip)
     {
-        // Checks for radio triggers from Depth, plays next message when triggered
-
-        if (on && Depth.Instance.radioTrigger)  // Radio Trigger from Depth
-        {
-            Depth.Instance.radioTrigger = false;
-            PlayRadioMessage();
-        }
-    }
-    public void PlayRadioMessage()
-    {
-        // Plays the next queued radio message, and increases the index
-
-        keith.clip = radioClips[radioClipIndex];
-        radioClipIndex++;
+        keith.clip = radioClip;
         keith.Play();
     }
 
     public IEnumerator BellStartup()
     {
         // Bell only starts up when switches on AND radio message done
-
         yield return new WaitUntil(() => (!keith.isPlaying && !PauseManager.Instance.getIsPaused()));
         Depth.Instance.firstRadioDone = true;
     }
@@ -303,8 +276,6 @@ public class Radio : MonoBehaviour, ButtonInterface
         TurnOff();
         yield return new WaitForSeconds(0.2f);
         TurnOn();
-        yield return new WaitForSeconds(0.6f);
-        TurnOff();
     }
 
     // ============================= Checkpoint Stuff ================================
@@ -318,25 +289,6 @@ public class Radio : MonoBehaviour, ButtonInterface
         }
     }
 
-    public void setRadioClip()
-    {
-        radioClipIndex = getClipInd();
-    }
-
-    public int getClipInd()
-    {
-        int chkptNum = Checkpoints.Instance.getCheckpoint();
-
-        if (chkptNum == 0) { return 0; }
-        else if (chkptNum == 1) { return 1; }
-        else if (chkptNum == 2) { return 1; }
-        else if (chkptNum == 3) { return 3; }
-        else if (chkptNum == 4) { return 4; }
-        else if (chkptNum == 5) { return 6; }
-        else if (chkptNum == 6) { return 7; }
-        else { return 8; }
-    }
-
     // =============================== TERMINAL ===============================
 
     public void ConnectRadio()
@@ -345,11 +297,4 @@ public class Radio : MonoBehaviour, ButtonInterface
         TurnOn();
     }
 
-    // ============================================================================== SCRIPT OBJ TEST
-
-    public void PlayRadioDescentSeq(AudioClip radioClip)
-    {
-        keith.clip = radioClip;
-        keith.Play();
-    }
 }

@@ -72,7 +72,6 @@ public class HalucinationMax : MonoBehaviour
             {
                 timer -= interval; //Reset timer
                 SmallHallucination();
-                Debug.Log("small halucination occured");
             }
 
             //Can play larger halucinations at specific times:

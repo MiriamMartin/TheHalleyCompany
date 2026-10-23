@@ -66,7 +66,7 @@ public class Screw : MonoBehaviour
         
         cranks++;
         loosenAudio.Play();
-        setScrewRotation(-1);
+        setScrewRotation(1);
 
         if (cranks >= 3)
         {
@@ -87,7 +87,7 @@ public class Screw : MonoBehaviour
         }
         else
         {
-            setScrewRotation(1);
+            setScrewRotation(-1);
         }
         
     }
@@ -113,7 +113,7 @@ public class Screw : MonoBehaviour
         // rotates the screw with the wrench (once per crank, gives player vis indicator of progress)
 
         //transform.localRotation = Quaternion.Euler(transform.localRotation.z + (200f * cranks), -90f, -90f);
-        transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z + (dir * 200f * cranks));
+        transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z - (dir * 200f * cranks));
 
         // moves screw out a bit || MIGHT NEED TO CHANGE FROM Z TO X
         if (!BH_nut) { transform.position += Vector3.back * 0.02f * dir; }

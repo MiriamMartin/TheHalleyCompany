@@ -105,13 +105,13 @@ public class Wrench : MonoBehaviour
             if (totalRotation >= 360f)
             {
                 //transform.localRotation = Quaternion.Euler(0f, 150f, 0f);
-                currentScrew.GetComponent<Screw>().loosen();
+                currentScrew.GetComponent<Screw>().tighten();
 
                 totalRotation = 0f;
             }
             else if (totalRotation <= -360f)
             {
-                currentScrew.GetComponent<Screw>().tighten();
+                currentScrew.GetComponent<Screw>().loosen();
 
                 totalRotation = 0f;
             }

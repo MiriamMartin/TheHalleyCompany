@@ -18,7 +18,6 @@ public class SpatialSounder : MonoBehaviour, HallucinationInterface
 
     public void Run(float volume)
     {
-        Debug.Log("Was run!");
         SpatialSoundObject[] spatialSoundObjectScripts = GetComponentsInChildren<SpatialSoundObject>();
 
         foreach (SpatialSoundObject spatSoundObj in spatialSoundObjectScripts)

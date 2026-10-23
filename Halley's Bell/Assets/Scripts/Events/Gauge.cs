@@ -291,7 +291,6 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
     {
         ParticleSystem.MainModule steam = stm.main;
 
-        Debug.Log("BlackoutStartGauge");
         canPress = false;
         run = false;
         speed = gaugeSpeed * 2;
@@ -314,12 +313,10 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
         steamAudioSource.volume = 0;
         steamWhistleAudioSource.volume = 0;
         steam.startColor = new Color(1f, 1f, 1f, 0);
-        Debug.Log("BlackoutStartGauge FINISHED!");
     }
 
     public void BlackoutEnd()
     {
-        Debug.Log("BlackoutEndGauge");
         run = true;
         postBlackout = true;
     }

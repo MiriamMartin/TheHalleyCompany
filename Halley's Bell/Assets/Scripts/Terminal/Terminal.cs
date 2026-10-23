@@ -15,7 +15,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("TEXT")]
     public TMP_Text terminalText;
     public TMP_Text display;
-    private float textSpeed = 0.065f;
     private bool typingMssg = false;
 
     private Coroutine idle;
@@ -43,8 +42,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     [Header("INCIDENT")]
     private bool isTerminalOn = false;
     public List<string> radioMessages = new List<string>(); // might change to a file later, but since we only have like 6 messages this works fine
-    private int radioMessageIndex = 0;
-    private bool started = false;
 
     [Header("STARTUP")]
     public Radio rad;  // lets us 'connect' radio once password entered
@@ -64,16 +61,13 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public List<AudioClip> messageTones = new List<AudioClip>();  // tone[0] = radio, tone[1] = terminal bark
 
     [Header("BARKS")]
-    public List<string> storyBarks = new List<string>();
-    public List<int> storyBarkTriggers = new List<int>();
-    private int barksIndex = 0;
     private string lineBRK = "-_-_-_-_-_-_-_-_-_-_-_-_-_-_";
 
     [Header("BLACKOUT")]
     private bool canTurnOn = true;
 
     [Header("SONAR PING")]
-    private bool canSonarPing = true;
+    private bool canSonarPing = false;
     private bool sonarPinged = false;
     public GameObject sonarBlip;
     private Vector3 localOffset = new Vector3(-200f, 122f, -0.1f);
@@ -91,10 +85,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         if (Checkpoints.Instance.getCheckpoint() > 0)
         {
             terminalText.text = ">";
-            started = true;
             bootedPass = true;
-            fixMessages();
-            barksIndex = SetBarkIndex();
         }
         else
         {
@@ -106,25 +97,13 @@ public class Terminal : MonoBehaviour, ButtonInterface
     void Update()
     {
         SonarRotate();
-        CheckBarks();
+
         if (TermSonarCanv.activeSelf == true && canSonarPing) { StartCoroutine(SonarPing()); } // will only ping if blackout is done && player on sonar screen
 
         if (!typingMssg && !idleRunning)
         {
             idleRunning = true;
             idle = StartCoroutine(IdleType());
-        }
-        if (Depth.Instance.tunedKeith && !started)  // handles first message
-        {
-            typeMessage(radioMessages[radioMessageIndex]);
-            radioMessageIndex++;
-            started = true;
-        }
-        if (Depth.Instance.radioTrigger && radioMessageIndex < radioMessages.Count)  // handles all subsequent messages
-        {
-            messageBeepAudio.clip = messageTones[0];
-            typeMessage(radioMessages[radioMessageIndex]);
-            radioMessageIndex++;
         }
 
         if (Depth.Instance.runBlackout && !Depth.Instance.FirstBlackoutDone)
@@ -177,41 +156,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
     }
 
     // ========================= TEXT =========================
-
-    public void typeMessage(string mssg)
-    {
-        // types mssg on terminal screen
-
-        stopIdling();
-        typingMssg = true;
-
-        addNewline();
-
-        StartCoroutine(typingEffect(mssg));
-        displayMssg = StartCoroutine(displayTranscribing());
-    }
-
-    public IEnumerator typingEffect(string mssg)
-    {
-        // typing effect
-
-        PlayMessageBeep();
-        yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
-
-        for (int i = 0; i < mssg.Length; i++)
-        {
-            terminalText.text += mssg[i];
-            AutoScroll();
-            yield return new WaitForSeconds(textSpeed);
-        }
-
-        addNewline();
-        ShiftLines(2, -1);
-
-        StopCoroutine(displayMssg);
-        display.text = "";
-        typingMssg = false;
-    }
 
     public void AutoScroll()
     {
@@ -499,85 +443,12 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
     }
 
-    // ====================== Barks =======================
-
-    public void CheckBarks()
-    {
-        if (Depth.Instance.getDepth() >= storyBarkTriggers[barksIndex] && !typingMssg)
-        {
-            messageBeepAudio.clip = messageTones[1];
-            messageBeepAudio.Play();
-
-            var tt = terminalText.text;
-
-            if (tt.Substring(tt.Length - 2) == ">_")
-            {
-                terminalText.text = tt.Remove(terminalText.text.Length - 1);
-                terminalText.text = tt.Remove(terminalText.text.Length - 1);
-            }
-            else if (tt.Substring(tt.Length - 1) == ">")
-            {
-                terminalText.text = tt.Remove(terminalText.text.Length - 1);
-            }
-            else
-            {
-                terminalText.text += "\n";
-            }
-
-            terminalText.text += lineBRK + "\n\n";
-            terminalText.text += ">" + storyBarks[barksIndex];
-            terminalText.text += "\n\n" + lineBRK + "\n\n>";
-            
-            barksIndex++;
-        }
-    }
-
-    public int SetBarkIndex()
-    {
-        int chkptNum = Checkpoints.Instance.getCheckpoint();
-
-        if (chkptNum == 0) { return 0; }
-        else if (chkptNum == 1) { return 0; }
-        else if (chkptNum == 2) { return 1; }
-        else if (chkptNum == 3) { return 2; }
-        else if (chkptNum == 4) { return 3; }
-        else if (chkptNum == 5) { return 4; }
-        else if (chkptNum == 6) { return 5; }
-        else { return 8; }
-    }
-
     // ====================== sounds =======================
 
-    public void PlayMessageBeep()
+    public void PlayMessageBeep(int index)
     {
+        messageBeepAudio.clip = messageTones[index];
         messageBeepAudio.Play();
-    }
-
-    // ====================== Checkpoints =======================
-    public void fixMessages()
-    {
-        // types all message before next audio clip
-
-        while (radioMessageIndex < getMssgNum())
-        {
-            terminalText.text += radioMessages[radioMessageIndex];
-            terminalText.text += "\n\n>";
-            radioMessageIndex++;
-        }
-    }
-
-    public int getMssgNum()
-    {
-        int chkptNum = Checkpoints.Instance.getCheckpoint();
-
-        if (chkptNum == 0) { return 0; }
-        else if (chkptNum == 1) {  return 1; }
-        else if (chkptNum == 2) {  return 1; }
-        else if (chkptNum == 3) {  return 3; }
-        else if (chkptNum == 4) {  return 4; }
-        else if (chkptNum == 5) {  return 6; }
-        else if (chkptNum == 6) { return 7; }
-        else { return 8; }
     }
 
     // ====================== Lore Codes =======================
@@ -629,7 +500,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         // typing effect
 
-        PlayMessageBeep();
+        PlayMessageBeep(0);
         yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
 
         string[] mssgPortions = mssg.Split("|");
@@ -646,10 +517,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
             {
                 typeDelay = (float)timing[index] / curMsg.Length;
             }
-                
-
-            Debug.Log(curMsg);
-            Debug.Log(typeDelay);
             
             for (int i = 0; i < curMsg.Length; i++)
             {
@@ -669,6 +536,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void Bark(string mssg)
     {
+        PlayMessageBeep(1);
         var tt = terminalText.text;
 
         if (tt.Substring(tt.Length - 2) == ">_")
@@ -688,5 +556,24 @@ public class Terminal : MonoBehaviour, ButtonInterface
         terminalText.text += lineBRK + "\n\n";
         terminalText.text += ">" + mssg;
         terminalText.text += "\n\n" + lineBRK + "\n\n>";
+    }
+
+    public void addTextBark(string mssg)
+    {
+        terminalText.text += lineBRK + "\n\n";
+        terminalText.text += ">" + mssg;
+        terminalText.text += "\n\n" + lineBRK + "\n\n>";
+    }
+
+    public void addTextRadio(string mssg)
+    {
+        mssg = mssg.Replace("|", " ");
+
+        if (terminalText.text.Substring(terminalText.text.Length - 2) == ">_")
+        {
+            Delete(2);
+        }
+
+        terminalText.text += ">" + mssg + "\n\n>";
     }
 }

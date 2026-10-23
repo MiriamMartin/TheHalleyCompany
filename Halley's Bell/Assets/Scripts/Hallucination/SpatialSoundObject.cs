@@ -23,7 +23,6 @@ public class SpatialSoundObject : MonoBehaviour
     public void Run(float volume, float targetTime)
     {
         this.targetTime = targetTime;
-        Debug.Log("Running");
         _as.volume = volume;
         StartCoroutine(Player());
         //StartCoroutine(Waiter());
@@ -41,7 +40,6 @@ public class SpatialSoundObject : MonoBehaviour
             targetTime -= Time.deltaTime;
             return targetTime <= 0.0f;
         });
-        Debug.Log("finished");
         Destroy(gameObject);
     }
 
@@ -56,8 +54,6 @@ public class SpatialSoundObject : MonoBehaviour
             _as.clip = audioClipArray[Random.Range(0, audioClipArray.Length)];
             waitTime = Random.Range(speed, speed + 3);
             _as.PlayOneShot(_as.clip);
-            //Debug.Log(_as.clip.length);
-            //yield return new WaitForSeconds(_as.clip.length);
             yield return new WaitForSeconds(waitTime);
 
             if (speed > 1.1f && mid == false)
