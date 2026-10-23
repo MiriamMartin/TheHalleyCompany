@@ -55,8 +55,6 @@ public class Radio : MonoBehaviour, ButtonInterface
     [Header("Startup")]
     public bool radioConnected;
 
-    public AudioSource HELPME;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +67,13 @@ public class Radio : MonoBehaviour, ButtonInterface
 
         // checkpoint stuff
         setNeedle();
-        if (Checkpoints.Instance.getCheckpoint() == 0 || Checkpoints.Instance.getCheckpoint() >= 6) // turn off if starting or post-blackout
+
+        if (Checkpoints.Instance.getCheckpoint() > 1)
+        {
+            started = true;
+        }
+
+        if (Checkpoints.Instance.getCheckpoint() == 0) // turn off if starting
         { 
             TurnOff();
         }
@@ -143,12 +147,11 @@ public class Radio : MonoBehaviour, ButtonInterface
             }
             else if (radioPoint(keith, 95f))
             {
-                HELPME.Play();
                 if (!started)
                 {
-                    Depth.Instance.playIntro();
-                    StartCoroutine(BellStartup());
                     started = true;
+                    Depth.Instance.playIntro();
+                    StartCoroutine(BellStartup());   
                 }
 
                 SwapSpeakerLightSRC(speakerLightSources[2]);

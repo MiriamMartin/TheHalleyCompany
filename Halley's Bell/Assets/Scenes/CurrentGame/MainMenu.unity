@@ -3914,7 +3914,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -580, y: -50}
+  m_AnchoredPosition: {x: -580, y: -73}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &674811940
@@ -5461,15 +5461,6 @@ MonoBehaviour:
   minIntensity: 0.5
   maxIntensity: 2.5
   flickerSpeed: 3
-  darkness: {fileID: 0}
-  darknessVals:
-  - 136
-  - 136
-  - 126
-  - 116
-  - 106
-  - 96
-  - 86
   ContinueButton: {fileID: 674811938}
   EmptyContinue: {fileID: 1496259632}
 --- !u!4 &989221793
@@ -11731,7 +11722,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 532e4293d014df24082b82b3c52c9344, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 7889d1db22d5ab34bb39256ae646139e, type: 2}
 --- !u!224 &2071358254
 RectTransform:
   m_ObjectHideFlags: 0

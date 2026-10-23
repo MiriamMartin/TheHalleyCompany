@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: DescentSequence
-  m_EditorClassIdentifier: Assembly-CSharp::DescentSequence
+  m_Script: {fileID: 11500000, guid: 07cad028436a1b84eaed97906ca20508, type: 3}
+  m_Name: DepthEvents
+  m_EditorClassIdentifier: 
   events:
   - Name: Intro
     EventID: R1
@@ -37,7 +37,7 @@ MonoBehaviour:
     MessageTrigger: 0
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
-    TextTiming: 040000000d0000000300000006000000090000000c0000000d000000050000000500000004000000
+    TextTiming: 040000000d0000000300000006000000090000000c0000000d000000060000000600000004000000
   - Name: Post-Intro Bark
     EventID: T1
     Text: I know you're just going straight down, but in the perpetual darkness,
@@ -136,7 +136,7 @@ MonoBehaviour:
       Could use some cashmere hills filled with evergreens\u2026 but you've got the
       shortest end of the stick, so I can't complain."
     Audio: {fileID: 0}
-    MessageTrigger: 7100
+    MessageTrigger: 7000
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 
@@ -160,7 +160,7 @@ MonoBehaviour:
       leg\u2014 nothing to do with me in the end, right right?| Rootin\u2019 for
       you, Newbie."
     Audio: {fileID: 8300000, guid: 5fa79d751b2809349b5933cbe0bd99cc, type: 3}
-    MessageTrigger: 8000
+    MessageTrigger: 7100
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 03000000040000000b00000003000000060000000500000004000000020000000300000008000000080000000800000003000000040000000a0000000700000002000000
@@ -198,7 +198,7 @@ MonoBehaviour:
     EventID: E5
     Text: 
     Audio: {fileID: 0}
-    MessageTrigger: 11900
+    MessageTrigger: 12100
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 
@@ -237,7 +237,7 @@ MonoBehaviour:
     EventID: T6
     Text: What would you do if none of your experiences were actually yours alone?
     Audio: {fileID: 0}
-    MessageTrigger: 14000
+    MessageTrigger: 14300
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 

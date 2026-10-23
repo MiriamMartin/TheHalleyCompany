@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class HoverHighlight : MonoBehaviour
 {
-    Color startcolor;
     float EMax;
     Renderer rend;
+
+    private bool isHighlighted = false;
 
     private void Start()
     {
@@ -17,26 +18,49 @@ public class HoverHighlight : MonoBehaviour
         }
         catch { }
     }
-    void OnMouseEnter()
+
+    private void Update()
     {
-        //startcolor = rend.material.color;
-        //rend.material.color = Color.yellow;
+        if (PauseManager.Instance.getIsPaused() && isHighlighted)
+        {
+            highlightOff();
+        }
+    }
+    void OnMouseOver()
+    {
+        if (!PauseManager.Instance.getIsPaused() && !isHighlighted)
+        {
+            highlightOn();
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (!PauseManager.Instance.getIsPaused())
+        {
+            highlightOff();
+        }
+    }
+
+    private void highlightOn()
+    {
         rend.material.EnableKeyword("_EMISSION");
         try
         {
             rend.material.SetFloat("_ELevel", EMax);
         }
-        catch{}
+        catch { }
+        isHighlighted = true;
     }
 
-    void OnMouseExit()
+    private void highlightOff()
     {
-        //rend.material.color = startcolor;
         rend.material.DisableKeyword("_EMISSION");
         try
         {
             rend.material.SetFloat("_ELevel", 0.0f);
         }
-        catch{}
+        catch { }
+        isHighlighted = false;
     }
 }

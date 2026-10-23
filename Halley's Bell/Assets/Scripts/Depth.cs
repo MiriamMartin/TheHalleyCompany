@@ -26,7 +26,7 @@ public class Depth : MonoBehaviour
     private float maxDepth = 15000f;  // controls ending
 
     [Header("NEW DEPTH SEQUENCING")]
-    public DescentSequence DS;
+    public DepthEvents DS;
     public int nextEventIndex = 0;
     private DepthEvent curEvent;
     private HashSet<string> triggeredEvents = new HashSet<string>();

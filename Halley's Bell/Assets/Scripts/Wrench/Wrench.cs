@@ -14,7 +14,6 @@ public class Wrench : MonoBehaviour
     private Quaternion ogRot;
 
     public bool isHoldingWrench = false;
-
     public bool OnScrew = false;
 
     public List<GameObject> screws_projectFile;
@@ -40,26 +39,42 @@ public class Wrench : MonoBehaviour
 
     //Highlight
     public Renderer rend;
-    float EMax;
+    private bool isHighlighted = false;
 
     // Start is called before the first frame update
     void Start()
     {
         ogPos = transform.localPosition;
         ogRot = transform.localRotation;
-        EMax = rend.material.GetFloat("_EMax");
         rend.material.SetFloat("_ELevel", 0.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(dropWrench) && isHoldingWrench && !OnScrew)
+        if (PauseManager.Instance.getIsPaused() && isHighlighted)
         {
-            DropWrench();
+            highlightOff();
+        }
+
+        if (Input.GetKeyDown(dropWrench) && !PauseManager.Instance.getIsPaused() && isHoldingWrench)
+        {
+            if (!OnScrew)
+            {
+                DropWrench();
+            }
+            else
+            {   
+                isHoldingWrench = false;
+                setCurrentScrew(null);
+                DropWrench();
+                HoldWrench();
+            }
+            
         }
         if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D)) && isHoldingWrench && OnScrew)
         {
+            if (OnScrew) { OnScrew = false; }
             HoldWrench();
         }
 
@@ -70,10 +85,10 @@ public class Wrench : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!isHoldingWrench) 
+        if (!isHoldingWrench && !PauseManager.Instance.getIsPaused()) 
         {
             pickup.Play();
-            rend.material.SetFloat("_ELevel", 0.0f);
+            highlightOff();
             HoldWrench();
         }
 
@@ -126,40 +141,15 @@ public class Wrench : MonoBehaviour
     {
         clickAgain = false;
     }
-    //Highlight
-    public void OnMouseEnter()
-    {
-        if (!isHoldingWrench)
-        {
-            rend.material.SetFloat("_ELevel", 1.0f);
-            print("MouseEnter");
-        }
-    }
-
-    public void OnMouseExit()
-    {
-        rend.material.SetFloat("_ELevel", 0.0f);
-        print("MouseExit");
-    }
 
     public void HoldWrench()
     {
         // pull wrench to side
-
         transform.parent = mainCamera.transform;
-
-        // Wrench Scene
-        //this.transform.localPosition = new Vector3(1f, -0.15f, 2f);
-        //this.transform.localRotation = Quaternion.Euler(40, 70, -30);
-
-        // Unified Scene
         this.transform.localPosition = new Vector3(0.3f, 0f, 0.7f);
         this.transform.localRotation = Quaternion.Euler(-20, -95, 20);
 
         isHoldingWrench = true;
-
-        //Deactivate Highlight
-        //rend.material.SetFloat("_ELevel", 0.0f);
 
         if (showControls)
         {
@@ -189,7 +179,6 @@ public class Wrench : MonoBehaviour
         }
     }
 
-
     public void Unscrew()
     {
         // Rotates the wrench to unscrew a screw
@@ -206,6 +195,36 @@ public class Wrench : MonoBehaviour
         lastAngle = currentAngle;
     }
 
+    // ===================== Highlight ====================
+    public void OnMouseOver()
+    {
+        if (!PauseManager.Instance.getIsPaused() && !isHoldingWrench)
+        {
+            highlightOn();
+        }
+    }
+
+    public void OnMouseExit()
+    {
+        if (!PauseManager.Instance.getIsPaused())
+        {
+            highlightOff();
+        }
+    }
+    private void highlightOn()
+    {
+        rend.material.SetFloat("_ELevel", 1.0f);
+        isHighlighted = true;
+    }
+
+    private void highlightOff()
+    {
+        rend.material.SetFloat("_ELevel", 0.0f);
+        isHighlighted = false;
+    }
+
+
+    // ================= Getters & Setters ================
     public void setOnScrew(bool val)
     {
         OnScrew = val;
@@ -251,5 +270,4 @@ public class Wrench : MonoBehaviour
 
         plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f);
     }
-
 }

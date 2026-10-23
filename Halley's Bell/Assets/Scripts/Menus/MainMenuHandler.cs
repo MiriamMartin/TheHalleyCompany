@@ -21,8 +21,6 @@ public class MainMenuHandler : MonoBehaviour
     public float flickerSpeed = 0.5f;
 
     [Header("Checkpoint")]
-    public SpriteRenderer darkness;
-    public List<float> darknessVals;
     public GameObject ContinueButton;
     public GameObject EmptyContinue;
 
@@ -33,45 +31,7 @@ public class MainMenuHandler : MonoBehaviour
         mat.EnableKeyword("_EMISSION");
         baseEmissionColor = mat.GetColor("_EmissionColor");
         StartCoroutine(Flicker());
-
-        SetCheckpointVals();  // sets checkpoint stuff (darkness, continue button)
-
-    }
-
-    public void Update()
-    {
-        // testing, can delete later
-        if (Input.GetKeyDown(KeyCode.P)) { StartCoroutine(VisDark()); }  // press P to see how darkness values look
-    }
-
-    public void SetCheckpointVals()
-    {
-        if (PlayerPrefs.GetInt("CurrentCheckpoint") > 0) { SetDarkness(); }  // sets darkness based on current checkpoint
         SetContinue();
-    }
-    public IEnumerator VisDark()
-    {
-        // just testing to see how darkness looks
-        PlayerPrefs.SetInt("CurrentCheckpoint", 1);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 2);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 3);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 4);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 5);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 6);
-        SetDarkness();
-        yield return new WaitForSeconds(1f);
-        PlayerPrefs.SetInt("CurrentCheckpoint", 7);
-        SetDarkness();
     }
     public IEnumerator Flicker()
     {
@@ -111,13 +71,6 @@ public class MainMenuHandler : MonoBehaviour
 
             yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         }
-    }
-
-    public void SetDarkness()
-    {
-        Color DarknessColor = darkness.color;
-        DarknessColor.b = darknessVals[PlayerPrefs.GetInt("CurrentCheckpoint", 1) - 1];
-        darkness.color = DarknessColor;
     }
 
     public void SetContinue()
