@@ -15,6 +15,8 @@ public class InteractableObject : MonoBehaviour
 
     private Quaternion ogRotation;
 
+    public CameraMovement camMvmnt;
+
     void Start()
     {
         interactManager = GetComponentInParent<InteractManager>();
@@ -36,8 +38,16 @@ public class InteractableObject : MonoBehaviour
 
     private void Update()
     {
+
         if (rotatable)
         {
+            if (!PauseManager.Instance.getIsPaused() && CheckMovement())
+            {
+                // Basically, if there's ANY input that would move the player / camera, then drops the interact.
+
+                interactManager.setIsInteracting(false);
+            }
+
             //Code from tutorial to rotate object
             if (Input.GetMouseButtonDown(0) && !PauseManager.Instance.getIsPaused())
             {
@@ -77,5 +87,21 @@ public class InteractableObject : MonoBehaviour
         // Inspect Obj Rotation
         rotatable = true;  // allows it to rotate, and prevents it from being rotated when not focused
         ogRotation = objectToInspect.transform.rotation;  // saves the original rotation, so can be reset when exiting
+    }
+
+    private bool CheckMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.A) ||Input.GetKeyDown(KeyCode.D)) 
+        {
+            return true;
+        }
+        if (!camMvmnt.getIsSitting() && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

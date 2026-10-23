@@ -496,33 +496,41 @@ public class Terminal : MonoBehaviour, ButtonInterface
         displayMssg = StartCoroutine(displayTranscribing());
     }
 
+
     public IEnumerator timedTypingEffect(string mssg, List<int> timing)
     {
-        // typing effect
-
         PlayMessageBeep(0);
         yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
 
-        string[] mssgPortions = mssg.Split("|");
+        string[] mssgPortions = mssg.Split('|');
 
         for (int index = 0; index < mssgPortions.Length; index++)
         {
             string curMsg = mssgPortions[index];
-            float typeDelay;
-            if (index == 0)
+
+            if (curMsg.Length == 0)
+                continue;
+
+            float duration = timing[index] * (index == 0 ? 0.5f : 1f);  // divides first part of the message's time in half
+
+            float startTime = Time.realtimeSinceStartup;  // fixes timing execution differences b/w editor and build
+            int displayedChars = 0;
+
+            while (displayedChars < curMsg.Length)
             {
-                typeDelay = ((float)timing[index] * 0.5f) / curMsg.Length;
-            }
-            else 
-            {
-                typeDelay = (float)timing[index] / curMsg.Length;
-            }
-            
-            for (int i = 0; i < curMsg.Length; i++)
-            {
-                terminalText.text += curMsg[i];
+                float elapsed = Time.realtimeSinceStartup - startTime;
+
+                int targetChars = Mathf.Min(curMsg.Length, Mathf.FloorToInt(elapsed / duration * curMsg.Length) + 1);
+
+                while (displayedChars < targetChars)
+                {
+                    terminalText.text += curMsg[displayedChars];
+                    displayedChars++;
+                }
+
                 AutoScroll();
-                yield return new WaitForSeconds(typeDelay);
+
+                if (displayedChars < curMsg.Length) { yield return null; }
             }
         }
 
@@ -533,6 +541,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         display.text = "";
         typingMssg = false;
     }
+
 
     public void Bark(string mssg)
     {
@@ -560,6 +569,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void addTextBark(string mssg)
     {
+        lineBRK = "-_-_-_-_-_-_-_-_-_-_-_-_-_-";
         terminalText.text += lineBRK + "\n\n";
         terminalText.text += ">" + mssg;
         terminalText.text += "\n\n" + lineBRK + "\n\n>";
