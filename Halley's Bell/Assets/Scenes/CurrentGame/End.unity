@@ -2135,7 +2135,6 @@ MonoBehaviour:
   sfxSlider: {fileID: 607929783}
   brightnessSliderNum: {fileID: 207957630}
   brightnessSlider: {fileID: 579573879}
-  brightnessImg: {fileID: 0}
   globalVolume: {fileID: 1474683293}
   ScreenShakeToggle: {fileID: 181964176}
 --- !u!114 &393357624
@@ -7191,7 +7190,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 532e4293d014df24082b82b3c52c9344, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 7889d1db22d5ab34bb39256ae646139e, type: 2}
 --- !u!224 &1474683294
 RectTransform:
   m_ObjectHideFlags: 0

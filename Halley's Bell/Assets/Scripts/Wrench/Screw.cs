@@ -28,14 +28,14 @@ public class Screw : MonoBehaviour
     {
         // when clicked, put wrench in position beside it. If wrench already beside it, put back in hand.
 
-        if (wrenchScript.getCurrentScrew() == this.name)  // if clicking on screw that currently on, get off.
+/*        if (wrenchScript.getCurrentScrew() == this.name)  // if clicking on screw that currently on, get off.  // <------- Wrench now blocks screws, can't click again. Now uses v to get it down into hand, then again onto table.
         {
             resetWrench();
             wrenchScript.setOnScrew(false);
             wrenchScript.setCurrentScrew(null);
         }
         else  // if clicking on screw NOT currently on attach to / switch to that screw.
-        {
+        {*/
             if (wrenchScript.isHoldingWrench)
             {
                 positionWrench();
@@ -43,7 +43,7 @@ public class Screw : MonoBehaviour
                 wrenchScript.setCurrentScrew(gameObject);
             }
 
-        }
+        //}
 
     }
 

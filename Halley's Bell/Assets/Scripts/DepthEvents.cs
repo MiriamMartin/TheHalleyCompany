@@ -78,8 +78,8 @@ public class DepthEvent
     }
 }
 
-[CreateAssetMenu(fileName = "DescentSequence", menuName = "ScriptableObject/DescentSequence")]
-public class DescentSequence : ScriptableObject
+[CreateAssetMenu(fileName = "Depth Events", menuName = "ScriptableObject/DescentSequence")]
+public class DepthEvents : ScriptableObject
 {
     public List<DepthEvent> events = new();
 }

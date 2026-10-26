@@ -51,7 +51,7 @@ public class SettingsHandler : MonoBehaviour
         masterVol = PlayerPrefs.GetFloat("SavedMasterVolume", 1f);
         musicVol = PlayerPrefs.GetFloat("SavedMusicVolume", 1f);
         sfxVol = PlayerPrefs.GetFloat("SavedSFXVolume", 1f);
-        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", 0.001f);
+        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", -0.29f);  // default is 20
         ScreenShakeVal = PlayerPrefs.GetInt("SavedScreenShakeValue", 1) == 0 ? false : true;
 
         masterSlider.value = masterVol;

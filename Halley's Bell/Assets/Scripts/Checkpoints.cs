@@ -8,7 +8,7 @@ public class Checkpoints : MonoBehaviour
 
     public HalucinationMax hallucinationMax;
 
-    public DescentSequence dseq;
+    public DepthEvents dseq;
 
     private void Awake()
     {
@@ -86,9 +86,10 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
         Depth.Instance.descending = true;
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.setCheckpointDepth(2);  // starts players a few seconds BEFORE gauges
         Depth.Instance.onCheckpointLoad(2);
-        Depth.Instance.firstRadioDone = true;
+        
     }
 
     public IEnumerator CheckpointThree()
@@ -98,11 +99,11 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
-        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(4);
         Depth.Instance.onCheckpointLoad(4);
-        Depth.Instance.firstRadioDone = true;
+        
     }
 
     public IEnumerator CheckpointFour()
@@ -112,11 +113,10 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
-        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(6);
         Depth.Instance.onCheckpointLoad(6);
-        Depth.Instance.firstRadioDone = true;
     }
 
     public IEnumerator CheckpointFive()
@@ -126,11 +126,10 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
-        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(10);
         Depth.Instance.onCheckpointLoad(10);
-        Depth.Instance.firstRadioDone = true;
     }
 
     public IEnumerator CheckpointSix()
@@ -139,13 +138,12 @@ public class Checkpoints : MonoBehaviour
         Debug.Log("Loading Checkpoint 6 - Blackout Over");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
-        //Hallucinations
+        
         hallucinationMax.Run();
-        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(11);
         Depth.Instance.onCheckpointLoad(11);
-        Depth.Instance.firstRadioDone = true;
     }
 
     public IEnumerator CheckpointSeven()
@@ -155,11 +153,10 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
-        // Need to update Depth Indicator Needle (!!)
+        Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(16);
         Depth.Instance.onCheckpointLoad(16);
-        Depth.Instance.firstRadioDone = true;
     }
 
 }
