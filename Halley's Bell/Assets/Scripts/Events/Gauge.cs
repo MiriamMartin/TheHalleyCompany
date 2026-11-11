@@ -156,7 +156,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             }
 
             //Post blackout
-            if (postBlackout && (currAngle > (angleDangerMax + 10) || currAngle < (angleDangerMin - 10))) {
+            if (postBlackout && (currAngle > (angleDangerMax + 5) || currAngle < (angleDangerMin - 5))) {
                 speed = 0;
             }
             else if (postBlackout)

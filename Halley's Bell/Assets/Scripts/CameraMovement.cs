@@ -38,7 +38,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
     private int gridDir; //0 is east (facing 90degrees right of hallway), rotates clockwise (1 is east)
 
     private bool standing = false;
-    private bool canStand = false;
+    public bool canStand = false;
     private bool canSit = false;
 
     private int[,] grid;

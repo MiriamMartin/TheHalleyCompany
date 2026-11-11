@@ -75,7 +75,7 @@ public class BlackoutEvent : MonoBehaviour, BlackoutInterface
         yield return new WaitForSeconds(1f);
         glowStrips.DisableKeyword("_EMISSION");
         yield return StartCoroutine(LightIntensify(emergencyLight, 5f, 1f));
-        yield return StartCoroutine(LightIntensify(leverLight, 0f, 1f));
+        //yield return StartCoroutine(LightIntensify(leverLight, 0f, 1f));
 
         yield return new WaitForSeconds(2f);
         yield return StartCoroutine(LightGroupIntensify(roofLights, roofLightsDefault, 1f, 3f));

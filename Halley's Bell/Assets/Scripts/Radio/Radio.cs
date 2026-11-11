@@ -96,7 +96,7 @@ public class Radio : MonoBehaviour, ButtonInterface
         currentEvents.volume = 0;
         scary.volume = 0;
         music.volume = 0;
-        fuzz.volume = 1;
+        fuzz.volume = 0.25f;
         piano.Play();
         deepBlue.Play();
         currentEvents.Play();
@@ -145,7 +145,7 @@ public class Radio : MonoBehaviour, ButtonInterface
                 SwapSpeakerLightSRC(speakerLightSources[1]);
 
             }
-            else if (radioPoint(keith, 95f))
+            else if (radioPoint(keith, 95.4f))
             {
                 if (!started)
                 {
@@ -201,7 +201,7 @@ public class Radio : MonoBehaviour, ButtonInterface
         audioSource.volume = closeness;
         if (closeness > 0)
         {
-            fuzz.volume = (1 - closeness);
+            fuzz.volume = ((1 - closeness) / 4);
             if (closeness > triggerThreshold)
             {
                 return true;
@@ -218,7 +218,7 @@ public class Radio : MonoBehaviour, ButtonInterface
 
     public void TurnOn()
     {
-        fuzz.volume = 1;
+        fuzz.volume = 0.25f;
         message = "";
         on = true;
     }
@@ -228,7 +228,7 @@ public class Radio : MonoBehaviour, ButtonInterface
         piano.volume = 0;
         deepBlue.volume = 0;
         keith.volume = 0;
-        fuzz.volume = 0;
+        fuzz.volume = 0f;
         piano.volume = 0;
         currentEvents.volume = 0;
         scary.volume = 0;

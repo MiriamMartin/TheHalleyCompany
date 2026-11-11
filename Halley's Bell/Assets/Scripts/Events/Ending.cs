@@ -95,7 +95,17 @@ public class Ending : MonoBehaviour
         end1.Play();
         StartCoroutine(AdjustVolume(end1, 1, 0.5f));
         StartCoroutine(AdjustVolume(endBackground, 1, 0.5f));
-        //yield return new WaitForSeconds(12f); No pause post-maze
+        yield return new WaitForSeconds(4f);
+        //Second Segment 
+        yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
+        yield return new WaitForSeconds(0.5f);
+        wall2.SetActive(true);
+        cameraMovement.setGridTile(grid, 11, 4, 0); //Create wall
+        yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 0));
+        endHit.Play();
+        end2.Play();
+        StartCoroutine(AdjustVolume(end2, 1, 0.5f));
+
         //Remove hull and wall leading into maze
         bellHull.SetActive(false);
         removeableWall.SetActive(false);
@@ -104,18 +114,9 @@ public class Ending : MonoBehaviour
         cameraMovement.setGridTile(grid, 10, 3, 1); //Make maze opening tile walkable
 
 
-        //Second Segment
-        yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 3)); //Wait until looking at the newly formed maze
-        endHit.Play();
-        end2.Play();
-        StartCoroutine(AdjustVolume(end2, 1, 0.5f));
+
 
         /*
-        //Second Segment (Pre-Maze)
-        yield return new WaitUntil(() => (trigger == true) && (cameraMovement.GetDirection() == 2));
-        yield return new WaitForSeconds(0.5f);
-        wall2.SetActive(true);
-
         yield return new WaitUntil(() => cameraMovement.GetDirection() == 0);
         wallLever.SetActive(true);
         endHit.Play();

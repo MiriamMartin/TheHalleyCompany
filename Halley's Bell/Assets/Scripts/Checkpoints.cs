@@ -6,7 +6,9 @@ public class Checkpoints : MonoBehaviour
 {
     public static Checkpoints Instance;
 
+    //Ethan's dum public vars because idk how to do it the better way
     public HalucinationMax hallucinationMax;
+    public CameraMovement mov;
 
     public DepthEvents dseq;
 
@@ -18,6 +20,7 @@ public class Checkpoints : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //PlayerPrefs.SetInt("CurrentCheckpoint", 0);
         loadCheckpoint(PlayerPrefs.GetInt("CurrentCheckpoint", 0));  // loads current checkpoint, if no value exists yet loads nothing
     }
 
@@ -140,10 +143,12 @@ public class Checkpoints : MonoBehaviour
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
         
         hallucinationMax.Run();
+        mov.setStand(true);
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(11);
         Depth.Instance.onCheckpointLoad(11);
+
     }
 
     public IEnumerator CheckpointSeven()
@@ -153,6 +158,7 @@ public class Checkpoints : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
+        mov.setStand(true);
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
         Depth.Instance.setCheckpointDepth(16);

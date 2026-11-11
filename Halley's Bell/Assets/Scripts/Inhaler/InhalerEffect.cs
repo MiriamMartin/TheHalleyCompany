@@ -89,6 +89,7 @@ public class InhalerEffect : MonoBehaviour
         StopCoroutine(inhaler);
         vignette.intensity.value = 0f;
         film_grain.intensity.value = 0f;
+        inhalerLight.intensity = 0f; //Added to fix light staying on during blackout
         Breathing.Stop();
     }
 
