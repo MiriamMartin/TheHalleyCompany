@@ -211,6 +211,24 @@ MonoBehaviour:
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 
+  - Name: HallucinationMax Bark 2
+    EventID: T6
+    Text: What would you do if none of your experiences were actually yours alone?
+    Audio: {fileID: 0}
+    MessageTrigger: 13000
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
+    TextTiming: 
+  - Name: HallucinationMax Bark 3
+    EventID: T7
+    Text: '''pparently, explorers have barely seen the seafloor ''cause it''s mostly
+      deep ocean. Think the observer effect plays a role? Maybe the creatures know
+      we''re watching.'
+    Audio: {fileID: 0}
+    MessageTrigger: 13500
+    EventTriggerOffset: 0
+    CheckpointDepthOffset: 0
+    TextTiming: 
   - Name: His Voice
     EventID: R4
     Text: "Been a sec, Newbie.| Or\u2014 I guess you\u2019re experienced now, huh?
@@ -229,28 +247,10 @@ MonoBehaviour:
       too late for you.| Goodbye, Op.| (Good bye, Op.)| (Good bye, Op.)| (Good bye,
       Op.)| (Good bye, Op.)| (Good bye, Op.)| (Good bye, Op.) "
     Audio: {fileID: 8300000, guid: a417339bab4f38942916bc0e96aecd20, type: 3}
-    MessageTrigger: 12800
+    MessageTrigger: 13800
     EventTriggerOffset: 0
     CheckpointDepthOffset: 0
     TextTiming: 04000000070000000d00000008000000040000000400000004000000050000000f00000006000000030000000a00000001000000010000000100000001000000010000000100000001000000
-  - Name: HallucinationMax Bark 2
-    EventID: T6
-    Text: What would you do if none of your experiences were actually yours alone?
-    Audio: {fileID: 0}
-    MessageTrigger: 14300
-    EventTriggerOffset: 0
-    CheckpointDepthOffset: 0
-    TextTiming: 
-  - Name: HallucinationMax Bark 3
-    EventID: T7
-    Text: '''pparently, explorers have barely seen the seafloor ''cause it''s mostly
-      deep ocean. Think the observer effect plays a role? Maybe the creatures know
-      we''re watching.'
-    Audio: {fileID: 0}
-    MessageTrigger: 14700
-    EventTriggerOffset: 0
-    CheckpointDepthOffset: 0
-    TextTiming: 
   - Name: Ending
     EventID: E6
     Text: 

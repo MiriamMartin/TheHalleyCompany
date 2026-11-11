@@ -11811,6 +11811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hallucinationMax: {fileID: 1322441064}
+  mov: {fileID: 963194229}
   dseq: {fileID: 0}
 --- !u!4 &159206560
 Transform:
@@ -18668,13 +18669,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197032725}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21850802, y: 0.6724985, z: -0.21850802, w: 0.6724985}
-  m_LocalPosition: {x: -1.2, y: -0.5, z: 0.16}
+  m_LocalRotation: {x: 0.3535534, y: 0.61237246, z: -0.3535534, w: 0.61237246}
+  m_LocalPosition: {x: 0.8, y: 4.5, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2035761800}
-  m_LocalEulerAnglesHint: {x: 36, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 90, z: 0}
 --- !u!114 &197032727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18710,7 +18711,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 5.79
+  m_Intensity: 10
   m_Range: 3.6
   m_SpotAngle: 57.12121
   m_InnerSpotAngle: 21.80208
@@ -59777,6 +59778,7 @@ MonoBehaviour:
   controls_W: {fileID: 677337714}
   controls_Esc: {fileID: 1649495033}
   controls_V: {fileID: 536165310}
+  canStand: 0
   moveMult: 1.5
   shakeCurve:
     serializedVersion: 2
@@ -80173,13 +80175,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keithHallucination: {fileID: 1191133404}
-  duration: 170
+  duration: 130
   intensityCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.0028320255
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -80187,13 +80189,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
+      time: 0.9874878
+      value: 0.30018234
+      inSlope: 0.932784
+      outSlope: 0.932784
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.10986301
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -94102,7 +94104,7 @@ Transform:
   m_GameObject: {fileID: 1557117565}
   serializedVersion: 2
   m_LocalRotation: {x: 0.054348093, y: -0.62119997, z: -0.0681355, w: 0.77879035}
-  m_LocalPosition: {x: 17.8478, y: 43.9745, z: -86.2273}
+  m_LocalPosition: {x: 17.8478, y: 43.9859, z: -86.2273}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -111904,7 +111906,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928700748}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -119291,7 +119293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2035761800
 Transform:
   m_ObjectHideFlags: 0
@@ -119301,7 +119303,7 @@ Transform:
   m_GameObject: {fileID: 2035761799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.886, y: 2.689, z: 0.182}
+  m_LocalPosition: {x: 10.886, y: 2.247, z: 0.182}
   m_LocalScale: {x: 0.5, y: 0.07, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -126076,7 +126078,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5955818771192689313, guid: f7774dee95c35a54689efc867ad2102e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 0552e0f0c7693974ab7bcdb8183c53a9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.45
   m_Pitch: 1
   Loop: 1
   Mute: 0
