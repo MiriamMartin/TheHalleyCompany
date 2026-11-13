@@ -105,52 +105,53 @@ public class InhalerEffect : MonoBehaviour
     {
         // Increases Vignette over duration (seconds) to endWeight (0-1)
 
-        //float startWeight = PPVolume.weight;
         float startWeight = 0f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-
-            float w = Mathf.Lerp(startWeight, endWeight, t);
-            vignette.intensity.value = w;
-            film_grain.intensity.value = w;
-            inhalerLight.intensity = w * 4;
 
             if (inhaled)
             {
                 inhalerLight.intensity = 0;
                 Breathing.Stop();
-                yield return StartCoroutine(Inhale(7f));  // 3.5f on pitch = 2 for the sound if want quicker
+                //yield return StartCoroutine(Inhale(7f));  // 3.5f on pitch = 2 for the sound if want quicker
+                yield return StartCoroutine(Inhale(2f));
                 curRunning = false;
                 yield return new WaitForSeconds(Random.Range(cooldownMin, cooldownMax));  // cooldown
                 doneWaiting = true;
                 yield break;
             }
+            else
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                float w = Mathf.Lerp(startWeight, endWeight, t);
+                vignette.intensity.value = w;
+                film_grain.intensity.value = w;
+                inhalerLight.intensity = w * 4;
+            }
 
             yield return null;
         }
 
-        //PPVolume.weight = endWeight;
         updateDeathTip();
-        PauseManager.Instance.Death(); //Dies when reaches max!
+        PauseManager.Instance.BlinkDeath(); //Dies when reaches max!
     }
 
     IEnumerator Inhale (float duration)
     {
         // Decreases Vignette over duration (seconds) to 0, plays "animation"
 
-        foreach (Transform child in transform) // Disable all children (make invisible) TEMP "ANIMATION"
+        foreach (Transform child in transform) // Disable all children (make invisible)
         {
             child.gameObject.SetActive(false);
         }
 
         playerInhaler.SetActive(true);
-
-        //float startWeight = PPVolume.weight;
-        //float startWeight = 0f;
+        yield return new WaitForSeconds(5f);
+        float startWeight = vignette.intensity.value;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -158,13 +159,12 @@ public class InhalerEffect : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
 
-            vignette.intensity.value = Mathf.Lerp(0f, 0, t);
-            film_grain.intensity.value = Mathf.Lerp(0f, 0, t);
+            vignette.intensity.value = Mathf.Lerp(startWeight, 0, t);
+            film_grain.intensity.value = Mathf.Lerp(startWeight, 0, t);
 
             yield return null;
         }
 
-        //PPVolume.weight = 0;
         vignette.intensity.value = 0f;
         film_grain.intensity.value = 0f;
 

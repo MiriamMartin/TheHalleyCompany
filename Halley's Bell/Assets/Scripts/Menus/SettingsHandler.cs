@@ -27,8 +27,8 @@ public class SettingsHandler : MonoBehaviour
     [SerializeField] private Slider brightnessSlider;
 
     public Volume globalVolume;
-    private float minBrightness = -0.45f;  // as defined by the range on the actual slider
-    private float maxBrightness = 0.35f;   // as defined by the range on the actual slider
+    private float minBrightness = -0.47f;  // Given by 0.53, 0.53, 0.53 on the inspector numbers
+    private float maxBrightness = 0.52f;   // Given by 3.08, 3.08, 3.01 on the inspector numbers
 
     public static float brightnessVal { get; private set; }
     
@@ -46,12 +46,22 @@ public class SettingsHandler : MonoBehaviour
 
     // =========================== All ============================
 
+    public void Update()
+    {
+        if (globalVolume.profile.TryGet(out ShadowsMidtonesHighlights smh))
+        {
+            smh.midtones.overrideState = true;
+            Vector4 currentMidtones = smh.midtones.value;
+            Debug.Log(currentMidtones.w);
+        }
+    }
+
     public void SetSliderValuesOnLoad()
     {
         masterVol = PlayerPrefs.GetFloat("SavedMasterVolume", 1f);
         musicVol = PlayerPrefs.GetFloat("SavedMusicVolume", 1f);
         sfxVol = PlayerPrefs.GetFloat("SavedSFXVolume", 1f);
-        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", -0.29f);  // default is 20
+        brightnessVal = PlayerPrefs.GetFloat("SavedBrightnessValue", 0.3f);  // default is 30, AKA 1.58 1.58 1.53
         ScreenShakeVal = PlayerPrefs.GetInt("SavedScreenShakeValue", 1) == 0 ? false : true;
 
         masterSlider.value = masterVol;
@@ -94,8 +104,7 @@ public class SettingsHandler : MonoBehaviour
     public void SetBrightnessFromSlider(float val)
     {
         brightnessVal = val;
-        float percentage = Mathf.InverseLerp(minBrightness, maxBrightness, brightnessVal);
-        brightnessSliderNum.text = Mathf.RoundToInt(percentage * 100f).ToString();  // slider goes to 0.1, 0.1 x 1000 = 100 for display purposes
+        brightnessSliderNum.text = ((int)(brightnessVal * 100)).ToString();
 
         PlayerPrefs.SetFloat("SavedBrightnessValue", val);
         UpdateBrightness();
@@ -106,13 +115,12 @@ public class SettingsHandler : MonoBehaviour
         if (globalVolume.profile.TryGet(out ShadowsMidtonesHighlights smh)) 
         {
             smh.midtones.overrideState = true;
-            smh.shadows.overrideState = true;
+            float LightnessOffset = Mathf.Lerp(minBrightness, maxBrightness, brightnessVal);  // controls the w value AKA Lightness Offset
+            float endLimit = Mathf.Lerp(0.08f, 0.1f, brightnessVal);  // controls the end limit for the shadows (goes from 0.08 to 0.1 as brightness increases)
 
             Vector4 currentMidtones = smh.midtones.value;
-            Vector4 currentShadows = smh.shadows.value;
-
-            smh.midtones.value = new Vector4(currentMidtones.x, currentMidtones.y, currentMidtones.z, brightnessVal);
-            smh.shadows.value = new Vector4(currentShadows.x, currentShadows.y, currentShadows.z, brightnessVal);
+            smh.midtones.value = new Vector4(currentMidtones.x, currentMidtones.y, currentMidtones.z, LightnessOffset);
+            smh.shadowsEnd.value = endLimit;
         }
     }
 
