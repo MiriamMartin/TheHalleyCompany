@@ -135,7 +135,7 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
             if (currAngle > angleMax || currAngle < angleMin)
             {
                 run = false;
-                StartCoroutine(DeathSequence());
+                DeathSequence();
 
             }
             else if ((currAngle < angleDangerMin) && !blinking && (currAngle > angleMin)) 
@@ -187,12 +187,10 @@ public class Gauge : MonoBehaviour, ButtonInterface, BlackoutInterface
  
     }
 
-    IEnumerator DeathSequence()
+    public void DeathSequence()
     {
-        implosionSound.Play();
-        yield return new WaitForSeconds(6.9f); //timing for audio
         updateDeathTip();
-        PauseManager.Instance.Death();
+        PauseManager.Instance.FadeDeath();
     }
 
     private void Blink()

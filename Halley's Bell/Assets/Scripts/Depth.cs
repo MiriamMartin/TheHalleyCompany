@@ -203,11 +203,6 @@ public class Depth : MonoBehaviour
         return descending;
     }
 
-    public void setRadioIndex(int index)
-    {
-        var radioTriggerIndex = index;
-    }
-
     public void setDepth(float newDepth)
     {
         depth = newDepth;

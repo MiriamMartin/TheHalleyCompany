@@ -344,6 +344,11 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
     // ==================== Camera Shake =======================
 
+    public void CallShake(float strength, float duration, bool isDead)
+    {
+        StartCoroutine(Shaking(strength, duration, isDead));
+    }
+
     void CameraShake()
     {
         // checks when to start camera shake
@@ -352,17 +357,17 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
         {
             Depth.Instance.runHitFloor = false;
             int shake = PlayerPrefs.GetInt("SavedScreenShakeValue", 1);
-            if (shake == 1) { StartCoroutine(Shaking(1, 1)); }  // only runs if setting is on
+            if (shake == 1) { StartCoroutine(Shaking(1, 1, false)); }  // only runs if setting is on
         }
         if (Depth.Instance.descending && !descentStarted && Checkpoints.Instance.getCheckpoint() <= 1)
         {
             descentStarted = true;
             int shake = PlayerPrefs.GetInt("SavedScreenShakeValue", 1);
-            if (shake == 1) { StartCoroutine(Shaking(0.08f, 7)); }
+            if (shake == 1) { StartCoroutine(Shaking(0.08f, 7, false)); }
         }
     }
 
-    public IEnumerator Shaking(float strengthMult, float shakeDuration)
+    public IEnumerator Shaking(float strengthMult, float shakeDuration, bool isDead)
     {
         this.GetComponent<AudioSource>().Play();  // play vessel shake
 
@@ -371,9 +376,18 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
 
         while (elapsedTime < shakeDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
-            transform.position = startPosition + Random.insideUnitSphere * strength * strengthMult;
+            if (!isDead && !PauseManager.Instance.getIsPaused()) // no shaky when paused
+            {
+                elapsedTime += Time.deltaTime;
+                float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
+                transform.position = startPosition + Random.insideUnitSphere * strength * strengthMult;
+            }
+            else
+            {
+                elapsedTime += Time.deltaTime;
+                float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
+                transform.position = startPosition + Random.insideUnitSphere * strength * strengthMult;
+            }
             yield return null;
         }
 

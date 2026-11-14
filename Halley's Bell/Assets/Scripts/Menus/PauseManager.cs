@@ -29,8 +29,12 @@ public class PauseManager : MonoBehaviour
     public GameObject SettingsMenu;
     public GameObject ControlsMenu;
 
-    [Header("----------------- Death Animation -----------------")]
-    public Animator animator;
+    [Header("----------------- Death -----------------")]
+    public Animator animator;  // blinks death (inhaler)
+    public Image FadeToBlack;  // fade to black death (gauges, switches)
+
+    public AudioSource implosionSound;
+    public CameraMovement camMvmt;
 
     // Start is called before the first frame update
     void Start()
@@ -114,12 +118,43 @@ public class PauseManager : MonoBehaviour
         SceneManager.LoadScene("_Main"); // Reloads game scene
     }
 
-    public void Death()
+    public void FadeDeath()
     {
+        // Calls the fade death coroutine
+        StartCoroutine(FadeDeathAnim());
+    }
+    public IEnumerator FadeDeathAnim()
+    {
+        // Animation* for the Fade To Black Deaths
+          
+        setIsPaused(true);  // pause game so no input registers
+        implosionSound.Play();  // Play implosion sound (6.9f secs)
+        camMvmt.CallShake(0.2f, 8f, true);  // Start slight screen shake
+        yield return new WaitForSecondsRealtime(2f);  // wait a couple seconds before starting fade to black
+
+        // Fade to Black
+        Color ftb = FadeToBlack.color;
+
+        while (ftb.a < 1)
+        {
+            ftb.a = ftb.a + (0.3f * Time.deltaTime);
+            FadeToBlack.color = ftb;
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);  // brief hold on the black screen before switching to Death / Restart menu
+
+        SceneManager.LoadScene("Death");
+    }
+
+    public void BlinkDeath()
+    {
+        // calls blink death coroutine
         StartCoroutine(DeathAnim());
     }
     public IEnumerator DeathAnim()
     {
+        // animation stuff for the blink death
         animator.SetTrigger("deathBlink");
         yield return null;
         yield return new WaitForSeconds(0.3f);

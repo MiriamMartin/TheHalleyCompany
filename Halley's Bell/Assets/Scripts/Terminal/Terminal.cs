@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private int numLines = 0;
     private float lineHeight = 107.4219f;
     private int totalLineOffset = 4;
-    private float addOffset = 0f;
+    private float addOffset = 4f;
 
     [Header("NUMPAD")]
     public GameObject Numpad;
@@ -34,14 +35,12 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private bool keyPressed = false;
 
     private string bootPasscode = "5437";
-    public List<string> passwords = new List<string>();
-    public List<string> passMssgs = new List<string>();
     private List<char> digits = new List<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private bool bootedPass = false;
+    public TerminalCodes passcodes;  // scriptable obj with each code and it's message
 
     [Header("INCIDENT")]
     private bool isTerminalOn = false;
-    public List<string> radioMessages = new List<string>(); // might change to a file later, but since we only have like 6 messages this works fine
 
     [Header("STARTUP")]
     public Radio rad;  // lets us 'connect' radio once password entered
@@ -78,6 +77,9 @@ public class Terminal : MonoBehaviour, ButtonInterface
     public Material TermNormal;
     public Material TermHallucinate;
     private bool firstBoot = true;
+
+    [Header("SCROLL")]
+    private int curLine = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -202,11 +204,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
         }
     }
 
-    public void addNewline()
+    public void addNewline(string nl)
     {
         if (terminalText.text[terminalText.text.Length - 1] != '>')
         {
-            terminalText.text += "\n\n>";  // adds space before new message
+            terminalText.text += nl;  // adds space before new message
         }
     }
     public IEnumerator IdleType()
@@ -295,11 +297,11 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
         if (TerminalCanvas != TermTextCanv) { return; }  // no scroll if on Depth or Sonar screen
 
-        if (dir == "up")
+        if (dir == "up" && curLine != 1)
         {
             ShiftLines(1, 1);
         }
-        else if (dir == "down") 
+        else if (dir == "down" && curLine <= terminalText.textInfo.lineCount - 1) 
         {
             ShiftLines(1, -1);
         }
@@ -307,7 +309,9 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void ShiftLines(int numLines, int dir)
     {
-        terminalText.transform.localPosition += new Vector3(dir * (lineHeight + addOffset) * numLines, 0, 0);
+        curLine += (-numLines * dir);
+        if (curLine % 3 == 0) terminalText.transform.localPosition += new Vector3(dir * (lineHeight + addOffset) * numLines, 0, 0);
+        else terminalText.transform.localPosition += new Vector3(dir * (lineHeight) * numLines, 0, 0);
     }
 
     public void Delete(int numChars)
@@ -455,30 +459,17 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public string CheckLoreCodes()
     {
-        int index = 0;
-        bool found = false;
-
-        foreach (string code in passwords)
+        foreach (TerminalCode passcode in passcodes.codes)
         {
+            string code = passcode.Code;
+
             if (CheckPasscode(code))
             {
-                found = true;
-                break;
-            }
-            else
-            {
-                index++;
+                return passcode.Mssg;
             }
         }
 
-        if (!found)
-        {
-            return "NONE";
-        }
-        else
-        {
-            return passMssgs[index];
-        }
+        return "NONE";
     }
 
     // =================================================================================== Script Obj Test
@@ -490,7 +481,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
         stopIdling();
         typingMssg = true;
 
-        addNewline();
+        addNewline("\n\n>");
 
         StartCoroutine(timedTypingEffect(mssg, timings));
         displayMssg = StartCoroutine(displayTranscribing());
@@ -501,6 +492,7 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         PlayMessageBeep(0);
         yield return new WaitUntil(() => !messageBeepAudio.isPlaying);
+        yield return new WaitForSecondsRealtime(3f);
 
         string[] mssgPortions = mssg.Split('|');
 
@@ -513,28 +505,51 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
             float duration = timing[index] * (index == 0 ? 0.5f : 1f);  // divides first part of the message's time in half
 
-            float startTime = Time.realtimeSinceStartup;  // fixes timing execution differences b/w editor and build
+            float startTime = Time.realtimeSinceStartup;  // fixes timing issues between editor and build by using each devices realtime since the app started
+            float pauseStartTime = 0f; // helps with pausing since not using typical in game time mechanisms (so need to know how long smthng was paused for)
+            bool wasPaused = false;
+
             int displayedChars = 0;
 
             while (displayedChars < curMsg.Length)
             {
-                float elapsed = Time.realtimeSinceStartup - startTime;
-
-                int targetChars = Mathf.Min(curMsg.Length, Mathf.FloorToInt(elapsed / duration * curMsg.Length) + 1);
-
-                while (displayedChars < targetChars)
+                if (PauseManager.Instance.getIsPaused())
                 {
-                    terminalText.text += curMsg[displayedChars];
-                    displayedChars++;
+                    if (!wasPaused)
+                    {
+                        pauseStartTime = Time.realtimeSinceStartup;
+                        wasPaused = true;
+                    }
                 }
+                else
+                {
+                    if (wasPaused)
+                    {
+                        startTime += Time.realtimeSinceStartup - pauseStartTime;
+                        wasPaused = false;
+                    }
 
-                AutoScroll();
+                    float elapsed = Time.realtimeSinceStartup - startTime;
 
-                if (displayedChars < curMsg.Length) { yield return null; }
+                    int targetChars = Mathf.Min(
+                        curMsg.Length,
+                        Mathf.FloorToInt(elapsed / duration * curMsg.Length) + 1
+                    );
+
+                    while (displayedChars < targetChars)
+                    {
+                        terminalText.text += curMsg[displayedChars];
+                        displayedChars++;
+                    }
+
+                    AutoScroll();
+                }
+                yield return null;
             }
+            terminalText.text += "\n";
         }
 
-        addNewline();
+        addNewline("\n>");
         ShiftLines(2, -1);
 
         StopCoroutine(displayMssg);
