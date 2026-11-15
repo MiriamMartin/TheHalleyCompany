@@ -2721,56 +2721,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207273758}
   m_CullTransparentMesh: 1
---- !u!1 &209573418
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 209573420}
-  - component: {fileID: 209573419}
-  m_Layer: 0
-  m_Name: PauseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &209573419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209573418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97487eefbde71874da86a0e077355ae9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseInput: 27
-  PauseMenu: {fileID: 901757098}
-  SettingsMenu: {fileID: 1591320627}
-  ControlsMenu: {fileID: 443672081}
-  animator: {fileID: 0}
---- !u!4 &209573420
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209573418}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 687, y: 297, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 901757099}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &209756734
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +2989,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Controls
         m_Mode: 6
@@ -3912,7 +3862,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Controls
         m_Mode: 6
@@ -4621,6 +4571,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a4cda3c96ce3e0144b7d16a410815faf, type: 3}
   m_PrefabInstance: {fileID: 407756724}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &418683491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 418683493}
+  - component: {fileID: 418683492}
+  m_Layer: 0
+  m_Name: PauseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &418683492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418683491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97487eefbde71874da86a0e077355ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeathScreen: 1
+  pauseInput: 27
+  PauseMenu: {fileID: 1074433588}
+  SettingsMenu: {fileID: 1591320627}
+  ControlsMenu: {fileID: 443672081}
+  animator: {fileID: 0}
+  FadeToBlack: {fileID: 0}
+  implosionSound: {fileID: 0}
+  camMvmt: {fileID: 0}
+--- !u!4 &418683493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418683491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.523453, y: -0.5844662, z: 3.637507}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1074433589}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &435970276
 GameObject:
   m_ObjectHideFlags: 0
@@ -6947,7 +6951,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Settings
         m_Mode: 6
@@ -7079,7 +7083,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Controls
         m_Mode: 6
@@ -8438,37 +8442,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a4cda3c96ce3e0144b7d16a410815faf, type: 3}
   m_PrefabInstance: {fileID: 890224161}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &901757098
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 901757099}
-  m_Layer: 0
-  m_Name: EmptyPause
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &901757099
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 901757098}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 209573420}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &913967074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8657,7 +8630,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
@@ -9785,6 +9758,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 361916b1bb8300d409c9cccf5c87e632, type: 3}
   m_PrefabInstance: {fileID: 1063625581}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1074433588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074433589}
+  m_Layer: 0
+  m_Name: empty pause
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1074433589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074433588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 418683493}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1075340731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10581,7 +10585,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Restart
         m_Mode: 1
@@ -10714,7 +10718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Controls
         m_Mode: 6
@@ -11918,7 +11922,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Settings
         m_Mode: 6
@@ -13237,7 +13241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Settings
         m_Mode: 6
@@ -14865,7 +14869,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Restart
         m_Mode: 1
@@ -15503,7 +15507,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: Settings
         m_Mode: 6
@@ -15905,7 +15909,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209573419}
+      - m_Target: {fileID: 418683492}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
@@ -18727,7 +18731,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 402025210}
   - {fileID: 1530215612}
-  - {fileID: 209573420}
+  - {fileID: 418683493}
   - {fileID: 1591320632}
   - {fileID: 443672086}
   - {fileID: 1334752918}

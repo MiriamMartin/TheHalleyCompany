@@ -16,8 +16,9 @@ public class Wrench : MonoBehaviour
     public bool isHoldingWrench = false;
     public bool OnScrew = false;
 
-    public List<GameObject> screws_projectFile;
-    public List<GameObject> screws_blackoutHandle;
+    public List<GameObject> screws_main;  // this is the one in the main room
+    public List<GameObject> screws_blackoutHandle;  // one with the blackout handle
+    public List<GameObject> screws_hallway;  // one in hallway with project files
     public GameObject currentScrew;
 
     public KeyCode dropWrench = KeyCode.V;
@@ -25,8 +26,9 @@ public class Wrench : MonoBehaviour
 
     private bool clickAgain = false;
 
-    public GameObject plate_projectFile;
+    public GameObject plate_main;
     public GameObject plate_handle;
+    public GameObject plate_hallway;
 
     private bool showControls = true;
 
@@ -40,6 +42,8 @@ public class Wrench : MonoBehaviour
     //Highlight
     public Renderer rend;
     private bool isHighlighted = false;
+
+    private bool mainOpened = false;
 
     // Start is called before the first frame update
     void Start()
@@ -70,22 +74,38 @@ public class Wrench : MonoBehaviour
                 DropWrench();
                 HoldWrench();
             }
-            
         }
+
+        if (isHoldingWrench && (InteractManager.Instance.getIsInteracting() || InteractManager.Instance.getCanInteract() == false))
+        {
+            if (!OnScrew)
+            {
+                DropWrench();
+            }
+            else
+            {
+                isHoldingWrench = false;
+                setCurrentScrew(null);
+                DropWrench();
+                HoldWrench();
+            }
+        }
+
         if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D)) && isHoldingWrench && OnScrew)
         {
             if (OnScrew) { OnScrew = false; }
             HoldWrench();
         }
 
-
-        checkScrews(screws_projectFile, plate_projectFile);  // prob shouldn't call this constantly
-        checkScrews(screws_blackoutHandle, plate_handle);  // prob shouldn't call this constantly
+        
+        if (!mainOpened) checkScrews(screws_main, plate_main, true);
+        if (plate_handle.activeSelf) { checkScrews(screws_blackoutHandle, plate_handle, false); }
+        if (plate_hallway.activeSelf) { checkScrews(screws_hallway, plate_hallway, false); }
     }
 
     private void OnMouseDown()
     {
-        if (!isHoldingWrench && !PauseManager.Instance.getIsPaused()) 
+        if (!isHoldingWrench && !PauseManager.Instance.getIsPaused() && !InteractManager.Instance.getIsInteracting() && InteractManager.Instance.getCanInteract()) 
         {
             pickup.Play();
             highlightOff();
@@ -198,7 +218,7 @@ public class Wrench : MonoBehaviour
     // ===================== Highlight ====================
     public void OnMouseOver()
     {
-        if (!PauseManager.Instance.getIsPaused() && !isHoldingWrench)
+        if (!PauseManager.Instance.getIsPaused() && !isHoldingWrench && !InteractManager.Instance.getIsInteracting() && InteractManager.Instance.getCanInteract())
         {
             highlightOn();
         }
@@ -258,7 +278,7 @@ public class Wrench : MonoBehaviour
 
     // ================== Unscrew Event ===================
 
-    public void checkScrews(List<GameObject> scr, GameObject plt)
+    public void checkScrews(List<GameObject> scr, GameObject plt, bool main)
     {
         foreach (GameObject scrw in scr)
         {
@@ -268,6 +288,11 @@ public class Wrench : MonoBehaviour
             }
         }
 
-        plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f);
+        if (main) 
+        { 
+            plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f); 
+            mainOpened = true;
+        }
+        else { plt.SetActive(false); }
     }
 }

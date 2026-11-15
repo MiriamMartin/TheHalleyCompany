@@ -13,6 +13,7 @@ public class Screw : MonoBehaviour
     private int cranks = 0;
 
     public bool BH_nut = false;
+    public bool HW_nut = false;
 
     void Start()
     {
@@ -28,23 +29,12 @@ public class Screw : MonoBehaviour
     {
         // when clicked, put wrench in position beside it. If wrench already beside it, put back in hand.
 
-/*        if (wrenchScript.getCurrentScrew() == this.name)  // if clicking on screw that currently on, get off.  // <------- Wrench now blocks screws, can't click again. Now uses v to get it down into hand, then again onto table.
+        if (wrenchScript.isHoldingWrench)
         {
-            resetWrench();
-            wrenchScript.setOnScrew(false);
-            wrenchScript.setCurrentScrew(null);
+            positionWrench();
+            wrenchScript.setOnScrew(true);
+            wrenchScript.setCurrentScrew(gameObject);
         }
-        else  // if clicking on screw NOT currently on attach to / switch to that screw.
-        {*/
-            if (wrenchScript.isHoldingWrench)
-            {
-                positionWrench();
-                wrenchScript.setOnScrew(true);
-                wrenchScript.setCurrentScrew(gameObject);
-            }
-
-        //}
-
     }
 
     public void positionWrench()
@@ -54,7 +44,6 @@ public class Screw : MonoBehaviour
         wrench.transform.parent = transform;
 
         wrench.transform.localPosition = new Vector3(0f, 0f, -0.02f);
-        //wrench.transform.localRotation = Quaternion.identity;
         wrench.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         wrench.transform.parent = oldParent;
@@ -116,8 +105,12 @@ public class Screw : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0f, 180f, transform.localRotation.z - (dir * 200f * cranks));
 
         // moves screw out a bit || MIGHT NEED TO CHANGE FROM Z TO X
-        if (!BH_nut) { transform.position += Vector3.back * 0.02f * dir; }
-        else { transform.position += Vector3.left * 0.02f * dir; } 
+        if (BH_nut)
+        {
+            transform.position += Vector3.left * 0.02f * dir;
+        }
+        else if (HW_nut) { transform.position += Vector3.right * 0.02f * dir; }
+        else { transform.position += Vector3.back * 0.02f * dir; }
     }
 
     public void resetWrench()

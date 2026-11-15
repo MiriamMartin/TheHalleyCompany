@@ -72,7 +72,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointOne()
     {
         // starts the descent, turns switches on,
-        Debug.Log("Loading Checkpoint 1 - Start Descent");
+        //Debug.Log("Loading Checkpoint 1 - Start Descent");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -85,7 +85,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointTwo()
     {
         // Starting Gauges
-        Debug.Log("Loading Checkpoint 2 - Gauges");
+        //Debug.Log("Loading Checkpoint 2 - Gauges");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
         Depth.Instance.descending = true;
@@ -98,7 +98,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointThree()
     {
         // Starting Switches
-        Debug.Log("Loading Checkpoint 3 - Switches");
+        //Debug.Log("Loading Checkpoint 3 - Switches");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -112,7 +112,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointFour()
     {
         // Starting Inhaler
-        Debug.Log("Loading Checkpoint 4 - Inhaler");
+        //Debug.Log("Loading Checkpoint 4 - Inhaler");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -125,7 +125,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointFive()
     {
         // Starting Blackout
-        Debug.Log("Loading Checkpoint 5 - Blackout");
+        //Debug.Log("Loading Checkpoint 5 - Blackout");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
@@ -138,7 +138,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointSix()
     {
         // After Blackout (WILL NEED TO ADD LIGHTS STUFF)
-        Debug.Log("Loading Checkpoint 6 - Blackout Over");
+        //Debug.Log("Loading Checkpoint 6 - Blackout Over");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
         
@@ -154,7 +154,7 @@ public class Checkpoints : MonoBehaviour
     public IEnumerator CheckpointSeven()
     {
         // Starting Blackout
-        Debug.Log("Loading Checkpoint 7 - Ending");
+        //Debug.Log("Loading Checkpoint 7 - Ending");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
 
