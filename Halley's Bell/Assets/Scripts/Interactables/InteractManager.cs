@@ -12,6 +12,8 @@ public class InteractManager : MonoBehaviour
 
     public GameObject BlurEffect;
 
+    private bool canInteract = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +26,17 @@ public class InteractManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
+
+    public void setCanInteract(bool val)
+    {
+        canInteract = val;
+    }
+    public bool getCanInteract()
+    {
+        return canInteract;
+    }
+
 
     public bool getIsInteracting()
     {

@@ -52,7 +52,6 @@ public class SettingsHandler : MonoBehaviour
         {
             smh.midtones.overrideState = true;
             Vector4 currentMidtones = smh.midtones.value;
-            Debug.Log(currentMidtones.w);
         }
     }
 

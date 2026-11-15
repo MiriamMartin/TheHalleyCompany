@@ -20,6 +20,9 @@ public class PauseManager : MonoBehaviour
 
     public static PauseManager Instance;
     private bool isPaused = false;
+    private bool deathPause = false;
+
+    public bool isDeathScreen = false;
 
     [Header("----------------- Pause Key -----------------")]
     public KeyCode pauseInput = KeyCode.Escape;
@@ -47,7 +50,7 @@ public class PauseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(pauseInput) && !isPaused) // Pauses game 
+        if (Input.GetKeyDown(pauseInput) && !isPaused && !isDeathScreen) // Pauses game 
         {
             Pause();
         }
@@ -72,8 +75,11 @@ public class PauseManager : MonoBehaviour
         // Unpause the game. Invoked by pressing pauseInput while in the pause menu,
         // or by hitting the 'continue' button in the pause menu.
 
-        setIsPaused(false);
-        Time.timeScale = 1f;  // resumes timescale
+        if (!deathPause)
+        {
+            setIsPaused(false);
+            Time.timeScale = 1f;  // resumes timescale
+        }
         AudioListener.pause = false; // resumes all audiosources
         PauseMenu.SetActive(false); // turns off the pause menu overlay
     }
@@ -126,7 +132,7 @@ public class PauseManager : MonoBehaviour
     public IEnumerator FadeDeathAnim()
     {
         // Animation* for the Fade To Black Deaths
-          
+        deathPause = true;
         setIsPaused(true);  // pause game so no input registers
         implosionSound.Play();  // Play implosion sound (6.9f secs)
         camMvmt.CallShake(0.2f, 8f, true);  // Start slight screen shake
@@ -155,6 +161,8 @@ public class PauseManager : MonoBehaviour
     public IEnumerator DeathAnim()
     {
         // animation stuff for the blink death
+        deathPause = true;
+        setIsPaused(true);
         animator.SetTrigger("deathBlink");
         yield return null;
         yield return new WaitForSeconds(0.3f);

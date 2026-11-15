@@ -174,11 +174,13 @@ public class InhalerEffect : MonoBehaviour
         {
             child.gameObject.SetActive(true);
         }
+
+        InteractManager.Instance.setCanInteract(true);
     }
 
     private void OnMouseDown()
     {
-        if (PauseManager.Instance.getIsPaused()) { return; }  // Buttons can't be clicked while paused
+        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) { return; }  // Buttons can't be clicked while paused nor interacting
         
         if (!curRunning)
         {
@@ -187,6 +189,9 @@ public class InhalerEffect : MonoBehaviour
         else
         {
             inhaled = true;
+            // drop whatever you're interacting with, don't let player interact again until inhale done
+            InteractManager.Instance.setCanInteract(false);
+            InteractManager.Instance.setIsInteracting(false);
             InhalerPuff.Play();
         }
     }

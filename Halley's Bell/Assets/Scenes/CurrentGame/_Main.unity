@@ -25480,7 +25480,7 @@ GameObject:
   - component: {fileID: 296745832}
   - component: {fileID: 296745831}
   m_Layer: 0
-  m_Name: Plate
+  m_Name: Plate_HW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29555,14 +29555,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368245603}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06162845, y: 0.70441604, z: 0.06162845, w: -0.70441604}
-  m_LocalPosition: {x: -2.8630538, y: 0.595, z: 2.768}
+  m_LocalRotation: {x: -0.08699365, y: 0.99616885, z: 0.006026187, w: 0.0065906458}
+  m_LocalPosition: {x: -4.177, y: 0.54700005, z: 2.0180006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2051582803}
   m_Father: {fileID: 1934006001}
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: -10}
+  m_LocalEulerAnglesHint: {x: -0.754, y: 179.308, z: -9.977}
 --- !u!1001 &369238888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30425,7 +30425,7 @@ PrefabInstance:
       objectReference: {fileID: 1883437588251940972, guid: 4bd34e5f22a43a840b88e970bade46a3, type: 3}
     - target: {fileID: 919132149155446097, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_Name
-      value: BR_Nut
+      value: BR_Nut_HW
       objectReference: {fileID: 0}
     - target: {fileID: 3030381987709346729, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_LocalScale.x
@@ -30809,6 +30809,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 385319394}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 1
 --- !u!23 &385319398
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35780,6 +35781,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 460864858}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 0
 --- !u!23 &460864855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37985,6 +37987,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 509187453}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 0
 --- !u!23 &509187450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63912,7 +63915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &963663911
 Animator:
   serializedVersion: 5
@@ -66103,6 +66106,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 985861430}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 0
 --- !u!23 &985861427
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -77101,7 +77105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174912874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.5, z: -0, w: -0.8660254}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 17.677, y: 45.902, z: -84.746}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
@@ -77109,7 +77113,7 @@ Transform:
   - {fileID: 2087220780}
   - {fileID: 617815351}
   m_Father: {fileID: 2058039677}
-  m_LocalEulerAnglesHint: {x: 0, y: 300, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1174912876
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78866,8 +78870,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218645558}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.451, y: 0.94442, z: 3.933}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 8.94, y: 0.771, z: 3.3190005}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78879,7 +78883,7 @@ Transform:
   - {fileID: 385319391}
   - {fileID: 1999764429}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1221411503
 GameObject:
   m_ObjectHideFlags: 0
@@ -80456,6 +80460,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 1232691205}
   wrench: {fileID: 1244240360}
   BH_nut: 1
+  HW_nut: 0
 --- !u!23 &1232691210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -81007,7 +81012,7 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   isHoldingWrench: 0
   OnScrew: 0
-  screws_projectFile:
+  screws_main:
   - {fileID: 460864851}
   - {fileID: 509187446}
   - {fileID: 985861423}
@@ -81017,11 +81022,17 @@ MonoBehaviour:
   - {fileID: 1232691204}
   - {fileID: 2109702024}
   - {fileID: 2007724608}
+  screws_hallway:
+  - {fileID: 1659931337}
+  - {fileID: 1513110409}
+  - {fileID: 1463549038}
+  - {fileID: 385319392}
   currentScrew: {fileID: 0}
   dropWrench: 118
   grabWrench: 108
-  plate_projectFile: {fileID: 411654124}
+  plate_main: {fileID: 411654124}
   plate_handle: {fileID: 1765356101}
+  plate_hallway: {fileID: 296745829}
   pickup: {fileID: 1244240365}
   putdown: {fileID: 1244240364}
   rend: {fileID: 1747012521}
@@ -93131,7 +93142,7 @@ Transform:
   m_GameObject: {fileID: 1438862255}
   serializedVersion: 2
   m_LocalRotation: {x: -0.08715578, y: 0.9961947, z: -0, w: 0}
-  m_LocalPosition: {x: 11.842, y: 44.782, z: -87.527}
+  m_LocalPosition: {x: 11.823, y: 44.890003, z: -87.403}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -94416,7 +94427,7 @@ PrefabInstance:
       objectReference: {fileID: 1883437588251940972, guid: 4bd34e5f22a43a840b88e970bade46a3, type: 3}
     - target: {fileID: 919132149155446097, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_Name
-      value: TR_Nut
+      value: TR_Nut_HW
       objectReference: {fileID: 0}
     - target: {fileID: 3030381987709346729, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_LocalScale.x
@@ -94800,6 +94811,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 1463549040}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 1
 --- !u!23 &1463549044
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -98207,7 +98219,7 @@ PrefabInstance:
       objectReference: {fileID: 1883437588251940972, guid: 4bd34e5f22a43a840b88e970bade46a3, type: 3}
     - target: {fileID: 919132149155446097, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_Name
-      value: TL_Nut
+      value: TL_Nut_HW
       objectReference: {fileID: 0}
     - target: {fileID: 3030381987709346729, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_LocalScale.x
@@ -98591,6 +98603,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 1513110411}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 1
 --- !u!23 &1513110415
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -106593,7 +106606,7 @@ PrefabInstance:
       objectReference: {fileID: 1883437588251940972, guid: 4bd34e5f22a43a840b88e970bade46a3, type: 3}
     - target: {fileID: 919132149155446097, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_Name
-      value: BL_Nut
+      value: BL_Nut_HW
       objectReference: {fileID: 0}
     - target: {fileID: 3030381987709346729, guid: b4c0ad2e9c8fff341b8ec5be13c6c9ff, type: 3}
       propertyPath: m_LocalScale.x
@@ -106977,6 +106990,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 1659931339}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 1
 --- !u!23 &1659931343
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -121840,6 +121854,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 1947268942}
   wrench: {fileID: 1244240360}
   BH_nut: 0
+  HW_nut: 0
 --- !u!23 &1947268939
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125900,6 +125915,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 2007724609}
   wrench: {fileID: 1244240360}
   BH_nut: 1
+  HW_nut: 0
 --- !u!23 &2007724614
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -133325,6 +133341,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 2109702025}
   wrench: {fileID: 1244240360}
   BH_nut: 1
+  HW_nut: 0
 --- !u!23 &2109702030
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -134692,6 +134709,7 @@ MonoBehaviour:
   tightenAudio: {fileID: 2129657026}
   wrench: {fileID: 1244240360}
   BH_nut: 1
+  HW_nut: 0
 --- !u!23 &2129657031
 MeshRenderer:
   m_ObjectHideFlags: 0

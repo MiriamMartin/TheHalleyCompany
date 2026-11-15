@@ -28,7 +28,7 @@ public class HoverHighlight : MonoBehaviour
     }
     void OnMouseOver()
     {
-        if (!PauseManager.Instance.getIsPaused() && !isHighlighted)
+        if (!PauseManager.Instance.getIsPaused() && !isHighlighted && !InteractManager.Instance.getIsInteracting())
         {
             highlightOn();
         }

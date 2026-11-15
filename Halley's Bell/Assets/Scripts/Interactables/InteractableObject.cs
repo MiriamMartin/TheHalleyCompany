@@ -77,7 +77,7 @@ public class InteractableObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting()) { return; }  // Interactables can't be clicked while paused or already interacting
+        if (PauseManager.Instance.getIsPaused() || InteractManager.Instance.getIsInteracting() || InteractManager.Instance.getCanInteract() == false) { return; }  // Interactables can't be clicked while paused or already interacting
 
         interactManager.setIsInteracting(true);
         objectToInspect.SetActive(true);
