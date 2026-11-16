@@ -382,7 +382,7 @@ public class CameraMovement : MonoBehaviour, BlackoutInterface
                 float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);
                 transform.position = startPosition + Random.insideUnitSphere * strength * strengthMult;
             }
-            else
+            else if (isDead)
             {
                 elapsedTime += Time.deltaTime;
                 float strength = shakeCurve.Evaluate(elapsedTime / shakeDuration);

@@ -25,9 +25,8 @@ public class Terminal : MonoBehaviour, ButtonInterface
     private float fadeDuration = 1f;
 
     private int numLines = 0;
-    private float lineHeight = 107.4219f;
+    private float lineHeight = 110;
     private int totalLineOffset = 4;
-    private float addOffset = 4f;
 
     [Header("NUMPAD")]
     public GameObject Numpad;
@@ -86,12 +85,17 @@ public class Terminal : MonoBehaviour, ButtonInterface
     {
         if (Checkpoints.Instance.getCheckpoint() > 0)
         {
-            terminalText.text = ">";
+            terminalText.text = "<line-height=110px>>";
             bootedPass = true;
         }
         else
         {
-            terminalText.text = ">Enter Passcode: "; // Enter passcode so easier to see when starting?
+            terminalText.text = "<line-height=110px>>Enter Passcode: "; // Enter passcode so easier to see when starting?
+        }
+
+        if (Checkpoints.Instance.getCheckpoint() >= 6)
+        {
+            canSonarPing = true;
         }
     }
 
@@ -119,7 +123,6 @@ public class Terminal : MonoBehaviour, ButtonInterface
             canTurnOn = true;
             canSonarPing = true;
         }
-
     }
     
     // ========================= SONAR =========================
@@ -309,10 +312,33 @@ public class Terminal : MonoBehaviour, ButtonInterface
 
     public void ShiftLines(int numLines, int dir)
     {
+        // using rich text tag -> <line-height=110px> to lock each line to 110 pixels, then shifting each by 110
         curLine += (-numLines * dir);
-        if (curLine % 3 == 0) terminalText.transform.localPosition += new Vector3(dir * (lineHeight + addOffset) * numLines, 0, 0);
-        else terminalText.transform.localPosition += new Vector3(dir * (lineHeight) * numLines, 0, 0);
+        terminalText.transform.localPosition += new Vector3(dir * 110 * numLines, 0, 0);
+
     }
+
+    public void JumpToLastLine()
+    {
+        // on checkpoint load, if there's tons of text it jumps down to the last line for the player so they don't gotta scroll to the bottom
+
+        StartCoroutine(JUMP());
+    }
+
+    public IEnumerator JUMP()
+    {
+        // waits until text info exists since it was always giving a null exception every time it tried before
+        yield return new WaitUntil(() => terminalText.textInfo != null);
+
+        terminalText.ForceMeshUpdate();
+
+        int lineCount = terminalText.textInfo.lineCount;
+
+        int linesToShift = Mathf.Max(0, lineCount - 1);
+
+        ShiftLines(linesToShift, -1);
+    }
+
 
     public void Delete(int numChars)
     {

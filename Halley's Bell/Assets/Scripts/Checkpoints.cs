@@ -75,9 +75,9 @@ public class Checkpoints : MonoBehaviour
         //Debug.Log("Loading Checkpoint 1 - Start Descent");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
-
-        Depth.Instance.StartDescent();
+        
         Depth.Instance.firstRadioDone = true;
+        Depth.Instance.StartDescent();
         Depth.Instance.onCheckpointLoad(1);
 
     }
@@ -137,12 +137,12 @@ public class Checkpoints : MonoBehaviour
 
     public IEnumerator CheckpointSix()
     {
-        // After Blackout (WILL NEED TO ADD LIGHTS STUFF)
+        // After Blackout
         //Debug.Log("Loading Checkpoint 6 - Blackout Over");
 
         yield return new WaitForSeconds(0.5f); // waits for all other scripts to initialize, else doesn't work
         
-        hallucinationMax.Run();
+        //hallucinationMax.Run();  // this is not needed, since depth will call it on load through E5's extra conditions.
         mov.setStand(true);
         Depth.Instance.firstRadioDone = true;
         Depth.Instance.descending = true;
