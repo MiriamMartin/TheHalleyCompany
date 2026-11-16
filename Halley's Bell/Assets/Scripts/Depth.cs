@@ -23,7 +23,7 @@ public class Depth : MonoBehaviour
     public bool runBlackout = false;
     public bool runHitFloor = false;
     public bool runEnding = false;
-    private float maxDepth = 15000f;  // controls ending
+    private float maxDepth = 15300f;  // controls ending
 
     [Header("NEW DEPTH SEQUENCING")]
     public DepthEvents DS;
@@ -146,7 +146,7 @@ public class Depth : MonoBehaviour
             case "E5":  // Safe Post-Blackout
                 canHallucinate = false;
                 Checkpoints.Instance.updateCheckpoint(6);
-                halucinationMax.Run(); //Initialize hallucinationmaxxing
+                if (Checkpoints.Instance.getCheckpoint() == 6) halucinationMax.Run(); //Initialize hallucinationmaxxing, but not on chkpt 7
                 FirstBlackoutDone = true;
                 break;
 
@@ -172,6 +172,7 @@ public class Depth : MonoBehaviour
             CheckExtraConditions(curEvent.EventID);
             queueNextEvent();
         }
+        terminal.JumpToLastLine();
     }
 
     public void playIntro()

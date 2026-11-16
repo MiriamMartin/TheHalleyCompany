@@ -99,6 +99,7 @@ public class MainMenuHandler : MonoBehaviour
         // starts game by loading the specified game scene
 
         PlayerPrefs.SetInt("CurrentCheckpoint", 0);  // resets checkpoints
+        PlayerPrefs.SetString("OpenPlates", "");  // resets plates
         SceneManager.LoadScene("_Main"); // Switch to main game's scene name
     }
 

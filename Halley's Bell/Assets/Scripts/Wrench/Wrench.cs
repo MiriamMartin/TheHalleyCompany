@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -51,6 +52,12 @@ public class Wrench : MonoBehaviour
         ogPos = transform.localPosition;
         ogRot = transform.localRotation;
         rend.material.SetFloat("_ELevel", 0.0f);
+
+        // checks & disables all opened plates on checkpoint load
+        CheckpointPlates("main", screws_main, plate_main);
+        CheckpointPlates("hallway", screws_hallway, plate_hallway);
+        CheckpointPlates("blackout", screws_blackoutHandle, plate_handle);
+
     }
 
     // Update is called once per frame
@@ -98,9 +105,10 @@ public class Wrench : MonoBehaviour
         }
 
         
-        if (!mainOpened) checkScrews(screws_main, plate_main, true);
-        if (plate_handle.activeSelf) { checkScrews(screws_blackoutHandle, plate_handle, false); }
-        if (plate_hallway.activeSelf) { checkScrews(screws_hallway, plate_hallway, false); }
+        if (!mainOpened) checkScrews(screws_main, plate_main, 1);
+        if (plate_hallway.activeSelf) { checkScrews(screws_hallway, plate_hallway, 2); }
+        if (plate_handle.activeSelf) { checkScrews(screws_blackoutHandle, plate_handle, 3); }
+        
     }
 
     private void OnMouseDown()
@@ -278,7 +286,7 @@ public class Wrench : MonoBehaviour
 
     // ================== Unscrew Event ===================
 
-    public void checkScrews(List<GameObject> scr, GameObject plt, bool main)
+    public void checkScrews(List<GameObject> scr, GameObject plt, int plateLoc)
     {
         foreach (GameObject scrw in scr)
         {
@@ -288,11 +296,46 @@ public class Wrench : MonoBehaviour
             }
         }
 
-        if (main) 
+        if (plateLoc == 1) // main 
         { 
             plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f); 
             mainOpened = true;
+            Debug.Log(PlayerPrefs.GetString("OpenPlates") + "main");
+            PlayerPrefs.SetString("OpenPlates", PlayerPrefs.GetString("OpenPlates") + "main");
         }
-        else { plt.SetActive(false); }
+        else if (plateLoc == 2) // hallway
+        { 
+            plt.SetActive(false);
+            Debug.Log(PlayerPrefs.GetString("OpenPlates") + "hallway");
+            PlayerPrefs.SetString("OpenPlates", PlayerPrefs.GetString("OpenPlates") + "hallway");
+        }
+        else if (plateLoc == 3)  // blackout handle
+        {
+            plt.SetActive(false);
+            Debug.Log(PlayerPrefs.GetString("OpenPlates") + "blackout");
+            PlayerPrefs.SetString("OpenPlates", PlayerPrefs.GetString("OpenPlates") + "blackout");
+        }
+    }
+
+    // Checkpoints
+
+    void CheckpointPlates(string name, List<GameObject> scr, GameObject plt)
+    {
+        if (PlayerPrefs.GetString("OpenPlates").Contains(name))
+        {
+            foreach (GameObject scrw in scr)
+            {
+                scrw.SetActive(false);
+                if (name == "main")
+                {
+                    plt.transform.localPosition = new Vector3(-3.3f, -3.05f, 0f);
+                    mainOpened = true;
+                }
+                else
+                {
+                    plt.SetActive(false);
+                }
+            }
+        }
     }
 }

@@ -8130,6 +8130,7 @@ GameObject:
   - component: {fileID: 243182079}
   - component: {fileID: 243182081}
   - component: {fileID: 243182080}
+  - component: {fileID: 243182082}
   m_Layer: 6
   m_Name: TerminalText
   m_TagString: Untagged
@@ -8176,7 +8177,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '>_'
+  m_text: '<line-height=110px>>This is testing the vertical line spacing for the
+    terminal. I''m hoping it will help make things more consistent for the scrolling!
+
+    We''ll
+    see :D'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b9258a4c226d8b7469e3ba3e4d4d79dc, type: 2}
   m_sharedMaterial: {fileID: 1557811466313168981, guid: b9258a4c226d8b7469e3ba3e4d4d79dc, type: 2}
@@ -8253,6 +8258,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 243182078}
   m_CullTransparentMesh: 1
+--- !u!114 &243182082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243182078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d01b6e2346ef734ba1982042f30508a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmp: {fileID: 243182080}
 --- !u!1 &248174630
 GameObject:
   m_ObjectHideFlags: 0
@@ -19803,7 +19821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &494942767
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23340,108 +23358,7 @@ MonoBehaviour:
   display: {fileID: 1169313615}
   Numpad: {fileID: 727256190}
   clickPressed: {fileID: 1175759573}
-  passwords: []
-  passMssgs: []
-  radioMessages:
-  - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
-    you were able to figure out the Radio. Good news, good news. If you can\u2019t
-    hear me, too bad. I don\u2019t really got all day to wait around and watch ya
-    press buttons till you find the right frequency, yanno? Let\u2019s see here\u2026
-    Huh, that\u2019s new. Gettin\u2019 some funky echo through the speaker\u2026
-    must be \u2018cause it\u2019s old.  Yeah, yeah\u2026 This is way too much too
-    fast for a newbie like you. How \u2018bout this for now: I\u2019m Keith, The
-    Halley Company\u2019s resident Radio Guy. I\u2019ll be broadcasting every once
-    in a while to help ya out in your diving bell, so don\u2019t forget this frequency,
-    you hear? Okay, what else\u2026 Oh, right, right. Just so you know, I can\u2019t
-    actually see inside the Bell. So you\u2019ve got some privacy, just\u2026 don\u2019t
-    do anything weird, \u2018kay? You don\u2019t wanna go down as that guy. Anyways,
-    should be a panel of Switches somewhere. Flip \u2018em all on, and the Bell\u2019ll
-    start to descend. I\u2019ll let you go, then\u2014 it\u2019s gonna take a sec
-    to get your bearings once things start movin\u2019, trust me. Talk to you soon-ish.
-    And congrats on becoming Operator.\""
-  - "\"Hello? Ya there, Op? Hope you don\u2019t mind a good ol\u2019 nickname. Me
-    again. Forgot to mention somethin\u2019. Whoops. The Bell might look a bit different
-    from what you saw during the briefing\u2014 this is an older model from a few
-    years back. It doesn\u2019t have all the fancy new features, so you\u2019re gonna
-    hafta maintain this guy for your entire expedition. Gives ya somethin\u2019 to
-    do while you\u2019re plungin\u2019 into the \u201Cdeep wonders of below,\u201D
-    as The Halley Company likes to say, you know? But yeah. Should be a Gauge somewhere\u2014
-    you might not hear any steam releasing yet, but if you do, that\u2019s no good,
-    no good at all. Hold the lever on the pipe down, \u2018n that\u2019ll gradually
-    normalize the pressure in there. You\u2019ll know it worked if the red light
-    turns off. And don\u2019t overdo it\u2014 indicator in the middle range, got
-    it got it? It was a huge pain in the ass to get the last Bell up when the Operator
-    didn\u2019t maintain it, so let\u2019s just stay on top of that for everyone\u2019s
-    sake, okay? Good luck, buddy. \""
-  - "\"Salutations, Op. Man, coming up with these greetings is tough stuff. How\u2019s
-    maintenance goin\u2019? Got a handle on it yet? I\u2019d hope so, y\u2019know\u2014
-    hearda uncontrolled decompression before? It comes up in the news all the time
-    with those submersible catastrophes.  Basically, the pressure inside a diving
-    chamber is way higher than ambient pressure. Divers gotta breathe too, right,
-    y\u2019know? But sometimes, something malfunctions, and the chamber depressurizes
-    so quickly that it\u2019s explosive, \u2018n human lungs can\u2019t handle that.
-    So ya get, like, gross dismemberment, projectile evisceration, all that good
-    stuff. The opposite is gradual decompression, where depressurization happens
-    so slow that humans can\u2019t detect it, and then everyone passes out from hypoxia,
-    and then dies. Also also, you can\u2019t really do anything about this in your
-    Bell, but don\u2019t forget that water pressure\u2019s scary business\u2014 3000
-    meters down? Water gets heavy. Combine that with poor manufacturing, and ya get
-    one hell of a hull crunch, and then\u2026 boom. Implosion. But hey, free and
-    instant cremation? In this economy? Anyways, I\u2019ve kept you long enough.
-    Just figured you\u2019d \u2018ppreciate the company. If you get bored, feel free
-    ta check out the other Radio channels, ya hear?\""
-  - "\"Hello? Yoohoo, Newbie. Just Keith, checkin\u2019 in. Aren\u2019t I nice? So\u2026
-    anything new or unusual on your end? Strange, strange voices in your head? Funky
-    colours on the walls? Well, if I\u2019m gonna be honest, we\u2019re detecting
-    some anomalous behaviour. Can you flick up all\u2014 I\u2019ve got documentation
-    here, you see. Says somethin\u2019 about checking the switchbox under troubleshooting\u2026
-    That\u2014 the red light, I mean\u2014 shouldn\u2019t be happening. Not sure
-    what\u2019s goin\u2019 on, but red lights are usually a warning to maintain the
-    Bell\u2019s systems. You should probably deal with that. And keep an eye on it,
-    would ya? The Bell you\u2019re in is an older model, so it might keep happenin\u2019.
-    Ta-ta for now.\""
-  - "\"Heyo, Newbie. Ya feelin\u2019 crazy yet? They want me to tell you that with
-    the changes in pressure \u2018n stuff it\u2019s normal to be a bit dizzy. Not
-    that I\u2019m saying you are\u2014 but, if you are, there should be an Inhaler
-    lying around. L-shaped, red, plastic? Whenever your vision starts gettin\u2019
-    fuzzy, give that guy a good push, and the meds should fix ya right up. The Halley
-    Company\u2019s recommendation, not mine. Couldn\u2019t tell ya what\u2019s in
-    there, honestly. Puff puff, Op.\""
-  - "\"Knock knock. Op, you there? There\u2019s not actually all that much to do
-    on this side, \u2018sides monitoring. None of the action you\u2019re gettin\u2019.
-    So, I\u2019ve got your file here\u2014 hope you don\u2019t mind me taking a peek.
-    If you do\u2026 I already did. Sorry, sorry. Wow, you been with us ten years?
-    Talk about dedication. Why the loyalty? Guess I can check for myself, here. Okay\u2026
-    vitals\u2026 not bad, buddy. Rough neighbourhood, though. NC connection code\u2026
-    emergency contact\u2026 Oh, right, I forgot. Down the hallway, there should be
-    a backup generator. I\u2019m meant to let ya know in case of emergencies. But
-    anyway, reason for applying is just that you heard successful Operators get a
-    promotion? Really? That can\u2019t be it. No dyin\u2019 family or anything? Says
-    you got a dog\u2014 your dog doing alright? Well, whatever. Straightforward.
-    I respect it. Risking it all for some extra cash, huh. Funny how the ones livin\u2019
-    cushy can fuck over our lives just by dangling their pocket change. Oops. Got
-    a lil\u2019 too serious there. Just pullin\u2019 your leg\u2014 nothing to do
-    with me in the end, right right? Rootin\u2019 for you, Newbie.\""
-  - "\"Newbie? Hey Newbie? I know you\u2019re there\u2014 can ya hear me? Shit. I
-    know I\u2019m just the Radio Guy, and I can\u2019t actually help, but you gotta
-    pay attention. Pay. Attention. That health screening you had to do last month
-    wasn\u2019t just a screening, they were\u2014 I sure hope you\u2019re listening,
-    for your sake. The Radio getting fucked\u2014 the\u2014 nunna that\u2019s a connection
-    issue or whatever. It\u2019s all part of their\u2026 Anyways. Whatever ya wanted
-    that promotion for, you\u2019re not\u2014 it\u2019s too late. None of us are
-    makin\u2019 it out now. Sorry to Stella\u2026That\u2019s your dog, right? Right.
-    It\u2019s\u2014 it\u2019s no good, Op. Just\u2026 keep your wits about ya, \u2018kay\u2014\""
-  - "\"Been a sec, Newbie. Or\u2014 I guess you\u2019re experienced now, huh? I\u2019ll
-    stick with Op. Well? What\u2019s the 411? How\u2019s it hangin\u2019? Wish I
-    could hear ya. Well, I guess I can se\u2014 s\u2019long as you can hear me, that\u2019s
-    what matters, right? Still, it gets real lonely just waiting on ya, if you couldn\u2019t
-    tell. Can only imagine what it\u2019s like down there. You doin\u2019 okay? Y\u2019know,
-    in all my years as the Radio Guy, I\u2019ve never stepped foot into the Bell,
-    and for good reason. Too many ghosts. Spend enough time in there, and you\u2019ll
-    start ta feel them\u2026 or so I\u2019ve observed. Listen, listen. You know,
-    right? You shoulda figured it out sooner, you really shoulda. It\u2019s too late.
-    None of us are makin\u2019 it out now. Sorry to Stella. Goodbye, Op.\""
-  - ERROR
+  passcodes: {fileID: 0}
   rad: {fileID: 1654109449}
   TermBootCanv: {fileID: 2041154206}
   TerminalCanvas: {fileID: 1101818585}
@@ -51946,51 +51863,7 @@ MonoBehaviour:
   display: {fileID: 454797055}
   Numpad: {fileID: 1535851451}
   clickPressed: {fileID: 1535851453}
-  passwords: []
-  passMssgs: []
-  radioMessages:
-  - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
-    you were able to figure out the Radio. Good news, good news. If you can\u2019t
-    hear me, too bad. I don\u2019t really got all day to wait around and watch ya
-    press buttons till you find the right frequency, yanno? Let\u2019s see here\u2026
-    Huh, that\u2019s new. Gettin\u2019 some funky echo through the speaker\u2026
-    must be \u2018cause it\u2019s old. Yeah, yeah\u2026 This is way too much too
-    fast for a newbie like you. How \u2018bout this for now: I\u2019m Keith, The
-    Halley Company\u2019s resident Radio Guy. I\u2019ll be broadcasting every once
-    in a while to help ya out in your diving bell, so don\u2019t forget this frequency,
-    you hear? Okay, what else\u2026 Oh, right, right. Just so you know, I can\u2019t
-    actually see inside the Bell. So you\u2019ve got some privacy, just\u2026 don\u2019t
-    do anything weird, \u2018kay? You don\u2019t wanna go down as that guy. Anyways,
-    should be a panel of Switches somewhere. Flip \u2018em all on, and the Bell\u2019ll
-    start to descend. I\u2019ll let you go, then\u2014 it\u2019s gonna take a sec
-    to get your bearings once things start movin\u2019, trust me. Talk to you soon-ish.
-    And congrats on becoming Operator.\""
-  - "\"Hello? Ya there, Op? Hope you don\u2019t mind a good ol\u2019 nickname. Me
-    again. Forgot to mention somethin\u2019 kinda important. Whoops. The Bell might
-    look a bit different from what you saw during the briefing\u2014 this is an older
-    model from a few years back. It doesn\u2019t have all those fancy features that
-    the new ones do, so you\u2019re gonna hafta maintain this guy for your entire
-    expedition. And, whilst that is a little bit unfortunate, I personally think
-    it gives ya somethin\u2019 to do while you\u2019re plungin\u2019 into the \u201Cdeep
-    wonders of below,\u201D as The Halley Company likes to say, you know? But yeah.
-    Simple, standard stuff. There should be a Gauge somewhere\u2014 hear any steam
-    releasing? Well, if so, that\u2019s no good, no good at all. Give the lever attached
-    to the pipe a press, \u2018n that\u2019ll gradually normalize the pressure in
-    there. You\u2019ll know it worked if the red light turns off. Got it got it?
-    It was a huge pain in the ass to get the last Bell up when the Operator didn\u2019t
-    maintain it, so let\u2019s just stay on top of that for everyone\u2019s sake,
-    okay? Good luck, buddy. Catch ya later.\""
-  - "\"Hello? Yoohoo, Newbie. Just Keith, checkin\u2019 in. Aren\u2019t I nice? So\u2026
-    anything new or unusual on your end? Strange, strange voices in your head? Funky
-    colours on the walls? Well, if I\u2019m gonna be honest here, we\u2019re detecting
-    some anomalous behaviour. Can you flick up all\u2014 I\u2019ve got, umm, documentation
-    here, you see. Says somethin\u2019 about checking the switchbox under troubleshooting\u2026
-    That\u2014 the red light, I mean\u2014 shouldn\u2019t be happening. Who knows
-    what\u2019s goin\u2019 on? I sure don\u2019t. But I\u2014 I do know that red
-    lights are usually a warning to maintain the Bell\u2019s systems. You should
-    probably deal with that. And keep an eye on it, would ya? The Bell you\u2019re
-    in is an older model, so it might keep happenin\u2019. Have you tried flicking
-    them off and back on again? Ta-ta for now.\""
+  passcodes: {fileID: 0}
   rad: {fileID: 1654109449}
   TermBootCanv: {fileID: 591571864}
   TerminalCanvas: {fileID: 1751144876}
@@ -59004,7 +58877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b54ef55ac16ba4bb8102f2da3f9602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testSLIDER: {fileID: 0}
 --- !u!4 &1665091522
 Transform:
   m_ObjectHideFlags: 0
@@ -59616,11 +59488,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97487eefbde71874da86a0e077355ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDeathScreen: 0
   pauseInput: 27
   PauseMenu: {fileID: 235660849}
   SettingsMenu: {fileID: 0}
   ControlsMenu: {fileID: 0}
   animator: {fileID: 2023398000}
+  FadeToBlack: {fileID: 0}
+  implosionSound: {fileID: 0}
+  camMvmt: {fileID: 0}
 --- !u!114 &1680275681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65105,51 +64981,7 @@ MonoBehaviour:
   display: {fileID: 638048198}
   Numpad: {fileID: 405793377}
   clickPressed: {fileID: 405793379}
-  passwords: []
-  passMssgs: []
-  radioMessages:
-  - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
-    you were able to figure out the Radio. Good news, good news. If you can\u2019t
-    hear me, too bad. I don\u2019t really got all day to wait around and watch ya
-    press buttons till you find the right frequency, yanno? Let\u2019s see here\u2026
-    Huh, that\u2019s new. Gettin\u2019 some funky echo through the speaker\u2026
-    must be \u2018cause it\u2019s old. Yeah, yeah\u2026 This is way too much too
-    fast for a newbie like you. How \u2018bout this for now: I\u2019m Keith, The
-    Halley Company\u2019s resident Radio Guy. I\u2019ll be broadcasting every once
-    in a while to help ya out in your diving bell, so don\u2019t forget this frequency,
-    you hear? Okay, what else\u2026 Oh, right, right. Just so you know, I can\u2019t
-    actually see inside the Bell. So you\u2019ve got some privacy, just\u2026 don\u2019t
-    do anything weird, \u2018kay? You don\u2019t wanna go down as that guy. Anyways,
-    should be a panel of Switches somewhere. Flip \u2018em all on, and the Bell\u2019ll
-    start to descend. I\u2019ll let you go, then\u2014 it\u2019s gonna take a sec
-    to get your bearings once things start movin\u2019, trust me. Talk to you soon-ish.
-    And congrats on becoming Operator.\""
-  - "\"Hello? Ya there, Op? Hope you don\u2019t mind a good ol\u2019 nickname. Me
-    again. Forgot to mention somethin\u2019 kinda important. Whoops. The Bell might
-    look a bit different from what you saw during the briefing\u2014 this is an older
-    model from a few years back. It doesn\u2019t have all those fancy features that
-    the new ones do, so you\u2019re gonna hafta maintain this guy for your entire
-    expedition. And, whilst that is a little bit unfortunate, I personally think
-    it gives ya somethin\u2019 to do while you\u2019re plungin\u2019 into the \u201Cdeep
-    wonders of below,\u201D as The Halley Company likes to say, you know? But yeah.
-    Simple, standard stuff. There should be a Gauge somewhere\u2014 hear any steam
-    releasing? Well, if so, that\u2019s no good, no good at all. Give the lever attached
-    to the pipe a press, \u2018n that\u2019ll gradually normalize the pressure in
-    there. You\u2019ll know it worked if the red light turns off. Got it got it?
-    It was a huge pain in the ass to get the last Bell up when the Operator didn\u2019t
-    maintain it, so let\u2019s just stay on top of that for everyone\u2019s sake,
-    okay? Good luck, buddy. Catch ya later.\""
-  - "\"Hello? Yoohoo, Newbie. Just Keith, checkin\u2019 in. Aren\u2019t I nice? So\u2026
-    anything new or unusual on your end? Strange, strange voices in your head? Funky
-    colours on the walls? Well, if I\u2019m gonna be honest here, we\u2019re detecting
-    some anomalous behaviour. Can you flick up all\u2014 I\u2019ve got, umm, documentation
-    here, you see. Says somethin\u2019 about checking the switchbox under troubleshooting\u2026
-    That\u2014 the red light, I mean\u2014 shouldn\u2019t be happening. Who knows
-    what\u2019s goin\u2019 on? I sure don\u2019t. But I\u2014 I do know that red
-    lights are usually a warning to maintain the Bell\u2019s systems. You should
-    probably deal with that. And keep an eye on it, would ya? The Bell you\u2019re
-    in is an older model, so it might keep happenin\u2019. Have you tried flicking
-    them off and back on again? Ta-ta for now.\""
+  passcodes: {fileID: 0}
   rad: {fileID: 0}
   TermBootCanv: {fileID: 0}
   TerminalCanvas: {fileID: 1255585895}
@@ -68034,153 +67866,7 @@ MonoBehaviour:
   display: {fileID: 1243174370}
   Numpad: {fileID: 1696143889}
   clickPressed: {fileID: 931297543}
-  passwords:
-  - 42553972355
-  - 628842673
-  - 92824464
-  - 67372867
-  - 8656696
-  - 732738
-  - 72346
-  - 53484
-  - 76779
-  - 2337
-  - 2447
-  - 6837
-  - 7325
-  - 3253
-  - 4357
-  - 2355
-  - 3937
-  - 81
-  passMssgs:
-  - A simulated, real-time underwater experience.
-  - "You can\u2019t really think that exists. Use your head\u2014 what else could
-    NC be? The pieces are all there; you just have to put them together."
-  - "Watching\u2026 waiting\u2026 commiserating\u2026 you know that one?"
-  - P:HB harnesses the power of Neural Chips, inserted into internally-selected,
-    long-time employees at THC.
-  - "Into the unknown. That\u2019s definitely the nicest way to phrase this experience."
-  - "Secret indeed. Halley\u2019s Bell is rife with them\u2014 I wonder what the
-    other keywords are? Here, I\u2019ll give you a hint: 6837. Over."
-  - "The Radio Operator is responsible for overseeing the Bell Operator\u2019s descent
-    and has the connection code on file; they are permitted to close the connection
-    if a threat is detected."
-  - Can't be easy for him, either. What do you think?
-  - Yeah. I think we all are.
-  - "Ever seen a beer tower before? They\u2019re the best."
-  - "The dipping kind? Those are great with some salsa. Or, wait, did you mean the
-    neural kind? Are you sure it\u2019s not all in your head?"
-  - "Got it all figured out, don\u2019t you? Over."
-  - DATA NOT FOUND.
-  - "Maybe. But what\u2019s real?"
-  - "Don\u2019t trained divers usually use three letters of morse code for this one?"
-  - Ding dong!
-  - "Feel them on you yet? If not, don\u2019t worry. You will by the end."
-  - "The model of the Bell that you\u2019re in. THC\u2019s original patent. It was
-    unsuccessful at first and got swept under the table. But, looking around, it\u2019s
-    cool, right? That\u2019s what I thought, so I tweaked the pitch to get more eyes
-    on it and\u2026 now I\u2019m here, just like you."
-  radioMessages:
-  - "\"Hello? Hello hello? You there, Newbie? Okay, if you can hear me, that means
-    you were able to figure out the Radio. Good news, good news. If you can\u2019t
-    hear me, too bad. I don\u2019t really got all day to wait around and watch ya
-    press buttons till you find the right frequency, yanno? Let\u2019s see here\u2026
-    Huh, that\u2019s new. Gettin\u2019 some funky echo through the speaker\u2026
-    must be \u2018cause it\u2019s old.  Yeah, yeah\u2026 This is way too much too
-    fast for a newbie like you. How \u2018bout this for now: I\u2019m Keith, The
-    Halley Company\u2019s resident Radio Guy. I\u2019ll be broadcasting every once
-    in a while to help ya out in your diving bell, so don\u2019t forget this frequency,
-    you hear? Okay, what else\u2026 Oh, right, right. Just so you know, I can\u2019t
-    actually see inside the Bell. So you\u2019ve got some privacy, just\u2026 don\u2019t
-    do anything weird, \u2018kay? You don\u2019t wanna go down as that guy. Anyways,
-    should be a panel of Switches somewhere. Flip \u2018em all on, and the Bell\u2019ll
-    start to descend. I\u2019ll let you go, then\u2014 it\u2019s gonna take a sec
-    to get your bearings once things start movin\u2019, trust me. Talk to you soon-ish.
-    And congrats on becoming Operator.\""
-  - "\"Hello? Ya there, Op? Hope you don\u2019t mind a good ol\u2019 nickname. Me
-    again. Forgot to mention somethin\u2019. Whoops. The Bell might look a bit different
-    from what you saw during the briefing\u2014 this is an older model from a few
-    years back. It doesn\u2019t have all the fancy new features, so you\u2019re gonna
-    hafta maintain this guy for your entire expedition. Gives ya somethin\u2019 to
-    do while you\u2019re plungin\u2019 into the \u201Cdeep wonders of below,\u201D
-    as The Halley Company likes to say, you know? But yeah. Should be a Gauge somewhere\u2014
-    you might not hear any steam releasing yet, but if you do, that\u2019s no good,
-    no good at all. Hold the lever on the pipe down, \u2018n that\u2019ll gradually
-    normalize the pressure in there. You\u2019ll know it worked if the red light
-    turns off. And don\u2019t overdo it\u2014 indicator in the middle range, got
-    it got it? It was a huge pain in the ass to get the last Bell up when the Operator
-    didn\u2019t maintain it, so let\u2019s just stay on top of that for everyone\u2019s
-    sake, okay? Good luck, buddy. \""
-  - "\"Salutations, Op. Man, coming up with these greetings is tough stuff. How\u2019s
-    maintenance goin\u2019? Got a handle on it yet? I\u2019d hope so, y\u2019know\u2014
-    hearda uncontrolled decompression before? It comes up in the news all the time
-    with those submersible catastrophes.  Basically, the pressure inside a diving
-    chamber is way higher than ambient pressure. Divers gotta breathe too, right,
-    y\u2019know? But sometimes, something malfunctions, and the chamber depressurizes
-    so quickly that it\u2019s explosive, \u2018n human lungs can\u2019t handle that.
-    So ya get, like, gross dismemberment, projectile evisceration, all that good
-    stuff. The opposite is gradual decompression, where depressurization happens
-    so slow that humans can\u2019t detect it, and then everyone passes out from hypoxia,
-    and then dies. Also also, you can\u2019t really do anything about this in your
-    Bell, but don\u2019t forget that water pressure\u2019s scary business\u2014 3000
-    meters down? Water gets heavy. Combine that with poor manufacturing, and ya get
-    one hell of a hull crunch, and then\u2026 boom. Implosion. But hey, free and
-    instant cremation? In this economy? Anyways, I\u2019ve kept you long enough.
-    Just figured you\u2019d \u2018ppreciate the company. If you get bored, feel free
-    ta check out the other Radio channels, ya hear?\""
-  - "\"Hello? Yoohoo, Newbie. Just Keith, checkin\u2019 in. Aren\u2019t I nice? So\u2026
-    anything new or unusual on your end? Strange, strange voices in your head? Funky
-    colours on the walls? Well, if I\u2019m gonna be honest, we\u2019re detecting
-    some anomalous behaviour. Can you flick up all\u2014 I\u2019ve got documentation
-    here, you see. Says somethin\u2019 about checking the switchbox under troubleshooting\u2026
-    That\u2014 the red light, I mean\u2014 shouldn\u2019t be happening. Not sure
-    what\u2019s goin\u2019 on, but red lights are usually a warning to maintain the
-    Bell\u2019s systems. You should probably deal with that. And keep an eye on it,
-    would ya? The Bell you\u2019re in is an older model, so it might keep happenin\u2019.
-    Ta-ta for now.\""
-  - "\"Heyo, Newbie. Ya feelin\u2019 crazy yet? They want me to tell you that with
-    the changes in pressure \u2018n stuff it\u2019s normal to be a bit dizzy. Not
-    that I\u2019m saying you are\u2014 but, if you are, there should be an Inhaler
-    lying around. L-shaped, red, plastic? Whenever your vision starts gettin\u2019
-    fuzzy, give that guy a good push, and the meds should fix ya right up. The Halley
-    Company\u2019s recommendation, not mine. Couldn\u2019t tell ya what\u2019s in
-    there, honestly. Puff puff, Op.\""
-  - "\"Knock knock. Op, you there? There\u2019s not actually all that much to do
-    on this side, \u2018sides monitoring. None of the action you\u2019re gettin\u2019.
-    So, I\u2019ve got your file here\u2014 hope you don\u2019t mind me taking a peek.
-    If you do\u2026 I already did. Sorry, sorry. Wow, you been with us ten years?
-    Talk about dedication. Why the loyalty? Guess I can check for myself, here. Okay\u2026
-    vitals\u2026 not bad, buddy. Rough neighbourhood, though. NC connection code\u2026
-    emergency contact\u2026 Oh, right, I forgot. Down the hallway, there should be
-    a backup generator. I\u2019m meant to let ya know in case of emergencies. But
-    anyway, reason for applying is just that you heard successful Operators get a
-    promotion? Really? That can\u2019t be it. No dyin\u2019 family or anything? Says
-    you got a dog\u2014 your dog doing alright? Well, whatever. Straightforward.
-    I respect it. Risking it all for some extra cash, huh. Funny how the ones livin\u2019
-    cushy can fuck over our lives just by dangling their pocket change. Oops. Got
-    a lil\u2019 too serious there. Just pullin\u2019 your leg\u2014 nothing to do
-    with me in the end, right right? Rootin\u2019 for you, Newbie.\""
-  - "\"Newbie? Hey Newbie? I know you\u2019re there\u2014 can ya hear me? Shit. I
-    know I\u2019m just the Radio Guy, and I can\u2019t actually help, but you gotta
-    pay attention. Pay. Attention. That health screening you had to do last month
-    wasn\u2019t just a screening, they were\u2014 I sure hope you\u2019re listening,
-    for your sake. The Radio getting fucked\u2014 the\u2014 nunna that\u2019s a connection
-    issue or whatever. It\u2019s all part of their\u2026 Anyways. Whatever ya wanted
-    that promotion for, you\u2019re not\u2014 it\u2019s too late. None of us are
-    makin\u2019 it out now. Sorry to Stella\u2026That\u2019s your dog, right? Right.
-    It\u2019s\u2014 it\u2019s no good, Op. Just\u2026 keep your wits about ya, \u2018kay\u2014\""
-  - "\"Been a sec, Newbie. Or\u2014 I guess you\u2019re experienced now, huh? I\u2019ll
-    stick with Op. Well? What\u2019s the 411? How\u2019s it hangin\u2019? Wish I
-    could hear ya. Well, I guess I can se\u2014 s\u2019long as you can hear me, that\u2019s
-    what matters, right? Still, it gets real lonely just waiting on ya, if you couldn\u2019t
-    tell. Can only imagine what it\u2019s like down there. You doin\u2019 okay? Y\u2019know,
-    in all my years as the Radio Guy, I\u2019ve never stepped foot into the Bell,
-    and for good reason. Too many ghosts. Spend enough time in there, and you\u2019ll
-    start ta feel them\u2026 or so I\u2019ve observed. Listen, listen. You know,
-    right? You shoulda figured it out sooner, you really shoulda. It\u2019s too late.
-    None of us are makin\u2019 it out now. Sorry to Stella. Goodbye, Op.\""
-  - ERROR
+  passcodes: {fileID: 0}
   rad: {fileID: 0}
   TermBootCanv: {fileID: 1440351759}
   TerminalCanvas: {fileID: 494942766}
